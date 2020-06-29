@@ -1,0 +1,67 @@
+{{- $scratch := .Scratch.Get "scratch" -}}
+
+<article class="single summary" itemscope itemtype="http://schema.org/Article">
+    {{- /* Featured image */ -}}
+    {{- with .Params.featuredImage -}}
+        <div class="featured-image-preview">
+            {{- $image := $.Params.featuredImagePreview | default . -}}
+            {{- partial "plugin/image.html" (dict "src" $image "description" $.Description "scratch" $scratch) -}}
+        </div>
+    {{- end -}}
+
+    {{- /* Title */ -}}
+    <h1 class="single-title" itemprop="name headline">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </h1>
+
+    {{- /* Meta */ -}}
+    <div class="post-meta">
+        {{- $author := .Params.author | default .Site.Author.name | default (T "author") -}}
+        {{- $authorLink := .Params.authorLink | default .Site.Author.link | default (relLangURL "/") -}}
+        <span class="post-author">
+            {{- $link := dict "class" "author" "href" $authorLink "title" "Author" "rel" "author" "icon" (dict "class" "fas fa-user-circle fa-fw") "content" $author -}}
+            {{- partial "plugin/link.html" $link -}}
+        </span>
+
+        {{- $publish_date := .PublishDate.Format (.Site.Params.dateFormatToUse | default "2006-01-02") -}}
+        &nbsp;<span class="post-publish">
+            {{ T "publish" }}&nbsp;<time datetime={{ $publish_date }}>{{ $publish_date }}</time>
+        </span>
+
+        {{- with .Params.categories -}}
+            &nbsp;
+            <span class="post-category">
+                {{- T "included" -}}
+                {{- range $index, $value := . -}}
+                    {{- if gt $index 0 }}&nbsp;{{ end -}}
+                    <a href="{{ `/categories/` | relLangURL }}{{ urlize $value }}">
+                        <i class="far fa-folder fa-fw"></i>{{ $value | humanize }}
+                    </a>
+                {{- end -}}
+            </span>
+        {{- end -}}
+    </div>
+
+    {{- /* Summary content */ -}}
+    <div class="content">
+        {{- with .Summary -}}
+            {{- partial "single/content.html" . -}}
+        {{- else -}}
+            {{- .Description | safeHTML -}}
+        {{- end -}}
+    </div>
+
+    {{- /* Footer */ -}}
+    <div class="post-footer">
+        <a href="{{ .RelPermalink }}">{{ T "readMore" }}</a>
+        {{- with .Params.tags -}}
+            <div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;
+                {{- range $index, $value := . -}}
+                    {{- if gt $index 0 }},&nbsp;{{ end -}}
+                    <a href="{{ `/tags/` | relLangURL }}{{ urlize $value }}">{{ $value }}</a>
+                {{- end -}}
+            </div>
+        {{- end -}}
+    </div>
+</article>

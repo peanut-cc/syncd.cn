@@ -1,0 +1,247 @@
+baseURL = "http://example.org/"
+# [en, zh-cn, fr, ...] 设置默认的语言
+defaultContentLanguage = "zh-cn"
+# 网站语言, 仅在这里 CN 大写
+languageCode = "zh-CN"
+# 是否包括中日韩文字
+hasCJKLanguage = true
+# 网站标题
+title = "FAN'S BLOG"
+enableEmoji = true
+
+# 更改使用 Hugo 构建网站时使用的默认主题
+theme = "LoveIt"
+
+[params]
+  # LoveIt 主题版本
+  version = "0.1.X"
+  # 网站描述
+  description = "syncd blog, 在成为高级开发者的路上....."
+  # 网站关键词
+  keywords = ["go", "python","syncd","syncd.cn"]
+  # 网站默认主题样式 ("light", "dark", "auto")
+  defaultTheme = "auto"
+  [params.search]
+    enable = true
+    type = "lunr"
+    contentLength = 5000
+    # 最大结果数目
+    maxResultLength = 10
+    # 搜索结果中高亮部分的 HTML 标签
+    highlightTag = "em"
+    [params.search.algolia]
+      index = ""
+      appID = ""
+      searchkey = ""
+  [params.header]
+    # 桌面端导航栏模式 ("fixed", "normal", "auto")
+    desktopMode = "fixed"
+    # 移动端导航栏模式 ("fixed", "normal", "auto")
+    mobileMode = "auto"
+  [params.footer]
+    # 网站创立年份
+    since = 2020
+    # ICP 备案信息，仅在中国使用 (允许使用 HTML 格式)
+    icp = "京ICP备17004069号-2"
+    # 许可协议信息 (允许使用 HTML 格式)
+    license= '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+  [params.section]
+    # section 页面每页显示文章数量
+    paginate = 20
+    # 日期格式 (月和日)
+    dateFormat = "01-02"
+    # RSS 文章数目
+    rss = 10
+  [params.list]
+    # list 页面每页显示文章数量
+    paginate = 20
+    # 日期格式 (月和日)
+    dateFormat = "01-02"
+    # RSS 文章数目
+    rss = 10
+
+  # 文章页面配置
+  [params.home]
+    # 主页信息设置
+    [params.home.profile]
+      enable = true
+      # Gravatar 邮箱，用于优先在主页显示的头像
+      gravatarEmail = ""
+      # 主页显示头像的 URL
+      avatarURL = "/images/avatar.png"
+      # 主页显示的网站副标题
+      subtitle = "stay hungry stay foolish"
+      # 是否为副标题显示打字机动画
+      typeit = true
+      # 是否显示社交账号
+      social = true
+    # 主页文章列表
+    [params.home.posts]
+      enable = true
+      # 主页每页显示文章数量
+      paginate = 6
+      # 当你没有在文章前置参数中设置 "hiddenFromHomePage" 时的默认行为
+      defaultHiddenFromHomePage = false
+  # 文章页面配置
+  [params.page]
+    # 是否在文章页面使用 lightgallery
+    lightgallery = true
+    # 是否在文章页面显示原始 Markdown 文档链接
+    linkToMarkdown = false
+    [params.page.toc]
+      # 是否使用目录
+      enable = true
+      # 是否使目录自动折叠展开
+      auto = true
+    [params.page.code]
+      # 是否显示代码块的复制按钮
+      copy = true
+      # 默认展开显示的代码行数
+      maxShownLines = 10
+
+  # 文章页面的分享信息设置
+  [params.share]
+    enable = true
+    Twitter = true
+    Evernote = true
+    # 评论系统设置
+  [params.comment]
+    enable = true
+    # Gitalk 评论系统设置 (https://github.com/gitalk/gitalk)
+    [params.comment.gitalk]
+      # LoveIt   v0.1.1
+      enable = true
+      owner = "peanut-pg"
+      repo = "blogComment"
+      clientId = "12d62df89f42baf9a471"
+      clientSecret = "603bc3951c1c2a0685201df45862a1fdb34a83f1"
+  # 网站验证代码，用于 Google/Bing/Yandex/Pinterest/Baidu
+  [params.verification]
+    google = ""
+    bing = ""
+    yandex = ""
+    pinterest = ""
+    baidu = ""
+  # 出版者信息，仅用于 SEO
+  [params.publisher]
+    name = "赵凡"
+    [params.publisher.logo]
+      url = "logo.png"
+      width = 127
+      height = 40
+  # 网站 Logo 信息，仅用于 SEO
+  [params.logo]
+    url = "logo.png"
+    width = 127
+    height = 40
+  # 网站图标信息，仅用于 SEO
+  [params.image]
+    url = "cover.png"
+    width = 800
+    height = 600
+
+# Hugo 解析文档的配置
+[markup]
+  # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = false
+    style = "monokai"
+    tabWidth = 4
+  # Goldmark 是 Hugo 0.60 以来的默认 Markdown 解析库
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.renderer]
+      # 是否在文档中直接使用 HTML 标签
+      unsafe = true
+  # 目录设置
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 6
+
+# 作者信息
+[author]
+  name = "zhaofan"
+  link = "http://syncd.cn"
+
+# 网站地图信息
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+# Permalinks 信息 (https://gohugo.io/content-management/urls/#permalinks)
+[Permalinks]
+  # posts = ":year/:month/:filename"
+  posts = ":filename"
+
+# 隐私信息设置 (https://gohugo.io/about/hugo-and-gdpr/)
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+
+  [privacy.youtube]
+    privacyEnhanced = true
+
+# 用于输出 Markdown 格式文档的设置
+[mediaTypes]
+  [mediaTypes."text/plain"]
+    suffixes = ["md"]
+
+# 用于输出 Markdown 格式文档的设置
+[outputFormats.MarkDown]
+  mediaType = "text/plain"
+  isPlainText = true
+  isHTML = false
+
+# 用于 Hugo 输出文档的设置
+[outputs]
+  home = ["HTML", "RSS"]
+  page = ["HTML", "MarkDown"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  taxonomyTerm = ["HTML"]
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
+    pre = ""
+    name = "文章"
+    url = "/posts/"
+    # 当你将鼠标悬停在此菜单链接上时, 将显示的标题
+    title = ""
+    weight = 1
+  [[menu.main]]
+    identifier = "tags"
+    pre = ""
+    name = "标签"
+    url = "/tags/"
+    title = ""
+    weight = 2
+  [[menu.main]]
+    identifier = "categories"
+    pre = ""
+    name = "分类"
+    url = "/categories/"
+    title = ""
+    weight = 3
+
+  [[menu.main]]
+    identifier = "about"
+    pre = ""
+    name = "关于"
+    url = "/about/"
+    title = ""
+    weight = 4
