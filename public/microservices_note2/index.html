@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>微服务架构 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="微服务架构" />
+<meta property="og:description" content="微服务架构图 从框架层看微服 从程序架构看微服务 注意：微服务与微服务之间不是通过数据耦合的，所以微服与微服务之间都是通过接口调用，一定不是通过数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/microservices_note2/" />
+<meta property="article:published_time" content="2020-05-10T14:45:27+08:00" />
+<meta property="article:modified_time" content="2020-05-10T14:45:27+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="微服务架构"/>
+<meta name="twitter:description" content="微服务架构图 从框架层看微服 从程序架构看微服务 注意：微服务与微服务之间不是通过数据耦合的，所以微服与微服务之间都是通过接口调用，一定不是通过数"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/microservices_note2/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/go_test/" /><link rel="next" href="http://example.org/reverse-linked-list/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "微服务架构",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/microservices_note2\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "微服务","wordcount":  2235 ,
+        "url": "http:\/\/example.org\/microservices_note2\/","datePublished": "2020-05-10","dateModified": "2020-05-10","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">微服务架构</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1">
+                                <i class="far fa-folder fa-fw"></i>微服务
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-05-10>2020-05-10</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2235 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 5 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#微服务架构图">微服务架构图</a>
+      <ul>
+        <li><a href="#从框架层看微服">从框架层看微服</a></li>
+        <li><a href="#从程序架构看微服务">从程序架构看微服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#服务注册和发现">服务注册和发现</a>
+      <ul>
+        <li><a href="#客户端实现">客户端实现</a></li>
+        <li><a href="#服务端实现">服务端实现</a></li>
+        <li><a href="#注册中心">注册中心</a></li>
+      </ul>
+    </li>
+    <li><a href="#raft协议基本认识">Raft协议基本认识</a>
+      <ul>
+        <li><a href="#基本概念">基本概念</a></li>
+        <li><a href="#复制状态机">复制状态机</a></li>
+        <li><a href="#心跳heartbeats和超时机制timeout">心跳（heartbeats）和超时机制（timeout）</a></li>
+        <li><a href="#leader选举">Leader选举</a></li>
+        <li><a href="#日志复制">日志复制</a></li>
+        <li><a href="#安全性">安全性</a></li>
+      </ul>
+    </li>
+    <li><a href="#rpc调用相关概念">RPC调用相关概念</a></li>
+    <li><a href="#服务监控相关概念">服务监控相关概念</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="微服务架构图">微服务架构图</h2>
+<h3 id="从框架层看微服">从框架层看微服</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/05/10/Y3Ndu6.png,  1.5x,  2x"
+        data-src=""
+        alt="Y3Ndu6.png"
+        title="Y3Ndu6.png" /></p>
+<h3 id="从程序架构看微服务">从程序架构看微服务</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/05/10/Y3U4Q1.png,  1.5x,  2x"
+        data-src=""
+        alt="Y3U4Q1.png"
+        title="Y3U4Q1.png" /></p>
+<p>注意：微服务与微服务之间不是通过数据耦合的，所以微服与微服务之间都是通过接口调用，一定不是通过数据，服务与服务之间数据是隔离的。</p>
+<h2 id="服务注册和发现">服务注册和发现</h2>
+<p>分为客户端实现和服务端实现</p>
+<p>客户端实现：</p>
+<ul>
+<li>调用需要维护所有的调度服务地址</li>
+<li>需要rpc框架支持</li>
+</ul>
+<p>服务端实现</p>
+<ul>
+<li>架构简单</li>
+<li>有单点故障</li>
+</ul>
+<p>订单服务需要调用产品服务，产品服务一共有三个，下面分别是客户端实现和服务端实现的原理</p>
+<h3 id="客户端实现">客户端实现</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/05/10/Y30Tcd.png,  1.5x,  2x"
+        data-src=""
+        alt="Y30Tcd.png"
+        title="Y30Tcd.png" /></p>
+<ul>
+<li>产品服务启动之后注册到服务注册中心</li>
+<li>订单服务从服务注册中心获取产品服务的列表，从列表中轮寻或随机算则服务并调用</li>
+</ul>
+<h3 id="服务端实现">服务端实现</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/05/10/Y3DYd0.png,  1.5x,  2x"
+        data-src=""
+        alt="Y3DYd0.png"
+        title="Y3DYd0.png" /></p>
+<ul>
+<li>产品服务注册到服务注册中心</li>
+<li>订单服务需要调用产品服务，先请求LB</li>
+<li>LB从服务注册中心获取产品服务列表，并根据算法选择其中一个返回给订单服务</li>
+<li>订单服务调用产品服务</li>
+</ul>
+<h3 id="注册中心">注册中心</h3>
+<p>常用的是etcd和consul</p>
+<p>etcd注册中心：</p>
+<ul>
+<li>分布式一致性系统</li>
+<li>基于raft一致性协议</li>
+</ul>
+<p>etcd使用场景：</p>
+<ul>
+<li>服务注册和发现</li>
+<li>共享配置</li>
+<li>分布式锁</li>
+<li>Leader选举</li>
+</ul>
+<p>注意：etcd是强一致性的，那么如果etcd节点中有一个出现问题，那么etcd需要重新进行选举，而在这个选举的过程中etcd是不可用的。那么这个时候我们服务就会出现问题。</p>
+<h2 id="raft协议基本认识">Raft协议基本认识</h2>
+<p>应用场景：</p>
+<ul>
+<li>解决分布式系统一致性的问题</li>
+<li>基于复制的</li>
+</ul>
+<p>工作机制：</p>
+<ul>
+<li>leader选举</li>
+<li>日志复制</li>
+<li>安全性</li>
+</ul>
+<h3 id="基本概念">基本概念</h3>
+<p>角色：</p>
+<ul>
+<li>Fllower角色</li>
+<li>Leader角色</li>
+<li>Candicate角色(候选者)，只存在于选举阶段中的一个概念</li>
+</ul>
+<p>Term（任期）概念：</p>
+<p>在raft协议中，将时间分成一个个term（任期）</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/05/10/Y36ikt.png,  1.5x,  2x"
+        data-src=""
+        alt="Y36ikt.png"
+        title="Y36ikt.png" /></p>
+<h3 id="复制状态机">复制状态机</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/05/10/Y32s3V.png,  1.5x,  2x"
+        data-src=""
+        alt="Y32s3V.png"
+        title="Y32s3V.png" /></p>
+<p>一致性算法的工作就是保证复制日志的一致性。 每台服务器上的一致性模块接收来自客户端的命令，并将它们添加到其日志中。 它与其他服务器上的一致性模块（Consensus Module）通信，以确保每个日志最终以相同的顺序包含相同的命令，即使有一些服务器失败。 一旦命令被正确复制，每个服务器上的状态机按日志顺序处理它们，并将输出返回给客户端。 这样就形成了高可用的复制状态机。</p>
+<h3 id="心跳heartbeats和超时机制timeout">心跳（heartbeats）和超时机制（timeout）</h3>
+<p>在Raft算法中，有两个timeout机制来控制领导人选择：</p>
+<p>一个是选举定时器（eletion timeout）:即Follower等待成为candidate状态的等待时间，这个时间被随机设定为150ms～300ms之间</p>
+<p>另外一个是heartbeat timeout: 在某个节点成为Leader以后，它会发送Append Entries消息给其他节点，这些消息就是通过hearbeat timeout来传送，Follower接收到Leader的心跳包的同时也重置选举定时器</p>
+<h3 id="leader选举">Leader选举</h3>
+<p>触发条件：</p>
+<ul>
+<li>一般情况下，Follower接收到Leader的心跳时，把选举定时器清零，不会触发</li>
+<li>Follower的选举定时器超时发生（比如Leader故障了），会变成候选者，触发Leader选举</li>
+</ul>
+<p>选举过程：</p>
+<ul>
+<li>当定时器到期时，转换为candidate（候选者）角色</li>
+<li>把当前任期加1,并为自己投票</li>
+<li>发起RequestVote的RPC请求，要求其他的节点为自己投票</li>
+<li>如果得到半数以上节点同意，就成为Leader</li>
+<li>如果选举超时，还没有选出Leader,则进入下一个任期，重新选举</li>
+</ul>
+<p>选举过程中限制条件：</p>
+<p>每个节点在任期内，最多能给一个候选人投票，采用先到先服务的原则</p>
+<p>如果没有投过票，则对比candidate的log和当前节点的log哪个更新，比较方式为：谁的lastLog的term越大谁越新，如果term相同，谁的lastLog的index越大谁越新，如果当前节点更新，则拒绝投票。</p>
+<h3 id="日志复制">日志复制</h3>
+<ol>
+<li>Client 向Leader提交命令（如：SET 5）, Leader收到命令后，将命令追加到本地日志中，此时，这个命令处于uncommited状态，复制状态机（state machine）不会执行该命令.</li>
+<li>Leader将命令（SET 5）并发复制给其他节点，并等待其他节点将命令写入到日志中，如果此时有些节点失败挥着比较慢，Leader节点会一致重试，直到集群中有一半的节点都保存了命令追加到日志中，之后Leader节点就提交命令（即被状态机执行命令，这里是SET 5），并将结果返回给Client节点。</li>
+<li>Leader节点在提交命令之后，一下次的心跳包中就带有通知其他节点提交命令的消息，其他节点收到Leader的消息后，就会将命令应用到状态机（State Machine），最终每个节点的日志都保持了一致性</li>
+</ol>
+<h3 id="安全性">安全性</h3>
+<ul>
+<li>一个Candidate（候选者）节点要成功赢得选举，就需要和网络中大部分节点进行通信，这就意味着每一条已经提交的日志条目最少在其中一台服务器上出现。如果候选人的日志至少和大多数服务器上的日志一样新，那么它一定包含有全部的已经提交的日志条目，RequestVote RPC实现了这个限制：这个RPC包含候选人的日志信息，如果它自己的日志比候选人的日志要新，那么它会拒绝候选人的投票请求。</li>
+<li>如果两个日志的任期号不同，任期号大的日志内容更新</li>
+<li>如果任期号一样大，则根据日志中最后一个命令的索引（index）,谁大谁更新</li>
+</ul>
+<h2 id="rpc调用相关概念">RPC调用相关概念</h2>
+<p>数据传输：</p>
+<ul>
+<li>Thrift协议</li>
+<li>Protobuf协议</li>
+<li>Json协议</li>
+<li>msgpack协议</li>
+</ul>
+<p>负载均衡：</p>
+<ul>
+<li>随机算法</li>
+<li>轮询</li>
+<li>一致性hash</li>
+</ul>
+<p>异常容错：</p>
+<ul>
+<li>健康检查</li>
+<li>熔断</li>
+<li>限流</li>
+</ul>
+<h2 id="服务监控相关概念">服务监控相关概念</h2>
+<p>日志收集：</p>
+<p>日志收集端-&gt; kafka集群-&gt;数据处理-&gt;日志查询报警</p>
+<p>Metrics打点：</p>
+<ul>
+<li>实时采样服务器的运行状态</li>
+<li>web平台直观的报表展示</li>
+</ul>
+<h2 id="延伸阅读">延伸阅读</h2>
+<p><a href="http://thesecretlivesofdata.com/raft/">http://thesecretlivesofdata.com/raft/</a></p>
+<p><a href="https://github.com/maemual/raft-zh_cn/">https://github.com/maemual/raft-zh_cn/</a></p>
+<p><a href="https://www.jianshu.com/p/aa77c8f4cb5c">https://www.jianshu.com/p/aa77c8f4cb5c</a></p>
+<p><a href="https://blog.container-solutions.com/raft-explained-part-33-safety-liveness-guarantees-conclusion">https://blog.container-solutions.com/raft-explained-part-33-safety-liveness-guarantees-conclusion</a></p>
+<p><a href="https://raft.github.io/raft.pdf">https://raft.github.io/raft.pdf</a></p>
+<p><a href="http://www.yuxiumin.com/2017/08/12/raft-protocol-intro/">http://www.yuxiumin.com/2017/08/12/raft-protocol-intro/</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-05-10 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/microservices_note2/" data-title="微服务架构" data-hashtags="微服务"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/microservices_note2/" data-title="微服务架构"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1">微服务</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/go_test/" class="prev" rel="prev" title="Go单元测试"><i class="fas fa-angle-left fa-fw"></i>Go单元测试</a>
+            <a href="/reverse-linked-list/" class="next" rel="next" title="算法练习-Reverse-Linked-List">算法练习-Reverse-Linked-List<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-05-10 14:45:27 \u002b0800 CST',
+                    title: '微服务架构',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

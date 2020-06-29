@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Algorithm on FAN&#39;S BLOG</title>
+    <link>http://example.org/categories/algorithm/</link>
+    <description>Recent content in Algorithm on FAN&#39;S BLOG</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 20 May 2020 17:49:47 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/categories/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>算法练习-Reverse-Linked-List</title>
+      <link>http://example.org/reverse-linked-list/</link>
+      <pubDate>Wed, 20 May 2020 17:49:47 +0800</pubDate>
+      
+      <guid>http://example.org/reverse-linked-list/</guid>
+      <description>起因 今天在刷算法题的时候，碰到了https://leetcode-cn.com/problems/reverse-linked-list/,</description>
+    </item>
+    
+  </channel>
+</rss>

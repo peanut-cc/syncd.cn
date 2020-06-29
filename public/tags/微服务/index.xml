@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>微服务 on FAN&#39;S BLOG</title>
+    <link>http://example.org/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</link>
+    <description>Recent content in 微服务 on FAN&#39;S BLOG</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 10 May 2020 14:45:27 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>微服务架构</title>
+      <link>http://example.org/microservices_note2/</link>
+      <pubDate>Sun, 10 May 2020 14:45:27 +0800</pubDate>
+      
+      <guid>http://example.org/microservices_note2/</guid>
+      <description>微服务架构图 从框架层看微服 从程序架构看微服务 注意：微服务与微服务之间不是通过数据耦合的，所以微服与微服务之间都是通过接口调用，一定不是通过数</description>
+    </item>
+    
+    <item>
+      <title>微服务概述</title>
+      <link>http://example.org/microservices_summary/</link>
+      <pubDate>Thu, 30 Apr 2020 07:06:58 +0800</pubDate>
+      
+      <guid>http://example.org/microservices_summary/</guid>
+      <description>微服务概述 单体应用 学习微服务之前先看看看传统的单体应用 什么是单体应用 所有的业务功能都在一个应用程序里面 研发人员开发并维护同一个代码库 架构简单</description>
+    </item>
+    
+  </channel>
+</rss>

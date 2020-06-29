@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>PostgreSQL学习笔记1--PostgreSQL安装 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="PostgreSQL学习笔记1--PostgreSQL安装" />
+<meta property="og:description" content="环境准备 1 2 [fan@MiWiFi-R1CM-srv ~]$ cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) 下载安装包 https://www.postgresql.org/ftp/source/ 1 wget https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.gz 安装PostgreSQL 安装依赖包 1 yum -y install coreutils glib2 lrzsz mpstat dstat sysstat e4fsprogs xfsprogs ntp readline-devel zlib-devel openssl-devel pam-devel libxml2-devel libxslt-devel python-devel tcl-devel gcc make smartmontools flex bison perl-devel perl-ExtUtils* openldap-devel" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/postgresql_notes_1/" />
+<meta property="article:published_time" content="2020-05-07T23:17:12+08:00" />
+<meta property="article:modified_time" content="2020-05-07T23:17:12+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PostgreSQL学习笔记1--PostgreSQL安装"/>
+<meta name="twitter:description" content="环境准备 1 2 [fan@MiWiFi-R1CM-srv ~]$ cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) 下载安装包 https://www.postgresql.org/ftp/source/ 1 wget https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.gz 安装PostgreSQL 安装依赖包 1 yum -y install coreutils glib2 lrzsz mpstat dstat sysstat e4fsprogs xfsprogs ntp readline-devel zlib-devel openssl-devel pam-devel libxml2-devel libxslt-devel python-devel tcl-devel gcc make smartmontools flex bison perl-devel perl-ExtUtils* openldap-devel"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/postgresql_notes_1/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/microservices_summary/" /><link rel="next" href="http://example.org/go_test/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PostgreSQL学习笔记1--PostgreSQL安装",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/postgresql_notes_1\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "PostgreSQL","wordcount":  1314 ,
+        "url": "http:\/\/example.org\/postgresql_notes_1\/","datePublished": "2020-05-07","dateModified": "2020-05-07","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">PostgreSQL学习笔记1--PostgreSQL安装</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/postgresql">
+                                <i class="far fa-folder fa-fw"></i>Postgre s q l
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-05-07>2020-05-07</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1314 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#环境准备">环境准备</a></li>
+    <li><a href="#下载安装包">下载安装包</a></li>
+    <li><a href="#安装postgresql">安装PostgreSQL</a>
+      <ul>
+        <li><a href="#安装依赖包">安装依赖包</a></li>
+        <li><a href="#编译安装postgresql">编译安装PostgreSQL</a></li>
+      </ul>
+    </li>
+    <li><a href="#配置linux用户环境变量">配置linux用户环境变量</a></li>
+    <li><a href="#初始化数据库集群">初始化数据库集群</a></li>
+    <li><a href="#配置数据库">配置数据库</a>
+      <ul>
+        <li><a href="#配置postgresqlconf">配置postgresql.conf</a></li>
+        <li><a href="#配置pg_hbaconf">配置pg_hba.conf</a></li>
+      </ul>
+    </li>
+    <li><a href="#启动数据库集群">启动数据库集群</a></li>
+    <li><a href="#连接数据库">连接数据库</a></li>
+    <li><a href="#简单使用">简单使用</a>
+      <ul>
+        <li><a href="#查看psql帮助">查看psql帮助</a></li>
+        <li><a href="#使用psql-命令行连接数据库">使用psql 命令行连接数据库</a></li>
+        <li><a href="#新增用户">新增用户</a></li>
+        <li><a href="#查看已有用户">查看已有用户</a></li>
+        <li><a href="#查看当前配置">查看当前配置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="环境准备">环境准备</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>fan@MiWiFi-R1CM-srv ~<span class="o">]</span>$ cat /etc/redhat-release 
+CentOS Linux release 7.3.1611 <span class="o">(</span>Core<span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="下载安装包">下载安装包</h2>
+<p><a href="https://www.postgresql.org/ftp/source/">https://www.postgresql.org/ftp/source/</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">wget https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.gz
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="安装postgresql">安装PostgreSQL</h2>
+<h3 id="安装依赖包">安装依赖包</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">yum -y install coreutils glib2 lrzsz mpstat dstat sysstat e4fsprogs xfsprogs ntp readline-devel zlib-devel openssl-devel pam-devel libxml2-devel libxslt-devel python-devel tcl-devel gcc make smartmontools flex bison perl-devel perl-ExtUtils* openldap-devel jadetex  openjade bzip2 
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="编译安装postgresql">编译安装PostgreSQL</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">tar xf postgresql-9.6.2.tar.gz 
+<span class="nb">cd</span> postgresql-9.6.2/
+./configure --prefix<span class="o">=</span>/home/fan/pgsql9.6
+make world -j <span class="m">8</span> 
+make install-world 
+</code></pre></td></tr></table>
+</div>
+</div><p>执行<code>world -j 8</code>的时候看到如下内容，则表示成功：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">make<span class="o">[</span>2<span class="o">]</span>: Leaving directory <span class="sb">`</span>/home/fan/postgresql-9.6.2/contrib/pgcrypto<span class="s1">&#39;
+</span><span class="s1">make[1]: Leaving directory `/home/fan/postgresql-9.6.2/contrib&#39;</span>
+PostgreSQL, contrib, and documentation successfully made. Ready to install.
+</code></pre></td></tr></table>
+</div>
+</div><p>执行<code>make install-wold</code>的时候看到如下内容，表示成功：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">/usr/bin/install -c -m <span class="m">644</span> ./unaccent.rules <span class="s1">&#39;/home/fan/pgsql9.6/share/tsearch_data/&#39;</span>
+make<span class="o">[</span>2<span class="o">]</span>: Leaving directory <span class="sb">`</span>/home/fan/postgresql-9.6.2/contrib/unaccent<span class="s1">&#39;
+</span><span class="s1">make -C vacuumlo install
+</span><span class="s1">make[2]: Entering directory `/home/fan/postgresql-9.6.2/contrib/vacuumlo&#39;</span>
+/usr/bin/mkdir -p <span class="s1">&#39;/home/fan/pgsql9.6/bin&#39;</span>
+/usr/bin/install -c  vacuumlo <span class="s1">&#39;/home/fan/pgsql9.6/bin&#39;</span>
+make<span class="o">[</span>2<span class="o">]</span>: Leaving directory <span class="sb">`</span>/home/fan/postgresql-9.6.2/contrib/vacuumlo<span class="s1">&#39;
+</span><span class="s1">make[1]: Leaving directory `/home/fan/postgresql-9.6.2/contrib&#39;</span>
+PostgreSQL, contrib, and documentation installation <span class="nb">complete</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="配置linux用户环境变量">配置linux用户环境变量</h2>
+<p>将如下内容追加到<code>~/.bash_profile</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PS1</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$USER</span><span class="s2">@`/bin/hostname -s`-&gt; &#34;</span>  
+<span class="nb">export</span> <span class="nv">PGPORT</span><span class="o">=</span><span class="m">1921</span>  
+<span class="nb">export</span> <span class="nv">PGDATA</span><span class="o">=</span>/home/fan/pgdata  
+<span class="nb">export</span> <span class="nv">LANG</span><span class="o">=</span>en_US.utf8  
+<span class="nb">export</span> <span class="nv">PGHOME</span><span class="o">=</span>/home/digoal/pgsql9.6  
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$PGHOME</span>/lib:/lib64:/usr/lib64:/usr/local/lib64:/lib:/usr/lib:/usr/local/lib:<span class="nv">$LD_LIBRARY_PATH</span>  
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PGHOME</span>/bin:<span class="nv">$PATH</span>:.  
+<span class="nb">export</span> <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span>date +<span class="s2">&#34;%Y%m%d%H%M&#34;</span><span class="sb">`</span>  
+<span class="nb">export</span> <span class="nv">MANPATH</span><span class="o">=</span><span class="nv">$PGHOME</span>/share/man:<span class="nv">$MANPATH</span>  
+<span class="nb">export</span> <span class="nv">PGHOST</span><span class="o">=</span><span class="nv">$PGDATA</span>  
+<span class="nb">export</span> <span class="nv">PGUSER</span><span class="o">=</span>postgres  
+<span class="nb">export</span> <span class="nv">PGDATABASE</span><span class="o">=</span>postgres  
+<span class="nb">alias</span> <span class="nv">rm</span><span class="o">=</span><span class="s1">&#39;rm -i&#39;</span>  
+<span class="nb">alias</span> <span class="nv">ll</span><span class="o">=</span><span class="s1">&#39;ls -lh&#39;</span>  
+<span class="nb">unalias</span> vi  
+</code></pre></td></tr></table>
+</div>
+</div><p>执行<code>source ~/.bash_profile</code>使配置生效</p>
+<h2 id="初始化数据库集群">初始化数据库集群</h2>
+<p>命令： <code>initdb -D $PGDATA -E UTF8 --locale=C -U postgres </code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">fan@MiWiFi-R1CM-srv-&gt; initdb -D <span class="nv">$PGDATA</span> -E UTF8 --locale<span class="o">=</span>C -U postgres 
+The files belonging to this database system will be owned by user <span class="s2">&#34;fan&#34;</span>.
+This user must also own the server process.
+
+The database cluster will be initialized with locale <span class="s2">&#34;C&#34;</span>.
+The default text search configuration will be <span class="nb">set</span> to <span class="s2">&#34;english&#34;</span>.
+
+Data page checksums are disabled.
+
+creating directory /home/fan/pgdata ... ok
+creating subdirectories ... ok
+selecting default max_connections ... <span class="m">100</span>
+selecting default shared_buffers ... 128MB
+selecting dynamic shared memory implementation ... posix
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+WARNING: enabling <span class="s2">&#34;trust&#34;</span> authentication <span class="k">for</span> <span class="nb">local</span> connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next <span class="nb">time</span> you run initdb.
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /home/fan/pgdata -l logfile start
+
+fan@MiWiFi-R1CM-srv-&gt; 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="配置数据库">配置数据库</h2>
+<p>配置文件在$PGDATA目录中</p>
+<h3 id="配置postgresqlconf">配置postgresql.conf</h3>
+<p>将如下内容追加到postgresql.conf中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">listen_addresses</span> <span class="o">=</span> <span class="s1">&#39;0.0.0.0&#39;</span>  
+<span class="nv">port</span> <span class="o">=</span> <span class="m">1921</span>  
+<span class="nv">max_connections</span> <span class="o">=</span> <span class="m">200</span>  
+<span class="nv">unix_socket_directories</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>  
+<span class="nv">tcp_keepalives_idle</span> <span class="o">=</span> <span class="m">60</span>  
+<span class="nv">tcp_keepalives_interval</span> <span class="o">=</span> <span class="m">10</span>  
+<span class="nv">tcp_keepalives_count</span> <span class="o">=</span> <span class="m">10</span>  
+<span class="nv">shared_buffers</span> <span class="o">=</span> 512MB  
+<span class="nv">dynamic_shared_memory_type</span> <span class="o">=</span> posix  
+<span class="nv">vacuum_cost_delay</span> <span class="o">=</span> <span class="m">0</span>  
+<span class="nv">bgwriter_delay</span> <span class="o">=</span> 10ms  
+<span class="nv">bgwriter_lru_maxpages</span> <span class="o">=</span> <span class="m">1000</span>  
+<span class="nv">bgwriter_lru_multiplier</span> <span class="o">=</span> 10.0  
+<span class="nv">bgwriter_flush_after</span> <span class="o">=</span> <span class="m">0</span>   
+<span class="nv">old_snapshot_threshold</span> <span class="o">=</span> -1  
+<span class="nv">backend_flush_after</span> <span class="o">=</span> <span class="m">0</span>   
+<span class="nv">wal_level</span> <span class="o">=</span> replica  
+<span class="nv">synchronous_commit</span> <span class="o">=</span> off  
+<span class="nv">full_page_writes</span> <span class="o">=</span> on  
+<span class="nv">wal_buffers</span> <span class="o">=</span> 16MB  
+<span class="nv">wal_writer_delay</span> <span class="o">=</span> 10ms  
+<span class="nv">wal_writer_flush_after</span> <span class="o">=</span> <span class="m">0</span>   
+<span class="nv">checkpoint_timeout</span> <span class="o">=</span> 30min   
+<span class="nv">max_wal_size</span> <span class="o">=</span> 2GB  
+<span class="nv">min_wal_size</span> <span class="o">=</span> 128MB  
+<span class="nv">checkpoint_completion_target</span> <span class="o">=</span> 0.05    
+<span class="nv">checkpoint_flush_after</span> <span class="o">=</span> <span class="m">0</span>    
+<span class="nv">random_page_cost</span> <span class="o">=</span> 1.3   
+<span class="nv">log_destination</span> <span class="o">=</span> <span class="s1">&#39;csvlog&#39;</span>  
+<span class="nv">logging_collector</span> <span class="o">=</span> on  
+<span class="nv">log_truncate_on_rotation</span> <span class="o">=</span> on  
+<span class="nv">log_checkpoints</span> <span class="o">=</span> on  
+<span class="nv">log_connections</span> <span class="o">=</span> on  
+<span class="nv">log_disconnections</span> <span class="o">=</span> on  
+<span class="nv">log_error_verbosity</span> <span class="o">=</span> verbose  
+<span class="nv">autovacuum</span> <span class="o">=</span> on  
+<span class="nv">log_autovacuum_min_duration</span> <span class="o">=</span> <span class="m">0</span>  
+<span class="nv">autovacuum_naptime</span> <span class="o">=</span> 20s  
+<span class="nv">autovacuum_vacuum_scale_factor</span> <span class="o">=</span> 0.05  
+<span class="nv">autovacuum_freeze_max_age</span> <span class="o">=</span> <span class="m">1500000000</span>  
+<span class="nv">autovacuum_multixact_freeze_max_age</span> <span class="o">=</span> <span class="m">1600000000</span>  
+<span class="nv">autovacuum_vacuum_cost_delay</span> <span class="o">=</span> <span class="m">0</span>  
+<span class="nv">vacuum_freeze_table_age</span> <span class="o">=</span> <span class="m">1400000000</span>  
+<span class="nv">vacuum_multixact_freeze_table_age</span> <span class="o">=</span> <span class="m">1500000000</span>  
+<span class="nv">datestyle</span> <span class="o">=</span> <span class="s1">&#39;iso, mdy&#39;</span>  
+<span class="nv">timezone</span> <span class="o">=</span> <span class="s1">&#39;PRC&#39;</span>  
+<span class="nv">lc_messages</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>  
+<span class="nv">lc_monetary</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>  
+<span class="nv">lc_numeric</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>  
+<span class="nv">lc_time</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>  
+<span class="nv">default_text_search_config</span> <span class="o">=</span> <span class="s1">&#39;pg_catalog.english&#39;</span>  
+<span class="nv">shared_preload_libraries</span><span class="o">=</span><span class="s1">&#39;pg_stat_statements&#39;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="配置pg_hbaconf">配置pg_hba.conf</h3>
+<p>将如下内容追加到pg_hgb.conf中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">host all all 0.0.0.0/0 md5  
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="启动数据库集群">启动数据库集群</h2>
+<p>命令：<code>pg_ctl start </code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">fan@MiWiFi-R1CM-srv-&gt; pg_ctl start 
+server starting
+fan@MiWiFi-R1CM-srv-&gt; LOG:  00000: redirecting log output to logging collector process
+HINT:  Future log output will appear in directory &#34;pg_log&#34;.
+LOCATION:  SysLogger_Start, syslogger.c:622
+
+fan@MiWiFi-R1CM-srv-&gt; 
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="连接数据库">连接数据库</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">fan@MiWiFi-R1CM-srv-&gt; psql
+psql (9.6.2)
+Type &#34;help&#34; for help.
+
+postgres=#
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="简单使用">简单使用</h2>
+<h3 id="查看psql帮助">查看psql帮助</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">postgres=# \?
+General
+  \copyright             show PostgreSQL usage and distribution terms
+  \errverbose            show most recent error message at maximum verbosity
+  \g [FILE] or ;         execute query (and send results to file or |pipe)
+  \gexec                 execute query, then execute each value in its result
+  \gset [PREFIX]         execute query and store results in psql variables
+  \q                     quit psql
+  \crosstabview [COLUMNS] execute query and display results in crosstab
+  \watch [SEC]           execute query every SEC seconds
+......
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="使用psql-命令行连接数据库">使用psql 命令行连接数据库</h3>
+<p>psql  -h IP地址 -p端口 -U 用户名  数据库名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">fan@MiWiFi-R1CM-srv-&gt; psql -h 127.0.0.1 -p <span class="m">1921</span> -U postgres postgres
+psql <span class="o">(</span>9.6.2<span class="o">)</span>
+Type <span class="s2">&#34;help&#34;</span> <span class="k">for</span> help.
+
+<span class="nv">postgres</span><span class="o">=</span># 
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="新增用户">新增用户</h3>
+<p>新建用户属于数据库操作，先使用psql和超级用户postgres连接到数据库。</p>
+<p>新增一个普通用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># create role fan login encrypted password &#39;123456&#39;;</span>
+CREATE ROLE
+</code></pre></td></tr></table>
+</div>
+</div><p>新增一个超级用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># create role dba_fan login superuser encrypted password &#39;123456&#39;;</span>
+CREATE ROLE
+</code></pre></td></tr></table>
+</div>
+</div><p>新增一个流复制用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># create role fan_rep replication login encrypted password &#39;123456&#39;;</span>
+CREATE ROLE
+</code></pre></td></tr></table>
+</div>
+</div><p>将一个用户在不同角色之间切换</p>
+<p>例如将fan设置为超级用户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">ostgres</span><span class="o">=</span><span class="c1"># alter role fan superuser;</span>
+ALTER ROLE
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查看已有用户">查看已有用户</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># \du+</span>
+                                          List of roles
+ Role name <span class="p">|</span>                         Attributes                         <span class="p">|</span> Member of <span class="p">|</span> Description 
+-----------+------------------------------------------------------------+-----------+-------------
+ dba_fan   <span class="p">|</span> Superuser                                                  <span class="p">|</span> <span class="o">{}</span>        <span class="p">|</span> 
+ fan       <span class="p">|</span> Superuser                                                  <span class="p">|</span> <span class="o">{}</span>        <span class="p">|</span> 
+ fan_rep   <span class="p">|</span> Replication                                                <span class="p">|</span> <span class="o">{}</span>        <span class="p">|</span> 
+ postgres  <span class="p">|</span> Superuser, Create role, Create DB, Replication, Bypass RLS <span class="p">|</span> <span class="o">{}</span>        <span class="p">|</span> 
+
+<span class="nv">postgres</span><span class="o">=</span># 
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查看当前配置">查看当前配置</h3>
+<p>show 参数名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># show client_encoding;</span>
+ client_encoding 
+-----------------
+ UTF8
+<span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>查看pg_settings</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">postgres</span><span class="o">=</span><span class="c1"># select * from pg_settings;</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-05-07 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/postgresql_notes_1/" data-title="PostgreSQL学习笔记1--PostgreSQL安装" data-hashtags="PostgreSQL"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/postgresql_notes_1/" data-title="PostgreSQL学习笔记1--PostgreSQL安装"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/postgresql">PostgreSQL</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/microservices_summary/" class="prev" rel="prev" title="微服务概述"><i class="fas fa-angle-left fa-fw"></i>微服务概述</a>
+            <a href="/go_test/" class="next" rel="next" title="Go单元测试">Go单元测试<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-05-07 23:17:12 \u002b0800 CST',
+                    title: 'PostgreSQL学习笔记1--PostgreSQL安装',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

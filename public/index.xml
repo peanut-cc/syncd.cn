@@ -1,0 +1,24 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>FAN&#39;S BLOG | FAN&#39;S BLOG</title>
+        <link>http://example.org/</link>
+        <description>FAN&#39;S BLOG | FAN&#39;S BLOG</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 24 Jun 2020 23:48:11 &#43;0800</lastBuildDate><atom:link href="http://example.org/" rel="self" type="application/rss+xml" /><item>
+                <title>Posts</title>
+                <link>http://example.org/posts/</link>
+                <pubDate>Wed, 24 Jun 2020 23:48:11 &#43;0800</pubDate><guid>http://example.org/posts/</guid>
+                <description></description>
+            </item><item>
+                <title>About</title>
+                <link>http://example.org/about/</link>
+                <pubDate>Tue, 28 Apr 2020 23:25:17 &#43;0800</pubDate><guid>http://example.org/about/</guid>
+                <description>&lt;h2 id=&#34;hello-world&#34;&gt;Hello World&lt;/h2&gt;
+&lt;p&gt;自己的博客也只折腾来折腾去，最后还是选择了使用hugo来搭建一个，怎么说呢，还是想通过记录博客的方式，来记录自己技术的成长过程，再有就是觉得做一个coder,还是应该坚持写博客。&lt;/p&gt;
+&lt;h2 id=&#34;怎么联系我&#34;&gt;怎么联系我&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;「QQ」867468837&lt;/li&gt;
+&lt;li&gt;「QQ交流群」948510543&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+            </item></channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PostgreSQL on FAN&#39;S BLOG</title>
+    <link>http://example.org/categories/postgresql/</link>
+    <description>Recent content in PostgreSQL on FAN&#39;S BLOG</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 07 May 2020 23:17:12 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/categories/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PostgreSQL学习笔记1--PostgreSQL安装</title>
+      <link>http://example.org/postgresql_notes_1/</link>
+      <pubDate>Thu, 07 May 2020 23:17:12 +0800</pubDate>
+      
+      <guid>http://example.org/postgresql_notes_1/</guid>
+      <description>环境准备 1 2 [fan@MiWiFi-R1CM-srv ~]$ cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) 下载安装包 https://www.postgresql.org/ftp/source/ 1 wget https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.gz 安装PostgreSQL 安装依赖包 1 yum -y install coreutils glib2 lrzsz mpstat dstat sysstat e4fsprogs xfsprogs ntp readline-devel zlib-devel openssl-devel pam-devel libxml2-devel libxslt-devel python-devel tcl-devel gcc make smartmontools flex bison perl-devel perl-ExtUtils* openldap-devel</description>
+    </item>
+    
+  </channel>
+</rss>
