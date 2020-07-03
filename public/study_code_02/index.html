@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>从别人的代码中学习golang系列--02 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="从别人的代码中学习golang系列--02" />
+<meta property="og:description" content="这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识 作者在项目" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/study_code_02/" />
+<meta property="article:published_time" content="2020-07-03T21:10:32+08:00" />
+<meta property="article:modified_time" content="2020-07-03T21:10:32+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="从别人的代码中学习golang系列--02"/>
+<meta name="twitter:description" content="这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识 作者在项目"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/study_code_02/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/study_code_01/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "从别人的代码中学习golang系列--02",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/study_code_02\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go","wordcount":  5817 ,
+        "url": "http:\/\/example.org\/study_code_02\/","datePublished": "2020-07-03","dateModified": "2020-07-03","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">从别人的代码中学习golang系列--02</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/go">
+                                <i class="far fa-folder fa-fw"></i>Go
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-03>2020-07-03</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 5817 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 12 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#依赖注入是什么">依赖注入是什么？</a></li>
+    <li><a href="#wire依赖注入例子">wire依赖注入例子</a>
+      <ul>
+        <li><a href="#栗子1">栗子1</a></li>
+        <li><a href="#栗子2">栗子2</a></li>
+        <li><a href="#栗子3">栗子3</a></li>
+        <li><a href="#栗子4">栗子4</a></li>
+      </ul>
+    </li>
+    <li><a href="#wire的高级用法">wire的高级用法</a>
+      <ul>
+        <li><a href="#binding-interfaces">Binding Interfaces</a></li>
+        <li><a href="#struct-providers">Struct Providers</a></li>
+        <li><a href="#binding-values">Binding Values</a></li>
+        <li><a href="#use-fields-of-a-struct-as-providers">Use Fields of a Struct as Providers</a></li>
+        <li><a href="#cleanup-functions">Cleanup functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识</p>
+<p>作者在项目中使用了https://github.com/google/wire 做依赖注入，这个库我之前没有使用过，看了作者代码中的使用，至少刚开始是看着优点懵，不知道是做什么，所以这篇博客主要就是整理这个包的使用</p>
+<h2 id="依赖注入是什么">依赖注入是什么？</h2>
+<p>如果你搜索<strong>依赖注入</strong>，百度百科里可能先看到的是<strong>控制反转</strong>，下面是百度百科的解释</p>
+<blockquote>
+<p><strong>控制反转</strong>（Inversion of Control，缩写为<strong>IoC</strong>），是<a href="https://baike.baidu.com/item/%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1%e7%bc%96%e7%a8%8b" target="_blank" rel="noopener noreffer">面向对象编程</a>
+中的一种设计原则，可以用来减低计算机代码之间的<a href="https://baike.baidu.com/item/%e8%80%a6%e5%90%88%e5%ba%a6" target="_blank" rel="noopener noreffer">耦合度</a>
+。其中最常见的方式叫做<strong>依赖注入</strong>（Dependency Injection，简称<strong>DI</strong>），还有一种方式叫“依赖查找”（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。</p>
+</blockquote>
+<p>这样的解释可能还是不好理解，所以我们通过一个简单的代码来理解应该就清楚很多。</p>
+<p>我们用程序实现：小明对世界说：&ldquo;hello golang&rdquo;</p>
+<p>这里将小明抽象为People  说的内容抽象为： Message  小明说 hello golang 抽象为：Event, 代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">var</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&#34;Hello World!&#34;</span>
+
+<span class="kd">func</span> <span class="nf">NewMessage</span><span class="p">()</span> <span class="nx">Message</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Message</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 要说的内容的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Message</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">m</span> <span class="nx">Message</span><span class="p">)</span> <span class="nx">People</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">People</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;小明&#34;</span><span class="p">,</span> <span class="nx">message</span><span class="p">:</span> <span class="nx">m</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">People</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">name</span>    <span class="kt">string</span>
+   <span class="nx">message</span> <span class="nx">Message</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人会说话
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nf">SayHello</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s 对世界说:%s\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">msg</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nx">Event</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{</span><span class="nx">people</span><span class="p">:</span> <span class="nx">p</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明去说话这个行为抽象为一个事件
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">people</span> <span class="nx">People</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">people</span><span class="p">.</span><span class="nf">SayHello</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">message</span> <span class="o">:=</span> <span class="nf">NewMessage</span><span class="p">()</span>
+   <span class="nx">people</span> <span class="o">:=</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+   <span class="nx">event</span> <span class="o">:=</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">people</span><span class="p">)</span>
+   <span class="nx">event</span><span class="p">.</span><span class="nf">start</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>从上面这个代码我们可以看出，我们必须先初始化一个<code>NewMessage</code>, 因为<code>NewPeople </code>依赖它，<code>NewEvent</code> 依赖<code>NewPeople</code>. 这还是一种比较简单的依赖关系，实际生产的依赖关系可能会更复杂，那么什么好的办法来处理这种依赖，https://github.com/google/wire 就是来干这件事情的。</p>
+<h2 id="wire依赖注入例子">wire依赖注入例子</h2>
+<h3 id="栗子1">栗子1</h3>
+<p>安装：<code> go get github.com/google/wire/cmd/wire</code></p>
+<p>上面的代码，我们用wire的方式实现，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&#34;Hello World!&#34;</span>
+
+<span class="kd">func</span> <span class="nf">NewMessage</span><span class="p">()</span> <span class="nx">Message</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Message</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 要说的内容的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Message</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">m</span> <span class="nx">Message</span><span class="p">)</span> <span class="nx">People</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">People</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;小明&#34;</span><span class="p">,</span> <span class="nx">message</span><span class="p">:</span> <span class="nx">m</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">People</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">name</span>    <span class="kt">string</span>
+   <span class="nx">message</span> <span class="nx">Message</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人会说话
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nf">SayHello</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s 对世界说:%s\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">msg</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nx">Event</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{</span><span class="nx">people</span><span class="p">:</span> <span class="nx">p</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明去说话这个行为抽象为一个事件
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">people</span> <span class="nx">People</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">people</span><span class="p">.</span><span class="nf">SayHello</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">()</span> <span class="nx">Event</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">NewEvent</span><span class="p">,</span> <span class="nx">NewPeople</span><span class="p">,</span> <span class="nx">NewMessage</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">e</span> <span class="o">:=</span> <span class="nf">InitializeEvent</span><span class="p">()</span>
+   <span class="nx">e</span><span class="p">.</span><span class="nf">start</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里我们不用再手动初始化<code>NewEvent, NewPeople, NewMessage</code>，而是通过需要初始化的函数传递给<code>wire.Build</code> , 这三者的依赖关系，wire 会帮我们处理，我们通过wire . 的方式生成代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">➜  useWireBaseExample2 wire .
+wire: awesomeProject/202006/useWireBaseExample2: wrote /home/fan/codes/go_project/awesomeProject/202006/useWireBaseExample2/wire_gen.go
+➜  useWireBaseExample2 
+</code></pre></td></tr></table>
+</div>
+</div><p>会在当前目录下生成wire_gen.go的代码，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Code generated by Wire. DO NOT EDIT.
+</span><span class="c1"></span>
+<span class="c1">//go:generate wire
+</span><span class="c1">//+build !wireinject
+</span><span class="c1"></span>
+<span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Injectors from main.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">()</span> <span class="nx">Event</span> <span class="p">{</span>
+   <span class="nx">message</span> <span class="o">:=</span> <span class="nf">NewMessage</span><span class="p">()</span>
+   <span class="nx">people</span> <span class="o">:=</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+   <span class="nx">event</span> <span class="o">:=</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">people</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">event</span>
+<span class="p">}</span>
+
+<span class="c1">// main.go:
+</span><span class="c1"></span>
+<span class="kd">var</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&#34;Hello World!&#34;</span>
+
+<span class="kd">func</span> <span class="nf">NewMessage</span><span class="p">()</span> <span class="nx">Message</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Message</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 要说的内容的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Message</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">m</span> <span class="nx">Message</span><span class="p">)</span> <span class="nx">People</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">People</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;小明&#34;</span><span class="p">,</span> <span class="nx">message</span><span class="p">:</span> <span class="nx">m</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">People</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">name</span>    <span class="kt">string</span>
+   <span class="nx">message</span> <span class="nx">Message</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人会说话
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nf">SayHello</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="nx">msg2</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s 对世界说:%s\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">msg2</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nx">Event</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{</span><span class="nx">people</span><span class="p">:</span> <span class="nx">p</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明去说话这个行为抽象为一个事件
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">people</span> <span class="nx">People</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">msg2</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">people</span><span class="p">.</span><span class="nf">SayHello</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg2</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">e</span> <span class="o">:=</span> <span class="nf">InitializeEvent</span><span class="p">()</span>
+   <span class="nx">e</span><span class="p">.</span><span class="nf">start</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>代码中wire为我们生成了如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Injectors from main.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">()</span> <span class="nx">Event</span> <span class="p">{</span>
+   <span class="nx">message</span> <span class="o">:=</span> <span class="nf">NewMessage</span><span class="p">()</span>
+   <span class="nx">people</span> <span class="o">:=</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+   <span class="nx">event</span> <span class="o">:=</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">people</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">event</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在看看我们刚开始写的代码，发现其实是一样的，是不是感觉方便了很多。</p>
+<p><strong>注意：当使用 Wire 时，我们将同时提交 Wire.go 和 Wire _ gen 到代码仓库</strong></p>
+<p>wire 能做的事情很多，如果我们相互依赖的初始化其中有初始化失败的，wire也能帮我们很好的处理。</p>
+<h3 id="栗子2">栗子2</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;errors&#34;</span>
+   <span class="s">&#34;fmt&#34;</span>
+   <span class="s">&#34;os&#34;</span>
+   <span class="s">&#34;time&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">msg</span> <span class="p">=</span> <span class="s">&#34;Hello World!&#34;</span>
+
+<span class="kd">func</span> <span class="nf">NewMessage</span><span class="p">()</span> <span class="nx">Message</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Message</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 要说的内容的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Message</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">m</span> <span class="nx">Message</span><span class="p">)</span> <span class="nx">People</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">grumpy</span> <span class="kt">bool</span>
+   <span class="k">if</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">Unix</span><span class="p">()</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+      <span class="nx">grumpy</span> <span class="p">=</span> <span class="kc">true</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">People</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;小明&#34;</span><span class="p">,</span> <span class="nx">message</span><span class="p">:</span> <span class="nx">m</span><span class="p">,</span> <span class="nx">grumpy</span><span class="p">:</span> <span class="nx">grumpy</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">People</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">name</span>    <span class="kt">string</span>
+   <span class="nx">message</span> <span class="nx">Message</span>
+   <span class="nx">grumpy</span>  <span class="kt">bool</span> <span class="c1">// 脾气是否暴躁
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="c1">// 小明这个人会说话
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nf">SayHello</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">grumpy</span> <span class="p">{</span>
+      <span class="c1">// 脾气暴躁，心情不好
+</span><span class="c1"></span>      <span class="nx">msg</span> <span class="o">:=</span> <span class="s">&#34;Go away !&#34;</span>
+      <span class="k">return</span> <span class="nx">msg</span>
+   <span class="p">}</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s 对世界说:%s\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">msg</span>
+
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">grumpy</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;could not create event: event greeter is grumpy&#34;</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{</span><span class="nx">people</span><span class="p">:</span> <span class="nx">p</span><span class="p">},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+<span class="nx">https</span><span class="p">:</span><span class="c1">//github.com/LyricTian/gin-admin
+</span><span class="c1">// 小明去说话这个行为抽象为一个事件
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">people</span> <span class="nx">People</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">people</span><span class="p">.</span><span class="nf">SayHello</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">()</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">NewEvent</span><span class="p">,</span> <span class="nx">NewPeople</span><span class="p">,</span> <span class="nx">NewMessage</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">e</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">InitializeEvent</span><span class="p">()</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;failed to create event: %s\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+      <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">e</span><span class="p">.</span><span class="nf">start</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>更改之后的代码初始化NewEvent 可能就会因为People.grumpy 的值而失败，通过wire生成之后的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Injectors from main.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">()</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">message</span> <span class="o">:=</span> <span class="nf">NewMessage</span><span class="p">()</span>
+   <span class="nx">people</span> <span class="o">:=</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+   <span class="nx">event</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">people</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">event</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="栗子3">栗子3</h3>
+<p>我们再将上面的代码进行更改：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;errors&#34;</span>
+   <span class="s">&#34;fmt&#34;</span>
+   <span class="s">&#34;os&#34;</span>
+   <span class="s">&#34;time&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">NewMessage</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">Message</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Message</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 要说的内容的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Message</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">m</span> <span class="nx">Message</span><span class="p">)</span> <span class="nx">People</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">grumpy</span> <span class="kt">bool</span>
+   <span class="k">if</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">().</span><span class="nf">Unix</span><span class="p">()</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+      <span class="nx">grumpy</span> <span class="p">=</span> <span class="kc">true</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">People</span><span class="p">{</span><span class="nx">name</span><span class="p">:</span> <span class="s">&#34;小明&#34;</span><span class="p">,</span> <span class="nx">message</span><span class="p">:</span> <span class="nx">m</span><span class="p">,</span> <span class="nx">grumpy</span><span class="p">:</span> <span class="nx">grumpy</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明这个人的抽象
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">People</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">name</span>    <span class="kt">string</span>
+   <span class="nx">message</span> <span class="nx">Message</span>
+   <span class="nx">grumpy</span>  <span class="kt">bool</span> <span class="c1">// 脾气是否暴躁
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="c1">// 小明这个人会说话
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="nf">SayHello</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">grumpy</span> <span class="p">{</span>
+      <span class="c1">// 脾气暴躁，心情不好
+</span><span class="c1"></span>      <span class="nx">msg</span> <span class="o">:=</span> <span class="s">&#34;Go away !&#34;</span>
+      <span class="k">return</span> <span class="nx">msg</span>
+   <span class="p">}</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;%s 对世界说:%s\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">msg</span>
+
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">p</span> <span class="nx">People</span><span class="p">)</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="nx">p</span><span class="p">.</span><span class="nx">grumpy</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;could not create event: event greeter is grumpy&#34;</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{</span><span class="nx">people</span><span class="p">:</span> <span class="nx">p</span><span class="p">},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// 小明去说话这个行为抽象为一个事件
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">people</span> <span class="nx">People</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">people</span><span class="p">.</span><span class="nf">SayHello</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">NewEvent</span><span class="p">,</span> <span class="nx">NewPeople</span><span class="p">,</span> <span class="nx">NewMessage</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">msg</span> <span class="o">:=</span> <span class="s">&#34;Hello Golang&#34;</span><span class="nx">https</span><span class="p">:</span><span class="c1">//github.com/LyricTian/gin-admin
+</span><span class="c1"></span>   <span class="nx">e</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">InitializeEvent</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;failed to create event: %s\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+      <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">e</span><span class="p">.</span><span class="nf">start</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的更改主要是NewPeople 函数增加了msg参数，同时InitializeEvent增加了msg参数，这个时候我们通过wire生成代码则可以看到如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Injectors from main.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">message</span> <span class="o">:=</span> <span class="nf">NewMessage</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+	<span class="nx">people</span> <span class="o">:=</span> <span class="nf">NewPeople</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+	<span class="nx">event</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">NewEvent</span><span class="p">(</span><span class="nx">people</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">event</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>wire 会检查注入器的参数，并检查到NewMessage 需要msg的参数，所以它将msg传递给了NewMessage</p>
+<h3 id="栗子4">栗子4</h3>
+<p>如果我们传给wire.Build 的依赖关系存在问题，wire会怎么处理呢？ 我们调整InitializeEvent 的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">(</span><span class="nx">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">Event</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">NewEvent</span><span class="p">,</span> <span class="nx">NewMessage</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">Event</span><span class="p">{},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后执行wire 进行代码的生成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">➜  useWireBaseExample4 wire .
+wire: /home/fan/codes/go_project/awesomeProject/202006/useWireBaseExample4/main.go:63:1: inject InitializeEvent: no provider found <span class="k">for</span> awesomeProject/202006/useWireBaseExample4.People
+        needed by awesomeProject/202006/useWireBaseExample4.Event in provider <span class="s2">&#34;NewEvent&#34;</span> <span class="o">(</span>/home/fan/codes/go_project/awesomeProject/202006/useWireBaseExample4/main.go:46:6<span class="o">)</span>
+wire: awesomeProject/202006/useWireBaseExample4: generate failed
+wire: at least one generate failure
+➜  useWireBaseExample4 
+
+</code></pre></td></tr></table>
+</div>
+</div><p>错误提示中非常清楚的告诉我它找不到no provider found ，如果我们传给wire.Build 没有用的依赖，它依然会给我们提示告诉我们 <code>unused provider &quot;main.NewEventNumber&quot;</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">➜  useWireBaseExample4 wire .
+wire: /home/fan/codes/go_project/awesomeProject/202006/useWireBaseExample4/main.go:67:1: inject InitializeEvent: unused provider <span class="s2">&#34;main.NewEventNumber&#34;</span>
+wire: awesomeProject/202006/useWireBaseExample4: generate failed
+wire: at least one generate failure
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="wire的高级用法">wire的高级用法</h2>
+<h3 id="binding-interfaces">Binding Interfaces</h3>
+<p>依赖注入通常用于绑定接口的具体实现。通过下面的例子理解：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Run 运行服务
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
+	<span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
+	<span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+<span class="nx">EXIT</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+		<span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
+			<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">break</span> <span class="nx">EXIT</span>
+		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
+		<span class="k">default</span><span class="p">:</span>
+			<span class="k">break</span> <span class="nx">EXIT</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="nf">cleanFunc</span><span class="p">()</span>
+	<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
+	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+	<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;fmt&#34;</span>
+
+	<span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Fooer</span> <span class="kd">interface</span> <span class="p">{</span>
+	<span class="nf">Foo</span><span class="p">()</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">MyFooer</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">b</span> <span class="o">*</span><span class="nx">MyFooer</span><span class="p">)</span> <span class="nf">Foo</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nb">string</span><span class="p">(</span><span class="o">*</span><span class="nx">b</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">provideMyFooer</span><span class="p">()</span> <span class="o">*</span><span class="nx">MyFooer</span> <span class="p">{</span>
+	<span class="nx">b</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">MyFooer</span><span class="p">)</span>
+	<span class="o">*</span><span class="nx">b</span> <span class="p">=</span> <span class="s">&#34;Hello, World!&#34;</span>
+	<span class="k">return</span> <span class="nx">b</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">Bar</span> <span class="kt">string</span>
+
+<span class="kd">func</span> <span class="nf">provideBar</span><span class="p">(</span><span class="nx">f</span> <span class="nx">Fooer</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="c1">// f will be a *MyFooer.
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Foo</span><span class="p">()</span>
+<span class="p">}</span>
+
+
+<span class="kd">func</span> <span class="nf">InitializeEvent</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">provideMyFooer</span><span class="p">,</span> <span class="nx">provideBar</span><span class="p">,</span> <span class="nx">wire</span><span class="p">.</span><span class="nf">Bind</span><span class="p">(</span><span class="nb">new</span><span class="p">(</span><span class="nx">Fooer</span><span class="p">),</span> <span class="nb">new</span><span class="p">(</span><span class="o">*</span><span class="nx">MyFooer</span><span class="p">)))</span>
+	<span class="k">return</span> <span class="s">&#34;&#34;</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">ret</span> <span class="o">:=</span> <span class="nf">InitializeEvent</span><span class="p">()</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ret</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到<code>Fooer</code> 是一个interface, <code>MyFooer</code> 实现了<code>Fooer</code> 这个接口，同时<code>provideBar</code> 的参数是<code>Fooer</code> 接口类型。可以看到// Run 运行服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
+	<span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
+	<span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+<span class="nx">EXIT</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+		<span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
+			<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">break</span> <span class="nx">EXIT</span>
+		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
+		<span class="k">default</span><span class="p">:</span>
+			<span class="k">break</span> <span class="nx">EXIT</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
+	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+	<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>代码中我们用了<code>wire.Bind</code>方法，为什么这么用呢？如果我们<code>wire.Build</code>的那段代码写成如下：</p>
+<p><code>wire.Build(provideMyFooer, provideBar)</code>，再次用wire生成代码则会提示如下错误：https://github.com/LyricTian/gin-admin</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">➜  useWireBaseExample5 wire .
+wire: /home/fan/codes/go_project/awesomeProject/202006/useWireBaseExample5/main.go:36:1: inject InitializeEvent: no provider found <span class="k">for</span> awesomeProject/202006/useWireBaseExample5.Fooer
+        needed by string in provider <span class="s2">&#34;provideBar&#34;</span> <span class="o">(</span>/home/fan/codes/go_project/awesomeProject/202006/useWireBaseExample5/main.go:27:6<span class="o">)</span>
+wire: awesomeProject/202006/useWireBaseExample5: generate failed
+wire: at least one generate failure
+</code></pre></td></tr></table>
+</div>
+</div><p>这是因为我们传递给<code>provideBar</code> 需要的是 <code>Fooer</code> 接口类型，我们传给<code>wire.Build</code> 的是<code>provideMyFooer, provideBar</code> 这个时候默认从依赖关系里，<code>provideBar</code> 没有找能够提供<code>Fooer</code>的provider, 虽然我们我们都知道<code>MyFooer</code> 实现了<code>Fooer</code> 这个接口。所以我们需要在<code>wire.Build</code> 里告诉它，我们传递<code>provideMyFooer</code> 就是<code>provideBar</code>的provider。<code>wire.Bind</code> 就是来做这件事情的。</p>
+<p><code>wire.Bind</code> 的第一个参数是接口类型的值的指针，第二个参数是实现第一个参数接口的类型的值的指针。</p>
+<p>这样当我们在用wire生成代码的时候就正常了。</p>
+<h3 id="struct-providers">Struct Providers</h3>
+<p>wire还可以用于结构体的构造。先直接看使用的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Foo</span> <span class="kt">int</span>
+<span class="kd">type</span> <span class="nx">Bar</span> <span class="kt">int</span>
+
+<span class="kd">func</span> <span class="nf">ProvideFoo</span><span class="p">()</span> <span class="nx">Foo</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Foo</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">ProvideBar</span><span class="p">()</span> <span class="nx">Bar</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nf">Bar</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="c1">// Run 运行服务
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
+	<span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
+	<span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+<span class="nx">EXIT</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+		<span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
+			<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+			<span class="k">break</span> <span class="nx">EXIT</span>
+		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
+		<span class="k">default</span><span class="p">:</span>
+			<span class="k">break</span> <span class="nx">EXIT</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="nf">cleanFunc</span><span class="p">()</span>
+	<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
+	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+	<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">FooBar</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">MyFoo</span> <span class="nx">Foo</span>
+   <span class="nx">MyBar</span> <span class="nx">Bar</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">Set</span> <span class="p">=</span> <span class="nx">wire</span><span class="p">.</span><span class="nf">NewSet</span><span class="p">(</span>
+   <span class="nx">ProvideFoo</span><span class="p">,</span>
+   <span class="nx">ProvideBar</span><span class="p">,</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Struct</span><span class="p">(</span><span class="nb">new</span><span class="p">(</span><span class="nx">FooBar</span><span class="p">),</span> <span class="s">&#34;MyFoo&#34;</span><span class="p">,</span> <span class="s">&#34;MyBar&#34;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">injectFooBar</span><span class="p">()</span> <span class="nx">FooBar</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">Set</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">FooBar</span><span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">fooBar</span> <span class="o">:=</span> <span class="nf">injectFooBar</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">fooBar</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的例子其实很简单，我们构造<code>FooBar</code> 结构题我们需要<code>MyFoo</code> 和 <code>MyBar</code> ，而<code>ProvideFoo</code> 和 <code>ProvideBar</code> 就是用于生成<code>MyFoo</code> 和 <code>MyBar</code>，<code>wire.Struct </code> 也可以帮我们做这件事情。我们通过wire生成的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Injectors from main.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">injectFooBar</span><span class="p">()</span> <span class="nx">FooBar</span> <span class="p">{</span>
+   <span class="nx">foo</span> <span class="o">:=</span> <span class="nf">ProvideFoo</span><span class="p">()</span>
+   <span class="nx">bar</span> <span class="o">:=</span> <span class="nf">ProvideBar</span><span class="p">()</span>
+   <span class="nx">fooBar</span> <span class="o">:=</span> <span class="nx">FooBar</span><span class="p">{</span>
+      <span class="nx">MyFoo</span><span class="p">:</span> <span class="nx">foo</span><span class="p">,</span>
+      <span class="nx">MyBar</span><span class="p">:</span> <span class="nx">bar</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">fooBar</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>wire.Struct</code> 的第一个参数是所需结构类型的指针，后面的参数是要注入的字段的名称。可以使用一个特殊的字符串“ * ”作为告诉注入器注入所有字段的快捷方式。 所以我们上面的代码也可以写成：<code>wire.Struct(new(FooBar), &quot;×&quot;)</code> ，而当我们使用<code>*</code> 这种方式的时候可能会把一些不需要注入的字段注入了，如锁，那么类似这种情况，如果我们注入，卡一通过<code>wire:&quot;-&quot;</code> 的方式告诉wire 该字段不进行注入。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">mu</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span> <span class="s">`wire:&#34;-&#34;`</span>
+    <span class="nx">Bar</span> <span class="nx">Bar</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="binding-values">Binding Values</h3>
+<p>这个功能主要就是给数据类型绑定一个默认值，代码例子如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">https</span><span class="p">:</span><span class="c1">//github.com/LyricTian/gin-adminpackage main
+</span><span class="c1"></span>
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">X</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">injectFoo</span><span class="p">()</span> <span class="nx">Foo</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span><span class="nx">wire</span><span class="p">.</span><span class="nf">Value</span><span class="p">(</span><span class="nx">Foo</span><span class="p">{</span><span class="nx">X</span><span class="p">:</span> <span class="mi">11</span><span class="p">}))</span>
+   <span class="k">return</span> <span class="nx">Foo</span><span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">foo</span> <span class="o">:=</span> <span class="nf">injectFoo</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">foo</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我通过wire生成的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Code generated by Wire. DO NOT EDIT.
+</span><span class="c1"></span>
+<span class="c1">//go:generate wire
+</span><span class="c1">//+build !wireinject
+</span><span class="c1"></span>
+<span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Injectors from main.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">injectFoo</span><span class="p">()</span> <span class="nx">Foo</span> <span class="p">{</span>
+   <span class="nx">foo</span> <span class="o">:=</span> <span class="nx">_wireFooValue</span>
+   <span class="k">return</span> <span class="nx">foo</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+   <span class="nx">_wireFooValue</span> <span class="p">=</span> <span class="nx">Foo</span><span class="p">{</span><span class="nx">X</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1">// main.go:
+</span><span class="c1"></span>
+<span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">X</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">foo</span> <span class="o">:=</span> <span class="nf">injectFoo</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">foo</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="use-fields-of-a-struct-as-providers">Use Fields of a Struct as Providers</h3>
+<p>有时，我们需要获取结构体的某些字段，按照我们已经使用的wire的用法，你可能会这样写代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">S</span> <span class="kt">string</span>
+   <span class="nx">N</span> <span class="kt">int</span>
+   <span class="nx">F</span> <span class="kt">float64</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">getS</span><span class="p">(</span><span class="nx">foo</span> <span class="nx">Foo</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">S</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">provideFoo</span><span class="p">()</span> <span class="nx">Foo</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">Foo</span><span class="p">{</span><span class="nx">S</span><span class="p">:</span> <span class="s">&#34;Hello, World!&#34;</span><span class="p">,</span> <span class="nx">N</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">F</span><span class="p">:</span> <span class="mf">3.14</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">injectedMessage</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span>
+      <span class="nx">provideFoo</span><span class="p">,</span>
+      <span class="nx">getS</span><span class="p">,</span>
+   <span class="p">)</span>
+   <span class="k">return</span> <span class="s">&#34;&#34;</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">ret</span> <span class="o">:=</span> <span class="nf">injectedMessage</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ret</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这种用法当然也可以实现，但是wire其实提供了更好的办法来实现<code>wire.FieldsOf</code>， 我们将上面的代码进行更改如下,通过wire生成的代码其实和上面的是一样的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;fmt&#34;</span>
+
+   <span class="s">&#34;github.com/google/wire&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Foo</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">S</span> <span class="kt">string</span>
+   <span class="nx">N</span> <span class="kt">int</span>
+   <span class="nx">F</span> <span class="kt">float64</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">provideFoo</span><span class="p">()</span> <span class="nx">Foo</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nx">Foo</span><span class="p">{</span><span class="nx">S</span><span class="p">:</span> <span class="s">&#34;Hello, World!&#34;</span><span class="p">,</span> <span class="nx">N</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">F</span><span class="p">:</span> <span class="mf">3.14</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">injectedMessage</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+   <span class="nx">wire</span><span class="p">.</span><span class="nf">Build</span><span class="p">(</span>
+      <span class="nx">provideFoo</span><span class="p">,</span>
+      <span class="nx">wire</span><span class="p">.</span><span class="nf">FieldsOf</span><span class="p">(</span><span class="nb">new</span><span class="p">(</span><span class="nx">Foo</span><span class="p">),</span> <span class="s">&#34;S&#34;</span><span class="p">),</span>
+   <span class="p">)</span>
+   <span class="k">return</span> <span class="s">&#34;&#34;</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">ret</span> <span class="o">:=</span> <span class="nf">injectedMessage</span><span class="p">()</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ret</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="cleanup-functions">Cleanup functions</h3>
+<p>如果我们的Provider创建了一个需要做clean 的值，例如关闭文件，关闭数据连接&hellip;, 这里也是可以返回一个闭包来清理资源，注入器将使用它向调用者返回一个聚合的清理函数，或者如果稍后在注入器实现中调用的提供程序返回一个错误，则使用它来清理资源。</p>
+<p>关于这个功能的使用，通过https://github.com/LyricTian/gin-admin 的代码中的使用，可以更加清楚。</p>
+<p>作者在gin-admin/internal/app/app.go 中进行了初始化依赖注入器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 初始化依赖注入器
+</span><span class="c1"></span><span class="nx">injector</span><span class="p">,</span> <span class="nx">injectorCleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">injector</span><span class="p">.</span><span class="nf">BuildInjector</span><span class="p">()</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们在看看下wire生成的wire_gen.go代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Injectors from wire.go:
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">BuildInjector</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">Injector</span><span class="p">,</span> <span class="kd">func</span><span class="p">(),</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">auther</span><span class="p">,</span> <span class="nx">cleanup</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">InitAuth</span><span class="p">()</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">db</span><span class="p">,</span> <span class="nx">cleanup2</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">InitGormDB</span><span class="p">()</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nf">cleanup</span><span class="p">()</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">role</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">Role</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">roleMenu</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">RoleMenu</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">menuActionResource</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">MenuActionResource</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">user</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">User</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">userRole</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">UserRole</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">casbinAdapter</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">adapter</span><span class="p">.</span><span class="nx">CasbinAdapter</span><span class="p">{</span>
+      <span class="nx">RoleModel</span><span class="p">:</span>         <span class="nx">role</span><span class="p">,</span>
+      <span class="nx">RoleMenuModel</span><span class="p">:</span>     <span class="nx">roleMenu</span><span class="p">,</span>
+      <span class="nx">MenuResourceModel</span><span class="p">:</span> <span class="nx">menuActionResource</span><span class="p">,</span>
+      <span class="nx">UserModel</span><span class="p">:</span>         <span class="nx">user</span><span class="p">,</span>
+      <span class="nx">UserRoleModel</span><span class="p">:</span>     <span class="nx">userRole</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">syncedEnforcer</span><span class="p">,</span> <span class="nx">cleanup3</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">InitCasbin</span><span class="p">(</span><span class="nx">casbinAdapter</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nf">cleanup2</span><span class="p">()</span>
+      <span class="nf">cleanup</span><span class="p">()</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">demo</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">Demo</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">bllDemo</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">bll</span><span class="p">.</span><span class="nx">Demo</span><span class="p">{</span>
+      <span class="nx">DemoModel</span><span class="p">:</span> <span class="nx">demo</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">apiDemo</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">api</span><span class="p">.</span><span class="nx">Demo</span><span class="p">{</span>
+      <span class="nx">DemoBll</span><span class="p">:</span> <span class="nx">bllDemo</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">menu</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">Menu</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">menuAction</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">MenuAction</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">login</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">bll</span><span class="p">.</span><span class="nx">Login</span><span class="p">{</span>
+      <span class="nx">Auth</span><span class="p">:</span>            <span class="nx">auther</span><span class="p">,</span>
+      <span class="nx">UserModel</span><span class="p">:</span>       <span class="nx">user</span><span class="p">,</span>
+      <span class="nx">UserRoleModel</span><span class="p">:</span>   <span class="nx">userRole</span><span class="p">,</span>
+      <span class="nx">RoleModel</span><span class="p">:</span>       <span class="nx">role</span><span class="p">,</span>
+      <span class="nx">RoleMenuModel</span><span class="p">:</span>   <span class="nx">roleMenu</span><span class="p">,</span>
+      <span class="nx">MenuModel</span><span class="p">:</span>       <span class="nx">menu</span><span class="p">,</span>
+      <span class="nx">MenuActionModel</span><span class="p">:</span> <span class="nx">menuAction</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">apiLogin</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">api</span><span class="p">.</span><span class="nx">Login</span><span class="p">{</span>
+      <span class="nx">LoginBll</span><span class="p">:</span> <span class="nx">login</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">trans</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">model</span><span class="p">.</span><span class="nx">Trans</span><span class="p">{</span>
+      <span class="nx">DB</span><span class="p">:</span> <span class="nx">db</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">bllMenu</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">bll</span><span class="p">.</span><span class="nx">Menu</span><span class="p">{</span>
+      <span class="nx">TransModel</span><span class="p">:</span>              <span class="nx">trans</span><span class="p">,</span>
+      <span class="nx">MenuModel</span><span class="p">:</span>               <span class="nx">menu</span><span class="p">,</span>
+      <span class="nx">MenuActionModel</span><span class="p">:</span>         <span class="nx">menuAction</span><span class="p">,</span>
+      <span class="nx">MenuActionResourceModel</span><span class="p">:</span> <span class="nx">menuActionResource</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">apiMenu</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">api</span><span class="p">.</span><span class="nx">Menu</span><span class="p">{</span>
+      <span class="nx">MenuBll</span><span class="p">:</span> <span class="nx">bllMenu</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">bllRole</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">bll</span><span class="p">.</span><span class="nx">Role</span><span class="p">{</span>
+      <span class="nx">Enforcer</span><span class="p">:</span>      <span class="nx">syncedEnforcer</span><span class="p">,</span>
+      <span class="nx">TransModel</span><span class="p">:</span>    <span class="nx">trans</span><span class="p">,</span>
+      <span class="nx">RoleModel</span><span class="p">:</span>     <span class="nx">role</span><span class="p">,</span>
+      <span class="nx">RoleMenuModel</span><span class="p">:</span> <span class="nx">roleMenu</span><span class="p">,</span>
+      <span class="nx">UserModel</span><span class="p">:</span>     <span class="nx">user</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">apiRole</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">api</span><span class="p">.</span><span class="nx">Role</span><span class="p">{</span>
+      <span class="nx">RoleBll</span><span class="p">:</span> <span class="nx">bllRole</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">bllUser</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">bll</span><span class="p">.</span><span class="nx">User</span><span class="p">{</span>
+      <span class="nx">Enforcer</span><span class="p">:</span>      <span class="nx">syncedEnforcer</span><span class="p">,</span>
+      <span class="nx">TransModel</span><span class="p">:</span>    <span class="nx">trans</span><span class="p">,</span>
+      <span class="nx">UserModel</span><span class="p">:</span>     <span class="nx">user</span><span class="p">,</span>
+      <span class="nx">UserRoleModel</span><span class="p">:</span> <span class="nx">userRole</span><span class="p">,</span>
+      <span class="nx">RoleModel</span><span class="p">:</span>     <span class="nx">role</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">apiUser</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">api</span><span class="p">.</span><span class="nx">User</span><span class="p">{</span>
+      <span class="nx">UserBll</span><span class="p">:</span> <span class="nx">bllUser</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">routerRouter</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">router</span><span class="p">.</span><span class="nx">Router</span><span class="p">{</span>
+      <span class="nx">Auth</span><span class="p">:</span>           <span class="nx">auther</span><span class="p">,</span>
+      <span class="nx">CasbinEnforcer</span><span class="p">:</span> <span class="nx">syncedEnforcer</span><span class="p">,</span>
+      <span class="nx">DemoAPI</span><span class="p">:</span>        <span class="nx">apiDemo</span><span class="p">,</span>
+      <span class="nx">LoginAPI</span><span class="p">:</span>       <span class="nx">apiLogin</span><span class="p">,</span>
+      <span class="nx">MenuAPI</span><span class="p">:</span>        <span class="nx">apiMenu</span><span class="p">,</span>
+      <span class="nx">RoleAPI</span><span class="p">:</span>        <span class="nx">apiRole</span><span class="p">,</span>
+      <span class="nx">UserAPI</span><span class="p">:</span>        <span class="nx">apiUser</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="nx">engine</span> <span class="o">:=</span> <span class="nf">InitGinEngine</span><span class="p">(</span><span class="nx">routerRouter</span><span class="p">)</span>
+   <span class="nx">injector</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Injector</span><span class="p">{</span>
+      <span class="nx">Engine</span><span class="p">:</span>         <span class="nx">engine</span><span class="p">,</span>
+      <span class="nx">Auth</span><span class="p">:</span>           <span class="nx">auther</span><span class="p">,</span>
+      <span class="nx">CasbinEnforcer</span><span class="p">:</span> <span class="nx">syncedEnforcer</span><span class="p">,</span>
+      <span class="nx">MenuBll</span><span class="p">:</span>        <span class="nx">bllMenu</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">injector</span><span class="p">,</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nf">cleanup3</span><span class="p">()</span>
+      <span class="nf">cleanup2</span><span class="p">()</span>
+      <span class="nf">cleanup</span><span class="p">()</span>
+   <span class="p">},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>而当程序退出的时候这上面代码返回的那些清理操作都会被执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Run 运行服务
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
+   <span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+   <span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
+   <span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+
+<span class="nx">EXIT</span><span class="p">:</span>
+   <span class="k">for</span> <span class="p">{</span>
+      <span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
+      <span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+      <span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
+         <span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+         <span class="k">break</span> <span class="nx">EXIT</span>
+      <span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
+      <span class="k">default</span><span class="p">:</span>
+         <span class="k">break</span> <span class="nx">EXIT</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+   <span class="c1">// 在这里执行了清理工作
+</span><span class="c1"></span>   <span class="nf">cleanFunc</span><span class="p">()</span>
+   <span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
+   <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+   <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="https://github.com/google/wire">https://github.com/google/wire</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-07-03 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/study_code_02/" data-title="从别人的代码中学习golang系列--02" data-hashtags="Go"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/study_code_02/" data-title="从别人的代码中学习golang系列--02"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/go">Go</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/study_code_01/" class="prev" rel="prev" title="从别人的代码中学习golang系列--01"><i class="fas fa-angle-left fa-fw"></i>从别人的代码中学习golang系列--01</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-07-03 21:10:32 \u002b0800 CST',
+                    title: '从别人的代码中学习golang系列--02',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
