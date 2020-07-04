@@ -300,7 +300,7 @@ func NewEvent(p People) (Event, error) {
    }
    return Event{people: p}, nil
 }
-https://github.com/LyricTian/gin-admin
+
 // 小明去说话这个行为抽象为一个事件
 type Event struct {
    people People
@@ -494,36 +494,8 @@ wire: at least one generate failure
 依赖注入通常用于绑定接口的具体实现。通过下面的例子理解：
 
 ```go
-// Run 运行服务
-func Run(ctx context.Context, opts ...Option) error {
-	var state int32 = 1
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	cleanFunc, err := Init(ctx, opts...)
-	if err != nil {
-		return err
-	}
 
-EXIT:
-	for {
-		sig := <-sc
-		logger.Printf(ctx, "接收到信号[%s]", sig.String())
-		switch sig {
-		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			atomic.CompareAndSwapInt32(&state, 1, 0)
-			break EXIT
-		case syscall.SIGHUP:
-		default:
-			break EXIT
-		}
-	}
-
-	cleanFunc()
-	logger.Printf(ctx, "服务退出")
-	time.Sleep(time.Second)
-	os.Exit(int(atomic.LoadInt32(&state)))
-	return nil
-}package main
+package main
 
 import (
 	"fmt"
@@ -566,43 +538,9 @@ func main() {
 
 ```
 
-我们可以看到`Fooer` 是一个interface, `MyFooer` 实现了`Fooer` 这个接口，同时`provideBar` 的参数是`Fooer` 接口类型。可以看到// Run 运行服务
+我们可以看到`Fooer` 是一个interface, `MyFooer` 实现了`Fooer` 这个接口，同时`provideBar` 的参数是`Fooer` 接口类型。代码中我们用了`wire.Bind`方法，为什么这么用呢？如果我们`wire.Build`的那段代码写成如下：
 
-```go
-func Run(ctx context.Context, opts ...Option) error {
-	var state int32 = 1
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	cleanFunc, err := Init(ctx, opts...)
-	if err != nil {
-		return err
-	}
-
-EXIT:
-	for {
-		sig := <-sc
-		logger.Printf(ctx, "接收到信号[%s]", sig.String())
-		switch sig {
-		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			atomic.CompareAndSwapInt32(&state, 1, 0)
-			break EXIT
-		case syscall.SIGHUP:
-		default:
-			break EXIT
-		}
-	}
-	logger.Printf(ctx, "服务退出")
-	time.Sleep(time.Second)
-	os.Exit(int(atomic.LoadInt32(&state)))
-	return nil
-}
-```
-
-
-
-代码中我们用了`wire.Bind`方法，为什么这么用呢？如果我们`wire.Build`的那段代码写成如下：
-
-`wire.Build(provideMyFooer, provideBar)`，再次用wire生成代码则会提示如下错误：https://github.com/LyricTian/gin-admin
+`wire.Build(provideMyFooer, provideBar)`，再次用wire生成代码则会提示如下错误：
 
 ```shell
 ➜  useWireBaseExample5 wire .
@@ -641,36 +579,7 @@ func ProvideFoo() Foo {
 }
 
 func ProvideBar() Bar {
-   return Bar(2)// Run 运行服务
-func Run(ctx context.Context, opts ...Option) error {
-	var state int32 = 1
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	cleanFunc, err := Init(ctx, opts...)
-	if err != nil {
-		return err
-	}
-
-EXIT:
-	for {
-		sig := <-sc
-		logger.Printf(ctx, "接收到信号[%s]", sig.String())
-		switch sig {
-		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			atomic.CompareAndSwapInt32(&state, 1, 0)
-			break EXIT
-		case syscall.SIGHUP:
-		default:
-			break EXIT
-		}
-	}
-
-	cleanFunc()
-	logger.Printf(ctx, "服务退出")
-	time.Sleep(time.Second)
-	os.Exit(int(atomic.LoadInt32(&state)))
-	return nil
-}
+   return Bar(2)
 }
 
 type FooBar struct {
@@ -695,7 +604,7 @@ func main() {
 }
 ```
 
-上面的例子其实很简单，我们构造`FooBar` 结构题我们需要`MyFoo` 和 `MyBar` ，而`ProvideFoo` 和 `ProvideBar` 就是用于生成`MyFoo` 和 `MyBar`，`wire.Struct ` 也可以帮我们做这件事情。我们通过wire生成的代码如下：
+上面的例子其实很简单，我们构造`FooBar` 结构体我们需要`MyFoo` 和 `MyBar` ，而`ProvideFoo` 和 `ProvideBar` 就是用于生成`MyFoo` 和 `MyBar`，`wire.Struct ` 也可以帮我们做这件事情。我们通过wire生成的代码如下：
 
 ```go
 // Injectors from main.go:
@@ -729,7 +638,7 @@ type Foo struct {
 这个功能主要就是给数据类型绑定一个默认值，代码例子如下：
 
 ```go
-https://github.com/LyricTian/gin-adminpackage main
+package main
 
 import (
    "fmt"

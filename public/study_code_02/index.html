@@ -37,7 +37,7 @@
                 "url": "http:\/\/example.org\/cover.png",
                 "width":  800 ,
                 "height":  600 
-            },"genre": "posts","keywords": "Go","wordcount":  5817 ,
+            },"genre": "posts","keywords": "Go","wordcount":  5362 ,
         "url": "http:\/\/example.org\/study_code_02\/","datePublished": "2020-07-03","dateModified": "2020-07-03","publisher": {
                 "@type": "Organization",
                 "name": "赵凡",
@@ -96,8 +96,8 @@
                                 <i class="far fa-folder fa-fw"></i>Go
                             </a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-03>2020-07-03</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>约 5817 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>预计阅读 12 分钟&nbsp;</div>
+                <i class="fas fa-pencil-alt fa-fw"></i>约 5362 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 11 分钟&nbsp;</div>
         </div><div class="toc" id="toc-auto">
                 <h2 class="toc-title">目录</h2>
                 <div class="toc-content" id="toc-content-auto"></div>
@@ -686,8 +686,8 @@ wire: awesomeProject/202006/useWireBaseExample2: wrote /home/fan/codes/go_projec
    <span class="p">}</span>
    <span class="k">return</span> <span class="nx">Event</span><span class="p">{</span><span class="nx">people</span><span class="p">:</span> <span class="nx">p</span><span class="p">},</span> <span class="kc">nil</span>
 <span class="p">}</span>
-<span class="nx">https</span><span class="p">:</span><span class="c1">//github.com/LyricTian/gin-admin
-</span><span class="c1">// 小明去说话这个行为抽象为一个事件
+
+<span class="c1">// 小明去说话这个行为抽象为一个事件
 </span><span class="c1"></span><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">struct</span> <span class="p">{</span>
    <span class="nx">people</span> <span class="nx">People</span>
 <span class="p">}</span>
@@ -1030,66 +1030,10 @@ wire: at least one generate failure
 </span><span class="lnt">40
 </span><span class="lnt">41
 </span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Run 运行服务
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
-	<span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
-	<span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">err</span>
-	<span class="p">}</span>
-
-<span class="nx">EXIT</span><span class="p">:</span>
-	<span class="k">for</span> <span class="p">{</span>
-		<span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
-		<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
-		<span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
-			<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-			<span class="k">break</span> <span class="nx">EXIT</span>
-		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
-		<span class="k">default</span><span class="p">:</span>
-			<span class="k">break</span> <span class="nx">EXIT</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-
-	<span class="nf">cleanFunc</span><span class="p">()</span>
-	<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
-	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-	<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
-	<span class="k">return</span> <span class="kc">nil</span>
-<span class="p">}</span><span class="kn">package</span> <span class="nx">main</span>
+<pre class="chroma"><code class="language-go" data-lang="go">
+<span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;fmt&#34;</span>
@@ -1132,69 +1076,8 @@ wire: at least one generate failure
 
 </code></pre></td></tr></table>
 </div>
-</div><p>我们可以看到<code>Fooer</code> 是一个interface, <code>MyFooer</code> 实现了<code>Fooer</code> 这个接口，同时<code>provideBar</code> 的参数是<code>Fooer</code> 接口类型。可以看到// Run 运行服务</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
-	<span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
-	<span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">err</span>
-	<span class="p">}</span>
-
-<span class="nx">EXIT</span><span class="p">:</span>
-	<span class="k">for</span> <span class="p">{</span>
-		<span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
-		<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
-		<span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
-			<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-			<span class="k">break</span> <span class="nx">EXIT</span>
-		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
-		<span class="k">default</span><span class="p">:</span>
-			<span class="k">break</span> <span class="nx">EXIT</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
-	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-	<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
-	<span class="k">return</span> <span class="kc">nil</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>代码中我们用了<code>wire.Bind</code>方法，为什么这么用呢？如果我们<code>wire.Build</code>的那段代码写成如下：</p>
-<p><code>wire.Build(provideMyFooer, provideBar)</code>，再次用wire生成代码则会提示如下错误：https://github.com/LyricTian/gin-admin</p>
+</div><p>我们可以看到<code>Fooer</code> 是一个interface, <code>MyFooer</code> 实现了<code>Fooer</code> 这个接口，同时<code>provideBar</code> 的参数是<code>Fooer</code> 接口类型。代码中我们用了<code>wire.Bind</code>方法，为什么这么用呢？如果我们<code>wire.Build</code>的那段代码写成如下：</p>
+<p><code>wire.Build(provideMyFooer, provideBar)</code>，再次用wire生成代码则会提示如下错误：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -1257,35 +1140,6 @@ wire: at least one generate failure
 </span><span class="lnt">37
 </span><span class="lnt">38
 </span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
@@ -1304,36 +1158,7 @@ wire: at least one generate failure
 <span class="p">}</span>
 
 <span class="kd">func</span> <span class="nf">ProvideBar</span><span class="p">()</span> <span class="nx">Bar</span> <span class="p">{</span>
-   <span class="k">return</span> <span class="nf">Bar</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="c1">// Run 运行服务
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="kd">var</span> <span class="nx">state</span> <span class="kt">int32</span> <span class="p">=</span> <span class="mi">1</span>
-	<span class="nx">sc</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sc</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">)</span>
-	<span class="nx">cleanFunc</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Init</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">opts</span><span class="o">...</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">err</span>
-	<span class="p">}</span>
-
-<span class="nx">EXIT</span><span class="p">:</span>
-	<span class="k">for</span> <span class="p">{</span>
-		<span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sc</span>
-		<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;接收到信号[%s]&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
-		<span class="k">switch</span> <span class="nx">sig</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGQUIT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">:</span>
-			<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-			<span class="k">break</span> <span class="nx">EXIT</span>
-		<span class="k">case</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGHUP</span><span class="p">:</span>
-		<span class="k">default</span><span class="p">:</span>
-			<span class="k">break</span> <span class="nx">EXIT</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-
-	<span class="nf">cleanFunc</span><span class="p">()</span>
-	<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="s">&#34;服务退出&#34;</span><span class="p">)</span>
-	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-	<span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">state</span><span class="p">)))</span>
-	<span class="k">return</span> <span class="kc">nil</span>
-<span class="p">}</span>
+   <span class="k">return</span> <span class="nf">Bar</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="kd">type</span> <span class="nx">FooBar</span> <span class="kd">struct</span> <span class="p">{</span>
@@ -1358,7 +1183,7 @@ wire: at least one generate failure
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>上面的例子其实很简单，我们构造<code>FooBar</code> 结构题我们需要<code>MyFoo</code> 和 <code>MyBar</code> ，而<code>ProvideFoo</code> 和 <code>ProvideBar</code> 就是用于生成<code>MyFoo</code> 和 <code>MyBar</code>，<code>wire.Struct </code> 也可以帮我们做这件事情。我们通过wire生成的代码如下：</p>
+</div><p>上面的例子其实很简单，我们构造<code>FooBar</code> 结构体我们需要<code>MyFoo</code> 和 <code>MyBar</code> ，而<code>ProvideFoo</code> 和 <code>ProvideBar</code> 就是用于生成<code>MyFoo</code> 和 <code>MyBar</code>，<code>wire.Struct </code> 也可以帮我们做这件事情。我们通过wire生成的代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1429,8 +1254,8 @@ wire: at least one generate failure
 </span><span class="lnt">21
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">https</span><span class="p">:</span><span class="c1">//github.com/LyricTian/gin-adminpackage main
-</span><span class="c1"></span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
 <span class="kn">import</span> <span class="p">(</span>
    <span class="s">&#34;fmt&#34;</span>
 
