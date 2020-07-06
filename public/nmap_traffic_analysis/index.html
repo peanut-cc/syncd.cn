@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Nmap常见扫描方式流量分析 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="Nmap常见扫描方式流量分析" />
+<meta property="og:description" content="环境说明 扫描者：manjaro linux ， IP地址：192.168.31.160 被扫描者：centos 7，IP地址：192.168.31.175 分析" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/nmap_traffic_analysis/" />
+<meta property="article:published_time" content="2020-07-05T10:38:33+08:00" />
+<meta property="article:modified_time" content="2020-07-05T10:38:33+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nmap常见扫描方式流量分析"/>
+<meta name="twitter:description" content="环境说明 扫描者：manjaro linux ， IP地址：192.168.31.160 被扫描者：centos 7，IP地址：192.168.31.175 分析"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/nmap_traffic_analysis/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/study_code_02/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Nmap常见扫描方式流量分析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/nmap_traffic_analysis\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "安全","wordcount":  2381 ,
+        "url": "http:\/\/example.org\/nmap_traffic_analysis\/","datePublished": "2020-07-05","dateModified": "2020-07-05","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Nmap常见扫描方式流量分析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/%E5%AE%89%E5%85%A8">
+                                <i class="far fa-folder fa-fw"></i>安全
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-05>2020-07-05</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2381 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 5 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#环境说明">环境说明</a></li>
+    <li><a href="#tcp-知识回顾">TCP 知识回顾</a></li>
+    <li><a href="#syn-扫描">SYN 扫描</a></li>
+    <li><a href="#全连接扫描">全连接扫描</a></li>
+    <li><a href="#null扫描">NULL扫描</a></li>
+    <li><a href="#fin扫描">FIN扫描</a></li>
+    <li><a href="#xmas-tree扫描">XMAS-TREE扫描</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="环境说明">环境说明</h2>
+<p>扫描者：<code>manjaro linux </code>， IP地址：<code>192.168.31.160</code></p>
+<p>被扫描者：<code>centos 7</code>，IP地址：<code>192.168.31.175</code></p>
+<p>分析工具：<code>wireshark</code></p>
+<p>nmap 版本：version 7.80</p>
+<h2 id="tcp-知识回顾">TCP 知识回顾</h2>
+<p>这里对TCP的三次握手知识进行简单的回顾，方便后面理解<code>Nmap</code>的扫描流量</p>
+<p>关于TCP协议相关内容看：http://networksorcery.com/enp/default.htm</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/04/NxilvR.png,  1.5x,  2x"
+        data-src=""
+        alt="NxilvR.png"
+        title="NxilvR.png" /></p>
+<p><strong>Source Port</strong>：源端口</p>
+<p><strong>Destination Port</strong>：目的端口</p>
+<p><strong>Sequence Number</strong>：序列号。</p>
+<p><strong>Acknowledgment Number</strong>：确认号</p>
+<p><strong>Control Bits</strong>： 包含一下几种（这几个字段这里要有印象，后续关于nmap的扫描都和这里会有关系）：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URG</td>
+<td>紧急指针是否有效。如果设置1，用于通知接收数据方在处理所有数据包之前处理紧急数据包</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>确认号是否有效。用于确认主机成功接收数据包。如果<strong>Acknowledgment Number</strong>包含有效的确认号码，则设置ACK标志为。例如tcp三次握手的第二步，发送ACK=1和SYN=1 ，就是告知对方它已经收到初始包</td>
+</tr>
+<tr>
+<td>PSH</td>
+<td></td>
+</tr>
+<tr>
+<td>RST</td>
+<td>连接重置</td>
+</tr>
+<tr>
+<td>SYN</td>
+<td>表示建立连接</td>
+</tr>
+<tr>
+<td>FIN</td>
+<td>表示关闭连接</td>
+</tr>
+</tbody>
+</table>
+<p>下图是TCP三次握手的过程：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/06/UiyDCF.png,  1.5x,  2x"
+        data-src=""
+        alt="UiyDCF.png"
+        title="UiyDCF.png" /></p>
+<h2 id="syn-扫描">SYN 扫描</h2>
+<p><code>Nmap</code> 的默认扫描方式就是SYN扫描，在<code>192.168.31.160</code> 执行如下命令进行扫描：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">➜ sudo nmap -p22 192.168.31.175
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-04 11:45 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00044s latency<span class="o">)</span>.
+
+PORT   STATE SERVICE
+22/tcp open  ssh
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.38 seconds
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在<code>192.168.31.175</code> 进行tcpdump 命令进行抓包：<code>tcpdump -i any -w syn_scan.pcap</code>,  下面是通过wireshare分数据包分析截图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/04/NvOWon.png,  1.5x,  2x"
+        data-src=""
+        alt="NvOWon.png"
+        title="NvOWon.png" /></p>
+<p>从获取的流量可以很容易看到，这种扫描的的方式是在三次握手的最后一步没有回复正常的ACK,而是发送了RST</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/06/UiIVmD.png,  1.5x,  2x"
+        data-src=""
+        alt="UiIVmD.png"
+        title="UiIVmD.png" /></p>
+<p>nmap 利用客户端回SYN，ACK 的这个数据包其实就已经知道22这个端口是开放的，如果我们扫描一个没有开放的端口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">➜  sudo nmap -p80 192.168.31.175 
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:08 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00034s latency<span class="o">)</span>.
+
+PORT   STATE  SERVICE
+80/tcp closed http
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.34 seconds
+
+</code></pre></td></tr></table>
+</div>
+</div><p>同样我们看一下在192.168.31.175 上抓的数据包的情况，被扫描主机直接恢复RST，ACK断开连接，namp从而知道被扫描端口是关闭的，数据包如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/06/UiTro4.png,  1.5x,  2x"
+        data-src=""
+        alt="UiTro4.png"
+        title="UiTro4.png" /></p>
+<h2 id="全连接扫描">全连接扫描</h2>
+<p>nmap也可以进行全连接扫描，也就是完成完整的三次握手，当然这种扫描方式的效率是不如SYN扫描的</p>
+<p><code>nmap -sT -p端口 目标主机</code></p>
+<h2 id="null扫描">NULL扫描</h2>
+<blockquote>
+<p>是将一个没有设置任何标志位的数据包发送给TCP端口,在正常的通信中至少要设置一个标志位。</p>
+<p>根据FRC 793的要求,<strong>在端口关闭的情况</strong>下,若收到一个没有设置标志位的数据字段,那么主机应该舍弃这个分段,并发送一个RST数据包,否则不会响应发起扫描的客户端计算机。</p>
+<p>也就是说,如果TCP端口处于关闭则响应一个RST数据包,若处于开放则无相应。但是应该知道理由NULL扫描要求所有的主机都符合RFC 793规定,但是windows系统主机不遵从RFC 793标准,且只要收到没有设置任何标志位的数据包时,不管端口是处于开放还是关闭都响应一个RST数据包。但是基于Unix(<em>nix,如Linux)遵从RFC 793标准,所以可以用NULL扫描。 经过上面的分析,我们知道NULL可以辨别某台主机运行的操作系统是什么操作系统,是为windows呢?还是</em>unix/linux?</p>
+</blockquote>
+<p>NULL的扫描命令参数：<code>nmap -sN</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">➜  sudo nmap -sN -p22 192.168.31.175  
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:30 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00022s latency<span class="o">)</span>.
+
+PORT   STATE         SERVICE
+22/tcp open<span class="p">|</span>filtered ssh
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.67 seconds
+➜ sudo nmap -sN -p999 192.168.31.175
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:30 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00042s latency<span class="o">)</span>.
+
+PORT    STATE  SERVICE
+999/tcp closed garcon
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.34 seconds
+➜  share scp root@192.168.31.175:/root/null.pcap ./     
+root@192.168.31.175<span class="err">&#39;</span>s password: 
+null.pcap                             100% <span class="m">5188</span>    10.4MB/s   00:00 
+</code></pre></td></tr></table>
+</div>
+</div><p>​		分别扫描了一个开放的端口22 和未开放的端口999，下面的数据包中，可以看到，发送的第一个TCP包中<strong>Control Bits</strong>的所有Flags都没有设置，而开发的22端口没有收到任何回复，而关闭的端口，收到了一个RST数据包，nmap也是通过这种方式来判断端口是否开放。当然这种判断对于windows是不准确的了。</p>
+<p>​		null的扫描流量特征还是非常明显的，很容易通过流量分析知道正在被进行null扫描。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/06/UibRln.png,  1.5x,  2x"
+        data-src=""
+        alt="UibRln.png"
+        title="UibRln.png" /></p>
+<h2 id="fin扫描">FIN扫描</h2>
+<blockquote>
+<p>FIN 原理：</p>
+<p>与NULL有点类似,只是FIN为指示TCP会话结束,在FIN扫描中一个设置了FIN位的数据包被发送后,若响应RST数据包,则表示端口关闭,没有响应则表示开放。此类扫描同样不能准确判断windows系统上端口开放情况。</p>
+</blockquote>
+<p>FIN扫描命令参数：<code>nmap -sF</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">➜ sudo nmap -sF -p22 192.168.31.175       
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:46 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00014s latency<span class="o">)</span>.
+
+PORT   STATE         SERVICE
+22/tcp open<span class="p">|</span>filtered ssh
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.61 seconds
+➜ sudo nmap -sF -p999 192.168.31.175
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:46 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00028s latency<span class="o">)</span>.
+
+PORT    STATE  SERVICE
+999/tcp closed garcon
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.36 seconds
+</code></pre></td></tr></table>
+</div>
+</div><p>对比null扫描，就可以看出来，FIN扫描是发送一个设置FIN的数据包，同样的如果是linux系统，收到这个如果没有收到RST则认为端口是开放的，收到RST则表示端口没有开发，windows依然无法判断。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/06/UiOBex.png,  1.5x,  2x"
+        data-src=""
+        alt="UiOBex.png"
+        title="UiOBex.png" /></p>
+<h2 id="xmas-tree扫描">XMAS-TREE扫描</h2>
+<blockquote>
+<p>扫描原理：</p>
+<p>XMAS扫描原理和NULL扫描的类似,将TCP数据包中的URG、PSH、FIN标志位置1后发送给目标主机。在目标端口开放的情况下,目标主机将不返回任何信息</p>
+</blockquote>
+<p>和NULL扫描正好相反，XMAS扫描会把所有的标志为都设置</p>
+<p>XMAS-TREE扫描命令参数：<code>nmap -sX</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">➜ sudo nmap -sX -p22 192.168.31.175
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:53 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00028s latency<span class="o">)</span>.
+
+PORT   STATE         SERVICE
+22/tcp open<span class="p">|</span>filtered ssh
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.55 seconds
+➜ sudo nmap -sX -p999 192.168.31.175
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-07-06 22:54 CST
+Nmap scan report <span class="k">for</span> 192.168.31.175
+Host is up <span class="o">(</span>0.00021s latency<span class="o">)</span>.
+
+PORT    STATE  SERVICE
+999/tcp closed garcon
+MAC Address: 4C:1D:96:FC:4D:E2 <span class="o">(</span>Unknown<span class="o">)</span>
+
+Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 0.34 seconds
+</code></pre></td></tr></table>
+</div>
+</div><p>还是扫描开放的22端口和未开放的999端口，可以看到Xmas扫描会发送一个FIN，PSH，URG被设置的数据包，同样如果是linux系统可以根据是否收到RST包进行判断端口是否开放，windows无法进行判断</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/07/06/Uix7bn.png,  1.5x,  2x"
+        data-src=""
+        alt="Uix7bn.png"
+        title="Uix7bn.png" /></p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html">http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html</a></li>
+<li><a href="http://networksorcery.com/enp/default.htm">http://networksorcery.com/enp/default.htm</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-07-05 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/nmap_traffic_analysis/" data-title="Nmap常见扫描方式流量分析" data-hashtags="安全"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/nmap_traffic_analysis/" data-title="Nmap常见扫描方式流量分析"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8">安全</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/study_code_02/" class="prev" rel="prev" title="从别人的代码中学习golang系列--02"><i class="fas fa-angle-left fa-fw"></i>从别人的代码中学习golang系列--02</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-07-05 10:38:33 \u002b0800 CST',
+                    title: 'Nmap常见扫描方式流量分析',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
