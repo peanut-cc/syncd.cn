@@ -31,7 +31,7 @@ nmap 版本：version 7.80
 
 关于TCP协议相关内容看：http://networksorcery.com/enp/default.htm
 
-![NxilvR.png](https://s1.ax1x.com/2020/07/04/NxilvR.png)
+![tcp_header.png](https://s1.ax1x.com/2020/07/04/NxilvR.png)
 
 
 
@@ -49,7 +49,7 @@ nmap 版本：version 7.80
 | ---- | ------------------------------------------------------------ |
 | URG  | 紧急指针是否有效。如果设置1，用于通知接收数据方在处理所有数据包之前处理紧急数据包 |
 | ACK  | 确认号是否有效。用于确认主机成功接收数据包。如果**Acknowledgment Number**包含有效的确认号码，则设置ACK标志为。例如tcp三次握手的第二步，发送ACK=1和SYN=1 ，就是告知对方它已经收到初始包 |
-| PSH  |                                                              |
+| PSH  | 强制将数据压入缓冲区                                         |
 | RST  | 连接重置                                                     |
 | SYN  | 表示建立连接                                                 |
 | FIN  | 表示关闭连接                                                 |
@@ -60,7 +60,7 @@ nmap 版本：version 7.80
 
 
 
-![UiyDCF.png](https://s1.ax1x.com/2020/07/06/UiyDCF.png)
+![tcp.png](https://s1.ax1x.com/2020/07/06/UiyDCF.png)
 
 
 
@@ -88,11 +88,11 @@ Nmap done: 1 IP address (1 host up) scanned in 0.38 seconds
 
 在`192.168.31.175` 进行tcpdump 命令进行抓包：`tcpdump -i any -w syn_scan.pcap`,  下面是通过wireshare分数据包分析截图：
 
-![NvOWon.png](https://s1.ax1x.com/2020/07/04/NvOWon.png)
+![syn.png](https://s1.ax1x.com/2020/07/04/NvOWon.png)
 
 从获取的流量可以很容易看到，这种扫描的的方式是在三次握手的最后一步没有回复正常的ACK,而是发送了RST
 
-![UiIVmD.png](https://s1.ax1x.com/2020/07/06/UiIVmD.png)
+![syn_2.png](https://s1.ax1x.com/2020/07/06/UiIVmD.png)
 
 nmap 利用客户端回SYN，ACK 的这个数据包其实就已经知道22这个端口是开放的，如果我们扫描一个没有开放的端口：
 
@@ -112,7 +112,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.34 seconds
 
 同样我们看一下在192.168.31.175 上抓的数据包的情况，被扫描主机直接恢复RST，ACK断开连接，namp从而知道被扫描端口是关闭的，数据包如下：
 
-![UiTro4.png](https://s1.ax1x.com/2020/07/06/UiTro4.png)
+![syn_rst.png](https://s1.ax1x.com/2020/07/06/UiTro4.png)
 
 
 
@@ -164,7 +164,7 @@ null.pcap                             100% 5188    10.4MB/s   00:00
 
 ​		null的扫描流量特征还是非常明显的，很容易通过流量分析知道正在被进行null扫描。
 
-![UibRln.png](https://s1.ax1x.com/2020/07/06/UibRln.png)
+![null.png](https://s1.ax1x.com/2020/07/06/UibRln.png)
 
 
 
@@ -201,7 +201,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.36 seconds
 
 对比null扫描，就可以看出来，FIN扫描是发送一个设置FIN的数据包，同样的如果是linux系统，收到这个如果没有收到RST则认为端口是开放的，收到RST则表示端口没有开发，windows依然无法判断。
 
-![UiOBex.png](https://s1.ax1x.com/2020/07/06/UiOBex.png)
+![FIN.png](https://s1.ax1x.com/2020/07/06/UiOBex.png)
 
 
 
@@ -244,7 +244,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.34 seconds
 
 
 
-![Uix7bn.png](https://s1.ax1x.com/2020/07/06/Uix7bn.png)
+![xmas.png](https://s1.ax1x.com/2020/07/06/Uix7bn.png)
 
 
 

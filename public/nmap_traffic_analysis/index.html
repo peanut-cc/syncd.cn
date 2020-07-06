@@ -37,7 +37,7 @@
                 "url": "http:\/\/example.org\/cover.png",
                 "width":  800 ,
                 "height":  600 
-            },"genre": "posts","keywords": "安全","wordcount":  2381 ,
+            },"genre": "posts","keywords": "安全","wordcount":  2391 ,
         "url": "http:\/\/example.org\/nmap_traffic_analysis\/","datePublished": "2020-07-05","dateModified": "2020-07-05","publisher": {
                 "@type": "Organization",
                 "name": "赵凡",
@@ -96,7 +96,7 @@
                                 <i class="far fa-folder fa-fw"></i>安全
                             </a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-05>2020-07-05</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>约 2381 字&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2391 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>预计阅读 5 分钟&nbsp;</div>
         </div><div class="toc" id="toc-auto">
                 <h2 class="toc-title">目录</h2>
@@ -137,8 +137,8 @@
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/04/NxilvR.png,  1.5x,  2x"
         data-src=""
-        alt="NxilvR.png"
-        title="NxilvR.png" /></p>
+        alt="tcp_header.png"
+        title="tcp_header.png" /></p>
 <p><strong>Source Port</strong>：源端口</p>
 <p><strong>Destination Port</strong>：目的端口</p>
 <p><strong>Sequence Number</strong>：序列号。</p>
@@ -162,7 +162,7 @@
 </tr>
 <tr>
 <td>PSH</td>
-<td></td>
+<td>强制将数据压入缓冲区</td>
 </tr>
 <tr>
 <td>RST</td>
@@ -185,8 +185,8 @@
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/06/UiyDCF.png,  1.5x,  2x"
         data-src=""
-        alt="UiyDCF.png"
-        title="UiyDCF.png" /></p>
+        alt="tcp.png"
+        title="tcp.png" /></p>
 <h2 id="syn-扫描">SYN 扫描</h2>
 <p><code>Nmap</code> 的默认扫描方式就是SYN扫描，在<code>192.168.31.160</code> 执行如下命令进行扫描：</p>
 <div class="highlight"><div class="chroma">
@@ -224,8 +224,8 @@ Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span clas
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/04/NvOWon.png,  1.5x,  2x"
         data-src=""
-        alt="NvOWon.png"
-        title="NvOWon.png" /></p>
+        alt="syn.png"
+        title="syn.png" /></p>
 <p>从获取的流量可以很容易看到，这种扫描的的方式是在三次握手的最后一步没有回复正常的ACK,而是发送了RST</p>
 <p><img
         class="lazyload"
@@ -233,8 +233,8 @@ Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span clas
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/06/UiIVmD.png,  1.5x,  2x"
         data-src=""
-        alt="UiIVmD.png"
-        title="UiIVmD.png" /></p>
+        alt="syn_2.png"
+        title="syn_2.png" /></p>
 <p>nmap 利用客户端回SYN，ACK 的这个数据包其实就已经知道22这个端口是开放的，如果我们扫描一个没有开放的端口：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -271,8 +271,8 @@ Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span clas
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/06/UiTro4.png,  1.5x,  2x"
         data-src=""
-        alt="UiTro4.png"
-        title="UiTro4.png" /></p>
+        alt="syn_rst.png"
+        title="syn_rst.png" /></p>
 <h2 id="全连接扫描">全连接扫描</h2>
 <p>nmap也可以进行全连接扫描，也就是完成完整的三次握手，当然这种扫描方式的效率是不如SYN扫描的</p>
 <p><code>nmap -sT -p端口 目标主机</code></p>
@@ -343,8 +343,8 @@ null.pcap                             100% <span class="m">5188</span>    10.4MB
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/06/UibRln.png,  1.5x,  2x"
         data-src=""
-        alt="UibRln.png"
-        title="UibRln.png" /></p>
+        alt="null.png"
+        title="null.png" /></p>
 <h2 id="fin扫描">FIN扫描</h2>
 <blockquote>
 <p>FIN 原理：</p>
@@ -404,8 +404,8 @@ Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span clas
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/06/UiOBex.png,  1.5x,  2x"
         data-src=""
-        alt="UiOBex.png"
-        title="UiOBex.png" /></p>
+        alt="FIN.png"
+        title="FIN.png" /></p>
 <h2 id="xmas-tree扫描">XMAS-TREE扫描</h2>
 <blockquote>
 <p>扫描原理：</p>
@@ -466,8 +466,8 @@ Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span clas
         data-sizes="auto"
         data-srcset="https://s1.ax1x.com/2020/07/06/Uix7bn.png,  1.5x,  2x"
         data-src=""
-        alt="Uix7bn.png"
-        title="Uix7bn.png" /></p>
+        alt="xmas.png"
+        title="xmas.png" /></p>
 <h2 id="延伸阅读">延伸阅读</h2>
 <ul>
 <li><a href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html">http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html</a></li>
