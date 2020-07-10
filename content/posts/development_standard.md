@@ -41,7 +41,7 @@ toc:
 4. 不修改无关的部分
 5. 一个大的变更尽量拆解成多个更独立的MR
 
-## 要求
+### 要求
 
 * commit message 可以使用英文，也可以使用中文，但应尽可能描述清楚 commit 所做的事情。如：**<type>: <subject>**
 * commit 中type为：feat(实现功能)，fix(bug修复)， docs(完善文档)，style(格式化代码)， refactor(仅重构不改动功能)， test(增加，重构，修复测试，不改动功能代码) ，chore(其他小的修复)。subject 需要简短的描述做了件什么事情。
