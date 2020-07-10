@@ -33,7 +33,7 @@
 
 ### 要求
 
-* commit message 可以使用英文，也可以使用中文，但应尽可能描述清楚 commit 所做的事情。如：**<type>: <subject>**
+* commit message 可以使用英文，也可以使用中文，但应尽可能描述清楚 commit 所做的事情。如：type: subject
 * commit 中type为：feat(实现功能)，fix(bug修复)， docs(完善文档)，style(格式化代码)， refactor(仅重构不改动功能)， test(增加，重构，修复测试，不改动功能代码) ，chore(其他小的修复)。subject 需要简短的描述做了件什么事情。
 * 可以使用 [Commitizen](http://commitizen.github.io/cz-cli/) 等工具进一步规范 commit message 格式
 * MR 由两部分组成：MR 说明，以及一系列的 commit。
@@ -56,8 +56,19 @@
 2. 开发者将代码提交到新的分支，并提交MR，开发者需要自己解决冲突rebase master
 3. 开发者选择不少于一个(推荐两个)审阅人，请求其帮忙 review 代码;通常直接在 MR 下 at 审阅人请求 review 或将 MR assign 给相应的审阅人即可
 4. 审阅人认为存在问题，告知开发者，由开发者进一步完善;推荐以评论的方式进行记录，即使当面沟通也需要以评论的方式记录一下讨论结果;另外，MR 下的问题讨论应当由审阅人来 resolve，在审阅人明确表示问题得到解决之前，开发者应当避免随意关闭审阅人提出的问题
-5. 审阅人认为没有问题，Approve MR;或直接在 MR 下评论 “reviewed by @someone”、“LGTM” 等6. 合并到master
+5. 审阅人认为没有问题，Approve MR;或直接在 MR 下评论 “reviewed by @someone”、“LGTM” 等
 6. 在至少有一位审阅人完成评审的情况下，由模块负责人将 MR 合入主线，如存在冲突则需要开发者先将分支重新 rebase 主线
+
+Git 团队协作中常用术语:
+WIP   Work in progress, do not merge yet. // 开发中
+LGTM Looks good to me. // Riview 完别人的 PR ，没有问题
+PTAL Please take a look. // 帮我看下，一般都是请别人 review 自己的 PR
+CC Carbon copy // 一般代表抄送别人的意思
+RFC  —  request for comments. // 我觉得这个想法很好, 我们来一起讨论下
+IIRC  —  if I recall correctly. // 如果我没记错
+ACK  —  acknowledgement. // 我确认了或者我接受了,我承认了
+NACK/NAK — negative acknowledgement. // 我不同意
+
 
 ### 如何提交一个MR
 
@@ -77,6 +88,7 @@ MR所包含的内容：
 
 
 **注：对于没有任何描述的MR审阅人可以直接拒绝审阅**
+
 **注：永远做自己MR的第一个审阅人**
 
 ### 对于MR代码质量要求
