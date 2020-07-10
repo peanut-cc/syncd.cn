@@ -7,14 +7,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>开发中的一些规范 | FAN&#39;S BLOG</title>
         <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="开发中的一些规范" />
-<meta property="og:description" content="关于Go开发编码规范 基本要求 项目代码必须通过lint工具的风格检查 必须go fmt 建议使用Go Modules 必须有单元测试 必要的CI 编码风格 Uber Go Style Guide Git 规范 基本" />
+<meta property="og:description" content="基本要求(Go) 项目代码必须通过lint工具的风格检查 必须go fmt 建议使用Go Modules 必须有单元测试 必要的CI 编码风格 Uber Go Style Guide code commit 原则 代码的comm" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/development_standard/" />
 <meta property="article:published_time" content="2020-04-29T14:10:24+08:00" />
 <meta property="article:modified_time" content="2020-04-29T14:10:24+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="开发中的一些规范"/>
-<meta name="twitter:description" content="关于Go开发编码规范 基本要求 项目代码必须通过lint工具的风格检查 必须go fmt 建议使用Go Modules 必须有单元测试 必要的CI 编码风格 Uber Go Style Guide Git 规范 基本"/>
+<meta name="twitter:description" content="基本要求(Go) 项目代码必须通过lint工具的风格检查 必须go fmt 建议使用Go Modules 必须有单元测试 必要的CI 编码风格 Uber Go Style Guide code commit 原则 代码的comm"/>
 <meta name="theme-color" content="#ffffff">
 <meta name="msapplication-TileColor" content="#da532c">
 <link rel="canonical" href="http://example.org/development_standard/" />
@@ -37,7 +37,7 @@
                 "url": "http:\/\/example.org\/cover.png",
                 "width":  800 ,
                 "height":  600 
-            },"genre": "posts","keywords": "Go","wordcount":  667 ,
+            },"genre": "posts","keywords": "Go","wordcount":  1645 ,
         "url": "http:\/\/example.org\/development_standard\/","datePublished": "2020-04-29","dateModified": "2020-04-29","publisher": {
                 "@type": "Organization",
                 "name": "赵凡",
@@ -96,8 +96,8 @@
                                 <i class="far fa-folder fa-fw"></i>Go
                             </a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-29>2020-04-29</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>约 667 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>预计阅读 2 分钟&nbsp;</div>
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1645 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 4 分钟&nbsp;</div>
         </div><div class="toc" id="toc-auto">
                 <h2 class="toc-title">目录</h2>
                 <div class="toc-content" id="toc-content-auto"></div>
@@ -112,24 +112,30 @@
                     </summary>
                     <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#关于go开发编码规范">关于Go开发编码规范</a>
+    <li><a href="#基本要求go">基本要求(Go)</a>
       <ul>
-        <li><a href="#基本要求">基本要求</a></li>
         <li><a href="#编码风格">编码风格</a></li>
       </ul>
     </li>
-    <li><a href="#git-规范">Git 规范</a>
+    <li><a href="#code-commit">code commit</a>
       <ul>
-        <li><a href="#基本要求-1">基本要求</a></li>
-        <li><a href="#code-review">Code Review</a></li>
+        <li><a href="#原则">原则</a></li>
+      </ul>
+    </li>
+    <li><a href="#要求">要求</a></li>
+    <li><a href="#code-review">Code Review</a>
+      <ul>
+        <li><a href="#什么是code-review">什么是Code Review</a></li>
+        <li><a href="#code-review-流程">Code Review 流程</a></li>
+        <li><a href="#如何提交一个mr">如何提交一个MR</a></li>
+        <li><a href="#对于mr代码质量要求">对于MR代码质量要求</a></li>
       </ul>
     </li>
     <li><a href="#延伸阅读">延伸阅读</a></li>
   </ul>
 </nav></div>
                 </details>
-            </div><div class="content" id="content"><h2 id="关于go开发编码规范">关于Go开发编码规范</h2>
-<h3 id="基本要求">基本要求</h3>
+            </div><div class="content" id="content"><h2 id="基本要求go">基本要求(Go)</h2>
 <ul>
 <li>项目代码必须通过lint工具的风格检查</li>
 <li>必须go fmt</li>
@@ -140,8 +146,22 @@
 <h3 id="编码风格">编码风格</h3>
 <p><a href="https://github.com/uber-go/guide/blob/master/style.md" target="_blank" rel="noopener noreffer">Uber Go Style Guide</a>
 </p>
-<h2 id="git-规范">Git 规范</h2>
-<h3 id="基本要求-1">基本要求</h3>
+<h2 id="code-commit">code commit</h2>
+<h3 id="原则">原则</h3>
+<p>代码的commit遵循的原则：</p>
+<ol>
+<li>一个commit 只做一件事</li>
+<li>一个MR不能引入过多的commits,导致很难甚至无法完成review</li>
+</ol>
+<p>最小化原则体现：</p>
+<ol>
+<li>尽量不同时修改多个文件</li>
+<li>尽量不同时修改多个逻辑上游划分的模块</li>
+<li>不破坏已有逻辑</li>
+<li>不修改无关的部分</li>
+<li>一个大的变更尽量拆解成多个更独立的MR</li>
+</ol>
+<h2 id="要求">要求</h2>
 <ul>
 <li>commit message 可以使用英文，也可以使用中文，但应尽可能描述清楚 commit 所做的事情。如：<strong><type>: <subject></strong></li>
 <li>commit 中type为：feat(实现功能)，fix(bug修复)， docs(完善文档)，style(格式化代码)， refactor(仅重构不改动功能)， test(增加，重构，修复测试，不改动功能代码) ，chore(其他小的修复)。subject 需要简短的描述做了件什么事情。</li>
@@ -149,18 +169,53 @@
  等工具进一步规范 commit message 格式</li>
 <li>MR 由两部分组成：MR 说明，以及一系列的 commit。</li>
 <li>通常 MR 的标题部分应当包含对应的 Issue ID（例如 XXXXX-1234），以及简短的描述做了件什么事情。如：<strong><issue>: <subject></strong></li>
-<li>一个commit 只做一件事，一个大的变更，拆成多个MR(方便Code Review)</li>
 </ul>
-<h3 id="code-review">Code Review</h3>
+<h2 id="code-review">Code Review</h2>
+<h3 id="什么是code-review">什么是Code Review</h3>
+<p>代码评审(Code Review)是指在功能开发过程中，邀请原作者之外的开发者(审阅人)来对功能代码 进行评审的步骤。其目的是为了在代码合并入主线之前确保其质量，避免对主线代码的质量造成负面的影响。</p>
 <p>实际开发中，我们通常都是在各自开发分支进行开发，那么功能开发完成之后，或修复bug之后，就需要除了自己之外的其他人进行code review。从而提高代码的质量以及避免合并到主线上之后对主线代码造成影响。所以code review 最直接的目的就是：<strong>代码长期的可用性与可维护性</strong></p>
-<p>Code Review 流程：</p>
+<h3 id="code-review-流程">Code Review 流程</h3>
+<p>流程：</p>
 <ol>
 <li>开发者从master分支切换开发分支进行功能开发</li>
 <li>开发者将代码提交到新的分支，并提交MR，开发者需要自己解决冲突rebase master</li>
-<li>开发者选择至少不小于一个人的相关人员进行review</li>
-<li>review 代码的人若认为有问题，可以以评论的方式进行记录</li>
-<li>review 代码的人认为没有问题你，Approve MR</li>
-<li>合并到master</li>
+<li>开发者选择不少于一个(推荐两个)审阅人，请求其帮忙 review 代码;通常直接在 MR 下 at 审阅人请求 review 或将 MR assign 给相应的审阅人即可</li>
+<li>审阅人认为存在问题，告知开发者，由开发者进一步完善;推荐以评论的方式进行记录，即使当面沟通也需要以评论的方式记录一下讨论结果;另外，MR 下的问题讨论应当由审阅人来 resolve，在审阅人明确表示问题得到解决之前，开发者应当避免随意关闭审阅人提出的问题</li>
+<li>审阅人认为没有问题，Approve MR;或直接在 MR 下评论 “reviewed by @someone”、“LGTM” 等6. 合并到master</li>
+<li>在至少有一位审阅人完成评审的情况下，由模块负责人将 MR 合入主线，如存在冲突则需要开发者先将分支重新 rebase 主线</li>
+</ol>
+<h3 id="如何提交一个mr">如何提交一个MR</h3>
+<p>定方案&ndash;&gt;写代码&ndash;&gt;自测&ndash;&gt;提 MR</p>
+<p>MR所包含的内容：</p>
+<ol>
+<li>代码的改动： 实现功能/修复缺陷/补充测试&hellip;.</li>
+<li>MR自身的描述信息：帮助审阅人理解上述改动</li>
+<li>commit历史：commit历史应该是被整理之后的</li>
+</ol>
+<p>关于commit历史：
+通常我们在开发过程中的commit历史是会比较糟糕的，可能也commit message 也会不规范，所以我们在提交mr之前就需要对我们的commit历史进行整理，如：</p>
+<ol>
+<li>合并一些无用的commit历史</li>
+<li>更改不规范的commit message</li>
+<li>&hellip;..</li>
+</ol>
+<p><strong>注：对于没有任何描述的MR审阅人可以直接拒绝审阅</strong>
+<strong>注：永远做自己MR的第一个审阅人</strong></p>
+<h3 id="对于mr代码质量要求">对于MR代码质量要求</h3>
+<ol>
+<li>如果认为一个 MR 在被接受那一刻的得分为 90~100 分的话，提交 MR 时分数不应低于 80 分</li>
+<li>将 MR 完成到 80 分是开发者的责任，在达成之前，审阅者没有义务帮助开发者审阅并完善 MR</li>
+<li>低于 80 分的 MR 认为完成度过低，应当被打上 WIP 标记</li>
+<li>当审阅人认为完成度过低时，可以直接将 MR 标记为 WIP 并拒绝审阅(甚至可以不解释)</li>
+</ol>
+<p>当代码质量出现(不限于)以下情况时，可以认为完成度过低：</p>
+<ol>
+<li>代码风格/格式不符合编码规范</li>
+<li>缺少必要的(单元)测试代码</li>
+<li>破坏兼容性且未标注或说明(包含改变了特定接口的行为但未更新注释)</li>
+<li>明显未经过自测便提交</li>
+<li>存在较多(3 个及以上)低级逻辑错误(偏主观，无明确标准)</li>
+<li>&hellip;..</li>
 </ol>
 <h2 id="延伸阅读">延伸阅读</h2>
 <p><a href="https://golang.org/doc/effective_go.html" target="_blank" rel="noopener noreffer">Effective Go</a>
@@ -198,7 +253,7 @@
 <div class="comment"><div id="gitalk"></div><script>
             document.addEventListener("DOMContentLoaded", function(event) {
                 var gitalk = new Gitalk({
-                    id: '2020-04-29 14:10:24 \u002b0800 CST',
+                    id: '2020-04-29 14:10:24 \x2b0800 CST',
                     title: '开发中的一些规范',
                     clientID: '12d62df89f42baf9a471',
                     clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',

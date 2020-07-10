@@ -44,7 +44,7 @@
       <pubDate>Wed, 29 Apr 2020 14:10:24 +0800</pubDate>
       
       <guid>http://example.org/development_standard/</guid>
-      <description>关于Go开发编码规范 基本要求 项目代码必须通过lint工具的风格检查 必须go fmt 建议使用Go Modules 必须有单元测试 必要的CI 编码风格 Uber Go Style Guide Git 规范 基本</description>
+      <description>基本要求(Go) 项目代码必须通过lint工具的风格检查 必须go fmt 建议使用Go Modules 必须有单元测试 必要的CI 编码风格 Uber Go Style Guide code commit 原则 代码的comm</description>
     </item>
     
   </channel>
