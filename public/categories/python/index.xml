@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on FAN&#39;S BLOG</title>
+    <link>http://example.org/categories/python/</link>
+    <description>Recent content in python on FAN&#39;S BLOG</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 30 Jul 2020 00:37:20 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>一次django内存异常排查</title>
+      <link>http://example.org/django_orm_skills/</link>
+      <pubDate>Thu, 30 Jul 2020 00:37:20 +0800</pubDate>
+      
+      <guid>http://example.org/django_orm_skills/</guid>
+      <description>起因 Django 作为 Python著名的Web框架，相信很多人都在用，自己工作中也有项目项目在用，而在最近几天的使用中发现，部署Django程序的服务器</description>
+    </item>
+    
+  </channel>
+</rss>

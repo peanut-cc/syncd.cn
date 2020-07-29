@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>一次django内存异常排查 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="一次django内存异常排查" />
+<meta property="og:description" content="起因 Django 作为 Python著名的Web框架，相信很多人都在用，自己工作中也有项目项目在用，而在最近几天的使用中发现，部署Django程序的服务器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/django_orm_skills/" />
+<meta property="article:published_time" content="2020-07-30T00:37:20+08:00" />
+<meta property="article:modified_time" content="2020-07-30T00:37:20+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一次django内存异常排查"/>
+<meta name="twitter:description" content="起因 Django 作为 Python著名的Web框架，相信很多人都在用，自己工作中也有项目项目在用，而在最近几天的使用中发现，部署Django程序的服务器"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/django_orm_skills/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/nmap_traffic_analysis/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "一次django内存异常排查",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/django_orm_skills\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "python","wordcount":  1598 ,
+        "url": "http:\/\/example.org\/django_orm_skills\/","datePublished": "2020-07-30","dateModified": "2020-07-30","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">一次django内存异常排查</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/python">
+                                <i class="far fa-folder fa-fw"></i>Python
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-30>2020-07-30</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1598 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 4 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#起因">起因</a></li>
+    <li><a href="#处理过程">处理过程</a></li>
+    <li><a href="#总结">总结</a>
+      <ul>
+        <li><a href="#延伸阅读">延伸阅读</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="起因">起因</h2>
+<p><code>Django</code> 作为 <code>Python</code>著名的<code>Web</code>框架，相信很多人都在用，自己工作中也有项目项目在用，而在最近几天的使用中发现，部署<code>Django</code>程序的服务器出现了内存问题，现象就是运行一段时间之后，内存占用非常高，最终会把服务器的内存耗尽，对于<code>Python</code>项目出现内存问题，自己之前处理过一次，所以并没有第一次解决时的慌张，自己之前把解决方法也整理了博客：https://www.cnblogs.com/zhaof/p/10031945.html</p>
+<p>但是事情似乎并没有我想的那么简单，自己尝试用之前的的方法<code>tracemalloc</code>库进行问题的排查，但是问题来了实际的项目中有快一百多个接口，怎么排查？难道一个一个接口进行测试排查，但是时间又比较紧急，可能又来不及了。对比上次自己解决是因为上次的项目比较简单，相对来说定位问题比较容易，那么这次怎么处理呢？</p>
+<h2 id="处理过程">处理过程</h2>
+<p>一般<code>Python</code>项目其实是很少出现内存问题的，一般都是自己代码写的有问题导致的，而对于这次出现的问题，自己的排查思路（对于web 接口类型的项目）：</p>
+<ol>
+<li>先排查调用比较频繁的接口</li>
+<li>然后排查数据汇总接口（查询比较复杂）</li>
+<li>如果上述还没有查出来，再排查剩余的接口</li>
+</ol>
+<p>在这次的问题排查中，自己大致也是按照这个思路进行的，在对调用频繁的接口进行排查时，并没有发现内存的异常，而出现内存的问题则是在数据汇总的相关接口上。</p>
+<p>其实这种接口对于初级开发可能是容易出问题的地方，首先这种接口查询的数据相对其他接口会比较复杂，如果编码基础又不是特别好，可能就会在这些接口上出现bug.</p>
+<p>而在这次的排查中，最终确定是在一个汇总数据的接口上，定位到问题处在了<code>Django ORM</code> 使用不当导致的。自己通过一个简单代码实例来说明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name3</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name4</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name5</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name6</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name7</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name8</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name9</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name10</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name11</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name12</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name13</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name14</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">name15</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正常情况，我们的表字段会比较多，这里就通过多个name来模拟，出现题的代码就出在关于这个表的接口上：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">studets</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">age__gt</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">studets</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s2">&#34;test memory&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>为了让内存问题容易复现，我通过脚本向Student中插入了20000条数据，当然这里数据越多，问题越明显</p>
+<p>通过一个测试脚本并发请求这个接口，观察内存情况，你会发现，内存会出现瞬间上涨的情况，并且如果你的数据越多，请求越多，你的内存可能会在一段时间居高不下，并且逐渐上涨。问题出在哪里了？</p>
+<p>其实很简单，问题出在了代码中的if 判断那里，我们通过filter 查询返回的是QuerySet 类型的数据，而我们过滤之后的数据可能会存在非常多的时候，这个时候我们通过if 直接判断，自己的理解这个地方会将整个QuerySet加载到内存中，从而出现内存占用过高的问题，而如果并且这个时候这个接口的响应速度也是非常会变慢，而这个QuerySet 中的数据越多，内存占用越明显。</p>
+<p>在<code>Django</code>的文档中其实做了说明</p>
+<blockquote>
+<ul>
+<li><code>exists</code>()<a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet.exists" target="_blank" rel="noopener noreffer">¶</a>
+</li>
+</ul>
+<p>Returns <code>True</code> if the <a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet" target="_blank" rel="noopener noreffer"><code>QuerySet</code></a>
+ contains any results, and <code>False</code> if not. This tries to perform the query in the simplest and fastest way possible, but it <em>does</em> execute nearly the same query as a normal <a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet" target="_blank" rel="noopener noreffer"><code>QuerySet</code></a>
+ query.</p>
+<p><a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet.exists" target="_blank" rel="noopener noreffer"><code>exists()</code></a>
+ is useful for searches relating to both object membership in a <a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet" target="_blank" rel="noopener noreffer"><code>QuerySet</code></a>
+ and to the existence of any objects in a <a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet" target="_blank" rel="noopener noreffer"><code>QuerySet</code></a>
+, particularly in the context of a large <a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet" target="_blank" rel="noopener noreffer"><code>QuerySet</code></a>
+.</p>
+<p>The most efficient method of finding whether a model with a unique field (e.g. <code>primary_key</code>) is a member of a <a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/#django.db.models.query.QuerySet" target="_blank" rel="noopener noreffer"><code>QuerySet</code></a>
+ is:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">entry = Entry.objects.get(pk=123)
+if some_queryset.filter(pk=entry.pk).exists():
+    print(&#34;Entry contained in queryset&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><p>Which will be faster than the following which requires evaluating and iterating through the entire queryset:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">if entry in some_queryset:
+   print(&#34;Entry contained in QuerySet&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><p>And to find whether a queryset contains any items:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">if some_queryset.exists():
+    print(&#34;There is at least one object in some_queryset&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><p>Which will be faster than:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">if some_queryset:
+    print(&#34;There is at least one object in some_queryset&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><p>… but not by a large degree (hence needing a large queryset for efficiency gains).</p>
+<p>Additionally, if a <code>some_queryset</code> has not yet been evaluated, but you know that it will be at some point, then using <code>some_queryset.exists()</code> will do more overall work (one query for the existence check plus an extra one to later retrieve the results) than using <code>bool(some_queryset)</code>, which retrieves the results and then checks if any were returned.</p>
+</blockquote>
+<p>所以对于我们的代码我们只需要把if 判断地方改成<code>if not studets.exists()</code> 就可以解决问题。</p>
+<p>这是一个很小的知识点，但是如果使用不对，可能就会造成非常严重的内存问题。</p>
+<h2 id="总结">总结</h2>
+<ul>
+<li>除了单元测试，还需要做大数据量测试，这次的问题如果在测试的时候做过一定数据量的测试，可能很早就能及时发现问题</li>
+<li>对于基础的库的使用要更加熟悉</li>
+<li>排查问题的思路要明确，不然可能会无从下手</li>
+</ul>
+<h3 id="延伸阅读">延伸阅读</h3>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/3.0/ref/models/querysets/">https://docs.djangoproject.com/en/3.0/ref/models/querysets/</a></li>
+<li><a href="https://www.cnblogs.com/zhaof/p/10031945.html">https://www.cnblogs.com/zhaof/p/10031945.html</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-07-30 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/django_orm_skills/" data-title="一次django内存异常排查" data-hashtags="python"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/django_orm_skills/" data-title="一次django内存异常排查"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/python">python</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/nmap_traffic_analysis/" class="prev" rel="prev" title="Nmap常见扫描方式流量分析"><i class="fas fa-angle-left fa-fw"></i>Nmap常见扫描方式流量分析</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-07-30 00:37:20 \u002b0800 CST',
+                    title: '一次django内存异常排查',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
