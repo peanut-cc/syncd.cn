@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>从别人的代码中学习golang系列--03 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="从别人的代码中学习golang系列--03" />
+<meta property="og:description" content="这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识。 作者在项" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/study_code_03/" />
+<meta property="article:published_time" content="2020-07-31T10:08:55+08:00" />
+<meta property="article:modified_time" content="2020-07-31T10:08:55+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="从别人的代码中学习golang系列--03"/>
+<meta name="twitter:description" content="这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识。 作者在项"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/study_code_03/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/django_orm_skills/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "从别人的代码中学习golang系列--03",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/study_code_03\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go","wordcount":  2414 ,
+        "url": "http:\/\/example.org\/study_code_03\/","datePublished": "2020-07-31","dateModified": "2020-07-31","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">从别人的代码中学习golang系列--03</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/go">
+                                <i class="far fa-folder fa-fw"></i>Go
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-31>2020-07-31</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2414 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 5 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#关于casbin">关于casbin</a>
+      <ul>
+        <li><a href="#常见访问控制模型">常见访问控制模型</a></li>
+        <li><a href="#casbin">casbin</a>
+          <ul>
+            <li><a href="#acl-with-superuser-栗子">ACL with superuser 栗子</a></li>
+            <li><a href="#resful-keymatch2-栗子">RESful (KeyMatch2) 栗子</a></li>
+            <li><a href="#rbac-栗子">RBAC 栗子</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#在gin-admin项目中的使用">在gin-admin项目中的使用</a>
+      <ul>
+        <li><a href="#定义了casbinadapter">定义了CasbinAdapter</a></li>
+        <li><a href="#初始化">初始化</a></li>
+        <li><a href="#异步加载casbin权限">异步加载casbin权限</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识。</p>
+<p>作者在项目中使用了 <code>github.com/casbin/casbin</code> 进行权限控制的，这个库自己之前也没有用过，正好可以通过这个项目学习一下使用。 当然这篇博客并不会对casbin的使用做非常详细的说明，感兴趣的可以去官网看具体的使用文档。</p>
+<h2 id="关于casbin">关于casbin</h2>
+<hr>
+<h3 id="常见访问控制模型">常见访问控制模型</h3>
+<p><strong>ABAC</strong>: 基于属性的访问控制。</p>
+<p><strong>DAC</strong>: 自主访问控制模型（DAC，Discretionary Access Control）是根据自主访问控制策略建立的一种模型，允许合法用户以用户或用户组的身份访问策略规定的客体，同时阻止非授权用户访问客体。拥有客体权限的用户，可以将该客体的权限分配给其他用户。</p>
+<p><strong>ACL</strong>: 　ACL是最早也是最基本的一种访问控制机制，它的原理非常简单：每一项资源，都配有一个列表，这个列表记录的就是哪些用户可以对这项资源执行CRUD中的那些操作。当系统试图访问这项资源时，会首先检查这个列表中是否有关于当前用户的访问权限，从而确定当前用户可否执行相应的操作。总得来说，ACL是一种面向资源的访问控制模型，它的机制是围绕“资源”展开的。</p>
+<p><strong>RBAC</strong>: 基于角色的访问控制(RBAC, Role Based Access Control)在用户和权限之间引入了“角色（Role）”的概念，角色解耦了用户和权限之间的关系。</p>
+<h3 id="casbin">casbin</h3>
+<p>casbin使用配置文件来设置访问控制模型。在 Casbin 中, 访问控制模型被抽象为基于 PERM (Policy, Effect, Request, Matcher) 的一个文件。</p>
+<p>Casbin中最基本、最简单的model是ACL。ACL中的model CONF为:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Request definition
+[request_definition]
+r = sub, obj, act
+
+# Policy definition
+[policy_definition]
+p = sub, obj, act
+
+# Policy effect
+[policy_effect]
+e = some(where (p.eft == allow))
+
+# Matchers
+[matchers]
+m = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Request definition</strong>: 代表请求,上面的配置中 <code>r = sub, obj, act</code> 代表一个请求有三个标准元素：请求主体，请求对象，请求操作。</p>
+<p><strong>Policy definition</strong>: 代表策略，表示具体的权限定义的规则是什么，上面配置中 <code>p = sub, obj, act</code></p>
+<p><strong>Policy effect</strong>: Effect 用来判断如果一个请求满足了规则，是否需要同意请求</p>
+<p><strong>Matchers</strong>: 有请求，有规则，那么请求是否匹配某个规则，则是matcher进行判断的</p>
+<h4 id="acl-with-superuser-栗子">ACL with superuser 栗子</h4>
+<p>model的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[request_definition]
+r = sub, obj, act
+
+[policy_definition]
+p = sub, obj, act
+
+[policy_effect]
+e = some(where (p.eft == allow))
+
+[matchers]
+m = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act || r.sub == &#34;root&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>Policey 配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">p, alice, data1, read
+p, bob, data2, write
+</code></pre></td></tr></table>
+</div>
+</div><p>当我们请求：alice,data1,read
+根据匹配规则，匹配的结果就是true
+当我们请求：alice,data1,write
+根据匹配规则，匹配的规则就是false</p>
+<h4 id="resful-keymatch2-栗子">RESful (KeyMatch2) 栗子</h4>
+<p>model的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[request_definition]
+r = sub, obj, act
+
+[policy_definition]
+p = sub, obj, act
+
+[policy_effect]
+e = some(where (p.eft == allow))
+
+[matchers]
+m = r.sub == p.sub &amp;&amp; keyMatch2(r.obj, p.obj) &amp;&amp; regexMatch(r.act, p.act)
+</code></pre></td></tr></table>
+</div>
+</div><p>Policy 定义：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">p, alice, /alice_data/:resource, GET
+p, alice, /alice_data2/:id/using/:resId, GET
+</code></pre></td></tr></table>
+</div>
+</div><p>当我们请求 <code>alice, /alice_data/hello, GET</code> 根据matchers规则匹配了 <code>p, alice, /alice_data/:resource, GET</code> 所以返回true
+当我们请求 <code>alice, /alice_data/hello, POST</code>  根据matchers规则没有匹配到，所以返回false</p>
+<h4 id="rbac-栗子">RBAC 栗子</h4>
+<p>model的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[request_definition]
+r = sub, obj, act
+
+[policy_definition]
+p = sub, obj, act
+
+[role_definition]
+g = _, _
+
+[policy_effect]
+e = some(where (p.eft == allow))
+
+[matchers]
+m = g(r.sub, p.sub) &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act
+</code></pre></td></tr></table>
+</div>
+</div><p>在这里引入了<code>role_definition</code> 角色定义，  g 用于判断哪个用户是否属于哪个角色</p>
+<p>Policy 配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">p, alice, data1, read
+p, bob, data2, write
+p, data2_admin, data2, read
+p, data2_admin, data2, write
+
+g, alice, data2_admin
+</code></pre></td></tr></table>
+</div>
+</div><p>当我们请求 <code>alice, data2, read</code> 根据matchers 匹配了alice 是data2_admin角色，并且 <code>r.obj == p.obj  &amp;&amp; r.act == p.act</code> 所以返回true</p>
+<h2 id="在gin-admin项目中的使用">在gin-admin项目中的使用</h2>
+<p>这里先梳理一下作者代码中对casbin的使用，因为之前看了casbin在其他几个项目中的使用，感觉都是有点乱，在在gin-admin这个项目的时候一开始也是感觉有点懵 ，没有理解怎么用，不过当把代码梳理清楚之后，感觉gin-admin作者的使用还是非常好的。</p>
+<p>gin-admin项目中关于casbin的使用分为</p>
+<ol>
+<li>定义CasbinAdapter</li>
+<li>初始化casbin</li>
+<li>异步加载casbin权限</li>
+</ol>
+<h3 id="定义了casbinadapter">定义了CasbinAdapter</h3>
+<p>作者在gin-admin/internal/module/adapter/casbin.go 中定义了CasbinAdapter：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// CasbinAdapter casbin适配器
+type CasbinAdapter struct {
+	RoleModel         model.IRole
+	RoleMenuModel     model.IRoleMenu
+	MenuResourceModel model.IMenuActionResource
+	UserModel         model.IUser
+	UserRoleModel     model.IUserRole
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>这里的CasbinAdapter是实现了<code>casbin</code>中的<code>Adapter</code>接口，即CasbinAdapter实现了LoadPolicy，SavePolicy，AddPolicy，RemovePolicy方法，并且作者通过在LoadPolicy将用户权限和角色权限从数据库中进行加载。</p>
+<h3 id="初始化">初始化</h3>
+<p>权限的初始化是通过下面代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">func InitCasbin(adapter persist.Adapter) (*casbin.SyncedEnforcer, func(), error) {
+	cfg := config.C.Casbin
+	if cfg.Model == &#34;&#34; {
+		return new(casbin.SyncedEnforcer), nil, nil
+	}
+
+	e, err := casbin.NewSyncedEnforcer(cfg.Model)
+	if err != nil {
+		return nil, nil, err
+	}
+	e.EnableLog(cfg.Debug)
+	err = e.InitWithModelAndAdapter(e.GetModel(), adapter)
+	if err != nil {
+		return nil, nil, err
+	}
+	e.EnableEnforce(cfg.Enable)
+
+	cleanFunc := func() {}
+	if cfg.AutoLoad {
+		e.StartAutoLoadPolicy(time.Duration(cfg.AutoLoadInternal) * time.Second)
+		cleanFunc = func() {
+			e.StopAutoLoadPolicy()
+		}
+	}
+
+	return e, cleanFunc, nil
+}
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="异步加载casbin权限">异步加载casbin权限</h3>
+<p>这个部分主要是当我们通过页面进行权限的配置后，我们需要将权限重新进行加载，这部分代码在gin-admin/internal/app/bll/impl/bll/b_casbin.go中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">var chCasbinPolicy chan *chCasbinPolicyItem
+
+type chCasbinPolicyItem struct {
+	ctx context.Context
+	e   *casbin.SyncedEnforcer
+}
+
+func init() {
+	chCasbinPolicy = make(chan *chCasbinPolicyItem, 1)
+	go func() {
+		for item := range chCasbinPolicy {
+			err := item.e.LoadPolicy()
+			if err != nil {
+				logger.Errorf(item.ctx, &#34;The load casbin policy error: %s&#34;, err.Error())
+			}
+		}
+	}()
+}
+
+// LoadCasbinPolicy 异步加载casbin权限策略
+func LoadCasbinPolicy(ctx context.Context, e *casbin.SyncedEnforcer) {
+	if !config.C.Casbin.Enable {
+		return
+	}
+
+	if len(chCasbinPolicy) &gt; 0 {
+		logger.Infof(ctx, &#34;The load casbin policy is already in the wait queue&#34;)
+		return
+	}
+
+	chCasbinPolicy &lt;- &amp;chCasbinPolicyItem{
+		ctx: ctx,
+		e:   e,
+	}
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>而在我们的更改权限的接口中都会通过调用LoadCasbinPolicy将权限策略进行加载。</p>
+<h2 id="总结">总结</h2>
+<p>关于这个项目整理了三篇文章，也学习到了很多东西，其实到这篇文章，作者整体代码自己已经树立清楚了，很多人会觉得作者的项目目录过于复杂，还有一些重复代码，在你刚开始梳理代码逻辑的时候还会感到一脸懵，但是当你耐心梳理完之后，你会发现，这样写原来会有这样或者那样的好处。作者剩余的代码就是关于web接口中的逻辑了，就不在做整理。</p>
+<p>后面的计划是通过这次对这次代码的学习，写一个blog的web项目。同时也会找下一个开源项目代码进行学习</p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="https://casbin.org/zh-CN/editor">https://casbin.org/zh-CN/editor</a></li>
+<li><a href="https://casbin.org/docs/zh-CN/overview">https://casbin.org/docs/zh-CN/overview</a></li>
+<li><a href="https://www.cnblogs.com/yjf512/p/12200206.html">https://www.cnblogs.com/yjf512/p/12200206.html</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-07-31 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/study_code_03/" data-title="从别人的代码中学习golang系列--03" data-hashtags="Go"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/study_code_03/" data-title="从别人的代码中学习golang系列--03"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/go">Go</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/django_orm_skills/" class="prev" rel="prev" title="一次django内存异常排查"><i class="fas fa-angle-left fa-fw"></i>一次django内存异常排查</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-07-31 10:08:55 \x2b0800 CST',
+                    title: '从别人的代码中学习golang系列--03',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

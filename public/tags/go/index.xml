@@ -6,10 +6,19 @@
     <description>Recent content in Go on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 03 Jul 2020 21:10:32 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2020 10:08:55 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>从别人的代码中学习golang系列--03</title>
+      <link>http://example.org/study_code_03/</link>
+      <pubDate>Fri, 31 Jul 2020 10:08:55 +0800</pubDate>
+      
+      <guid>http://example.org/study_code_03/</guid>
+      <description>这篇博客还是整理从https://github.com/LyricTian/gin-admin 这个项目中学习的golang相关知识。 作者在项</description>
+    </item>
     
     <item>
       <title>从别人的代码中学习golang系列--02</title>
