@@ -1,15 +1,5 @@
----
-title: "ent orm笔记1---快速尝鲜"
-date: 2020-08-24T23:48:37+08:00
-draft: false
-author: "fan"
-subtitle: "ent orm笔记1"
-tags: ["orm","go"]
-categories: ["go"]
-toc:
-  enable: true
-  auto: true
----
+# ent orm笔记1---快速尝鲜
+
 
 
 
@@ -721,4 +711,5 @@ func QueryGroupWithUsers(ctx context.Context, client *ent.Client) error {
 ## 延伸阅读
 
 - https://entgo.io/docs/getting-started/
+
 

@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>ent orm笔记1---快速尝鲜 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="ent orm笔记1---快速尝鲜" />
+<meta property="og:description" content="前几天看到消息Facebook孵化的ORM ent转为正式项目，出去好奇，简单体验了一下，使用上自己感觉比GORM好用，于是打算把官方的文档进" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/entorm01/" />
+<meta property="article:published_time" content="2020-08-24T23:48:37+08:00" />
+<meta property="article:modified_time" content="2020-08-24T23:48:37+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ent orm笔记1---快速尝鲜"/>
+<meta name="twitter:description" content="前几天看到消息Facebook孵化的ORM ent转为正式项目，出去好奇，简单体验了一下，使用上自己感觉比GORM好用，于是打算把官方的文档进"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/entorm01/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/study_code_03/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ent orm笔记1---快速尝鲜",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/entorm01\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "orm, go","wordcount":  3200 ,
+        "url": "http:\/\/example.org\/entorm01\/","datePublished": "2020-08-24","dateModified": "2020-08-24","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">ent orm笔记1---快速尝鲜</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/go">
+                                <i class="far fa-folder fa-fw"></i>Go
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-08-24>2020-08-24</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 3200 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 7 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#快速使用">快速使用</a>
+      <ul>
+        <li><a href="#创建schema">创建schema</a></li>
+        <li><a href="#给schema添加字段">给schema添加字段</a></li>
+        <li><a href="#创建表到数据库">创建表到数据库</a></li>
+        <li><a href="#创建表关系">创建表关系</a></li>
+        <li><a href="#外键的数据添加">外键的数据添加</a></li>
+        <li><a href="#外键的查询">外键的查询</a></li>
+        <li><a href="#反向查询">反向查询</a></li>
+        <li><a href="#复杂查询">复杂查询</a></li>
+      </ul>
+    </li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>前几天看到消息Facebook孵化的ORM ent转为正式项目，出去好奇，简单体验了一下，使用上自己感觉比GORM好用，于是打算把官方的文档进行整理，也算是学习一下如何使用。</p>
+<h2 id="安装">安装</h2>
+<p>ent orm 需要使用entc命令进行自动代码生成，所以需要先安装entc:</p>
+<p><code>go get github.com/facebook/ent/cmd/entc</code></p>
+<p>关于这个系列的所有代码笔记都会放到</p>
+<p><code>github.com/peanut-cc/ent_orm_notes</code></p>
+<h2 id="快速使用">快速使用</h2>
+<h3 id="创建schema">创建schema</h3>
+<p>正常情况下应该是在自己的项目根目录执行下面的命令，我这里是因为后续会有多个例子，为了让每个例子的内容独立，所以这里会在子目录下执行该命令</p>
+<p><code>entc init User</code></p>
+<p>这个命令执行后生成如下目录结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">└── quick_user_example
+    └── ent
+        ├── generate.go
+        └── schema
+            └── user.go
+</code></pre></td></tr></table>
+</div>
+</div><p>而schema目录下的user.go的内容也非常简单：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="s">&#34;github.com/facebook/ent&#34;</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="给schema添加字段">给schema添加字段</h3>
+<p>给schema添加字段非常简单，只需要在生成<code>ent/schema/user.go</code>的<code>Fields</code>方法中添加即可，修改之后的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1">// 用于给 user 表定义字段
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">).</span>
+         <span class="nf">Positive</span><span class="p">(),</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span><span class="nf">Default</span><span class="p">(</span><span class="s">&#34;unknown&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>执行<code>go generate ./ent</code> 自动生成代码，执行命令后的目录结构为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">└── quick_user_example
+    └── ent
+        ├── client.go
+        ├── config.go
+        ├── context.go
+        ├── ent.go
+        ├── enttest
+        │   └── enttest.go
+        ├── generate.go
+        ├── hook
+        │   └── hook.go
+        ├── migrate
+        │   ├── migrate.go
+        │   └── schema.go
+        ├── mutation.go
+        ├── predicate
+        │   └── predicate.go
+        ├── privacy
+        │   └── privacy.go
+        ├── runtime
+        │   └── runtime.go
+        ├── runtime.go
+        ├── schema
+        │   └── user.go
+        ├── tx.go
+        ├── user
+        │   ├── user.go
+        │   └── where.go
+        ├── user_create.go
+        ├── user_delete.go
+        ├── user.go
+        ├── user_query.go
+        └── user_update.go
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="创建表到数据库">创建表到数据库</h3>
+<p>创建表并进行简单的添加数据，和查询数据：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;context&#34;</span>
+   <span class="s">&#34;fmt&#34;</span>
+   <span class="s">&#34;log&#34;</span>
+
+   <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+   <span class="s">&#34;github.com/peanut-pg/ent_orm_notes/quick_user_example/ent&#34;</span>
+   <span class="s">&#34;github.com/peanut-pg/ent_orm_notes/quick_user_example/ent/user&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(192.168.1.104:3306)/ent_orm?parseTime=True&#34;</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+   <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+   <span class="c1">// run the auto migration tool
+</span><span class="c1"></span>   <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nf">CreateUser</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">client</span><span class="p">)</span>
+   <span class="nx">peanut</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">QueryUser</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">client</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;query user name is:%v, aget is %v&#34;</span><span class="p">,</span> <span class="nx">peanut</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">peanut</span><span class="p">.</span><span class="nx">Age</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// CreateUser 创建用户 name=peanut, age=18
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">CreateUser</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">u</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetAge</span><span class="p">(</span><span class="mi">18</span><span class="p">).</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;peanut&#34;</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed creating user: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;user was created: &#34;</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">u</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// QueryUser 查询用户 where name=peanut
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">QueryUser</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">u</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Query</span><span class="p">().</span>
+      <span class="nf">Where</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nf">NameEQ</span><span class="p">(</span><span class="s">&#34;peanut&#34;</span><span class="p">)).</span>
+      <span class="c1">// `Only` fails if no user found,
+</span><span class="c1"></span>      <span class="c1">// or more than 1 user returned.
+</span><span class="c1"></span>      <span class="nf">Only</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed querying user: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;user returned: &#34;</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">u</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="创建表关系">创建表关系</h3>
+<p>还是用同样的方法创建Car和Group 的schema</p>
+<p><code>entc init Car Group</code></p>
+<p>分别给<code>ent/schema</code>目录下的<code>car.go</code>和<code>group.go</code>添加对应的字段信息</p>
+<p><code>car.go</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Car holds the schema definition for the Car entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Car</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Car.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Car</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;model&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;registered_at&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Car.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Car</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>group.go</code>文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;regexp&#34;</span>
+
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Group holds the schema definition for the Group entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Group</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+         <span class="c1">// regexp validation for group name.
+</span><span class="c1"></span>         <span class="nf">Match</span><span class="p">(</span><span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">&#34;[a-zA-Z_]+$&#34;</span><span class="p">)),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在ent orm 中给表之间建立关系是通过Edges方法实现的，我们更改<code>ent/schema/user.go</code>中的Edges方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1">// 用于给 user 表定义字段
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">).</span>
+         <span class="nf">Positive</span><span class="p">(),</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span><span class="nf">Default</span><span class="p">(</span><span class="s">&#34;unknown&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1">// 和Cars表建立关系
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;cars&#34;</span><span class="p">,</span> <span class="nx">Car</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>执行<code>go generate ./ent</code> 自动生成代码,然后重新生成一下表结构</p>
+<p>然后在数据中执行<code>show create table ent_orm.cars</code> 查看表的详细结构语句：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">cars</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">model</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">registered_at</span><span class="o">`</span> <span class="k">timestamp</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">user_cars</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">cars_users_cars</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">user_cars</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">cars_users_cars</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">user_cars</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">users</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">SET</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看出，通过在印记功能建立的外键关系</p>
+<h3 id="外键的数据添加">外键的数据添加</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// CreateCars 创建 Tesla 和Ford 汽车，加该汽车属于user: peanut_pg
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">CreateCars</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// creating new car with model &#34;Tesla&#34;.
+</span><span class="c1"></span>   <span class="nx">tesla</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Car</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetModel</span><span class="p">(</span><span class="s">&#34;Tesla&#34;</span><span class="p">).</span>
+      <span class="nf">SetRegisteredAt</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed creating car: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+
+   <span class="c1">// creating new car with model &#34;Ford&#34;.
+</span><span class="c1"></span>   <span class="nx">ford</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Car</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetModel</span><span class="p">(</span><span class="s">&#34;Ford&#34;</span><span class="p">).</span>
+      <span class="nf">SetRegisteredAt</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed creating car: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;car was created: &#34;</span><span class="p">,</span> <span class="nx">ford</span><span class="p">)</span>
+
+   <span class="c1">// create a new user, and add it the 2 cars.
+</span><span class="c1"></span>   <span class="nx">peanut_pg</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetAge</span><span class="p">(</span><span class="mi">18</span><span class="p">).</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;peanut_pg&#34;</span><span class="p">).</span>
+      <span class="c1">// AddCars 将车属于user peanut_pg
+</span><span class="c1"></span>      <span class="nf">AddCars</span><span class="p">(</span><span class="nx">tesla</span><span class="p">,</span> <span class="nx">ford</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed creating user: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;user was created: &#34;</span><span class="p">,</span> <span class="nx">peanut_pg</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">peanut_pg</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="外键的查询">外键的查询</h3>
+<p>代码内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;context&#34;</span>
+   <span class="s">&#34;fmt&#34;</span>
+   <span class="s">&#34;log&#34;</span>
+   <span class="s">&#34;time&#34;</span>
+
+   <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+   <span class="s">&#34;github.com/peanut-pg/ent_orm_notes/quick_user_example/ent&#34;</span>
+   <span class="s">&#34;github.com/peanut-pg/ent_orm_notes/quick_user_example/ent/car&#34;</span>
+   <span class="s">&#34;github.com/peanut-pg/ent_orm_notes/quick_user_example/ent/user&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(192.168.1.104:3306)/ent_orm?parseTime=True&#34;</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+   <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+   <span class="c1">// run the auto migration tool
+</span><span class="c1"></span>   <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">peanut_pg</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">QueryUserByName</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">client</span><span class="p">,</span> <span class="s">&#34;peanut_pg&#34;</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nf">QueryCars</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">peanut_pg</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// QueryUserByName 通过name 查询
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">QueryUserByName</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">u</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Query</span><span class="p">().</span>
+      <span class="nf">Where</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nf">NameEQ</span><span class="p">(</span><span class="nx">name</span><span class="p">)).</span>
+      <span class="c1">// `Only` fails if no user found,
+</span><span class="c1"></span>      <span class="c1">// or more than 1 user returned.
+</span><span class="c1"></span>      <span class="nf">Only</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed querying user: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;user returned: &#34;</span><span class="p">,</span> <span class="nx">u</span><span class="p">)</span>
+   <span class="k">return</span> <span class="nx">u</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// QueryCars 查询用户peanut_pg是否有Ford 这个车
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">QueryCars</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">peanut_pg</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">User</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="nx">cars</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">peanut_pg</span><span class="p">.</span><span class="nf">QueryCars</span><span class="p">().</span><span class="nf">All</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed querying user cars: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;returned cars:&#34;</span><span class="p">,</span> <span class="nx">cars</span><span class="p">)</span>
+
+   <span class="c1">// what about filtering specific cars.
+</span><span class="c1"></span>   <span class="nx">ford</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">peanut_pg</span><span class="p">.</span><span class="nf">QueryCars</span><span class="p">().</span>
+      <span class="nf">Where</span><span class="p">(</span><span class="nx">car</span><span class="p">.</span><span class="nf">ModelEQ</span><span class="p">(</span><span class="s">&#34;Ford&#34;</span><span class="p">)).</span>
+      <span class="nf">Only</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed querying user cars: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ford</span><span class="p">)</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="反向查询">反向查询</h3>
+<p>在平常的查询中我们还会经常用到一些反向查询，如我们想要查询这个车所属的用户是谁，这个时候需要修改</p>
+<p><code>ent/schema/car.go</code> 中的Edges方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Car holds the schema definition for the Car entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Car</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Car.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Car</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;model&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;registered_at&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Car.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Car</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+		<span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;owner&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+			<span class="c1">// create an inverse-edge called &#34;owner&#34; of type `User`
+</span><span class="c1"></span>			<span class="c1">// and reference it to the &#34;cars&#34; edge (in User schema)
+</span><span class="c1"></span>			<span class="c1">// explicitly using the `Ref` method.
+</span><span class="c1"></span>			<span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;cars&#34;</span><span class="p">).</span>
+			<span class="c1">// setting the edge to unique, ensure
+</span><span class="c1"></span>			<span class="c1">// that a car can have only one owner.
+</span><span class="c1"></span>			<span class="nf">Unique</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>先通过<code>QueryCarByModel</code> 查询一个Model=Tesla的汽车，然后通过<code>QueryCarUser </code>查看这个汽车的所属者是谁</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">// QueryCarByModel 查询car.model=Tesla
+func QueryCarByModel(ctx context.Context, client *ent.Client) (*ent.Car, error) {
+	car, err := client.Car.Query().
+		Where(car.ModelEQ(&#34;Tesla&#34;)).
+		Only(ctx)
+	if err != nil {
+		return nil, fmt.Errorf(&#34;failed query car&#34;)
+	}
+	return car, nil
+}
+
+// QueryCarUser 查询car.model=Tesla的所属者是谁
+func QueryCarUser(ctx context.Context, car *ent.Car) error {
+	owner, err := car.QueryOwner().Only(ctx)
+	if err != nil {
+		return fmt.Errorf(&#34;failed querying car %q owner:%v&#34;, car.Model, err)
+	}
+	log.Printf(&#34;car %q owner: %q\n&#34;, car.Model, owner.Name)
+	return nil
+}
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="复杂查询">复杂查询</h3>
+<p>在上面的关系上再添加一个用户和组的关系，分别修改<code>ent/schema/user.go</code>和<code>ent/schema/car.go</code> 的Edges方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Edges of the User.
+</span><span class="c1">// 和Cars表建立关系
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;cars&#34;</span><span class="p">,</span> <span class="nx">Car</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+      <span class="c1">// create an inverse-edge called &#34;groups&#34; of type `Group`
+</span><span class="c1"></span>      <span class="c1">// and reference it to the &#34;users&#34; edge (in Group schema)
+</span><span class="c1"></span>      <span class="c1">// explicitly using the `Ref` method.
+</span><span class="c1"></span>      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;groups&#34;</span><span class="p">,</span> <span class="nx">Group</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+         <span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;users&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Edges of the Car.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Car</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;owner&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+         <span class="c1">// create an inverse-edge called &#34;owner&#34; of type `User`
+</span><span class="c1"></span>         <span class="c1">// and reference it to the &#34;cars&#34; edge (in User schema)
+</span><span class="c1"></span>         <span class="c1">// explicitly using the `Ref` method.
+</span><span class="c1"></span>         <span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;cars&#34;</span><span class="p">).</span>
+         <span class="c1">// setting the edge to unique, ensure
+</span><span class="c1"></span>         <span class="c1">// that a car can have only one owner.
+</span><span class="c1"></span>         <span class="nf">Unique</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>执行<code>go generate ./ent</code> 自动生成代码</p>
+<p>通过如下方法生成基础数据：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// CreateGraph 创建基础数据
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">CreateGraph</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="c1">// first, create the users.
+</span><span class="c1"></span>   <span class="nx">a8m</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetAge</span><span class="p">(</span><span class="mi">30</span><span class="p">).</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Ariel&#34;</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">neta</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetAge</span><span class="p">(</span><span class="mi">28</span><span class="p">).</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Neta&#34;</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="c1">// then, create the cars, and attach them to the users in the creation.
+</span><span class="c1"></span>   <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Car</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetModel</span><span class="p">(</span><span class="s">&#34;TeslaY&#34;</span><span class="p">).</span>
+      <span class="nf">SetRegisteredAt</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()).</span> <span class="c1">// ignore the time in the graph.
+</span><span class="c1"></span>      <span class="nf">SetOwner</span><span class="p">(</span><span class="nx">a8m</span><span class="p">).</span>               <span class="c1">// attach this graph to Ariel.
+</span><span class="c1"></span>      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Car</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetModel</span><span class="p">(</span><span class="s">&#34;TeslaX&#34;</span><span class="p">).</span>
+      <span class="nf">SetRegisteredAt</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()).</span> <span class="c1">// ignore the time in the graph.
+</span><span class="c1"></span>      <span class="nf">SetOwner</span><span class="p">(</span><span class="nx">a8m</span><span class="p">).</span>               <span class="c1">// attach this graph to Ariel.
+</span><span class="c1"></span>      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Car</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetModel</span><span class="p">(</span><span class="s">&#34;TeslaS&#34;</span><span class="p">).</span>
+      <span class="nf">SetRegisteredAt</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()).</span> <span class="c1">// ignore the time in the graph.
+</span><span class="c1"></span>      <span class="nf">SetOwner</span><span class="p">(</span><span class="nx">neta</span><span class="p">).</span>              <span class="c1">// attach this graph to Neta.
+</span><span class="c1"></span>      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="c1">// create the groups, and add their users in the creation.
+</span><span class="c1"></span>   <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Group</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;GitLab&#34;</span><span class="p">).</span>
+      <span class="nf">AddUsers</span><span class="p">(</span><span class="nx">neta</span><span class="p">,</span> <span class="nx">a8m</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Group</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;GitHub&#34;</span><span class="p">).</span>
+      <span class="nf">AddUsers</span><span class="p">(</span><span class="nx">a8m</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">err</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;The graph was created successfully&#34;</span><span class="p">)</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>三种查询例子</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// QueryGithub 查询group = GitHub 的用户的所有的汽车
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">QueryGithub</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="nx">cars</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Group</span><span class="p">.</span>
+      <span class="nf">Query</span><span class="p">().</span>
+      <span class="nf">Where</span><span class="p">(</span><span class="nx">group</span><span class="p">.</span><span class="nf">Name</span><span class="p">(</span><span class="s">&#34;GitHub&#34;</span><span class="p">)).</span>
+      <span class="nf">QueryUsers</span><span class="p">().</span>
+      <span class="nf">QueryCars</span><span class="p">().</span>
+      <span class="nf">All</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed getting cars:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="c1">// cars returned: [Car(id=3, model=TeslaY, registered_at=Tue Aug 25 00:43:55 2020) Car(id=4, model=TeslaX, registered_at=Tue Aug 25 00:43:55 2020)]
+</span><span class="c1"></span>   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;cars returned:&#34;</span><span class="p">,</span> <span class="nx">cars</span><span class="p">)</span>
+   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">QueryArielCars</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="c1">// Get &#34;Ariel&#34; from previous steps.
+</span><span class="c1"></span>   <span class="nx">a8m</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Query</span><span class="p">().</span>
+      <span class="nf">Where</span><span class="p">(</span>
+         <span class="nx">user</span><span class="p">.</span><span class="nf">HasCars</span><span class="p">(),</span>
+         <span class="nx">user</span><span class="p">.</span><span class="nf">Name</span><span class="p">(</span><span class="s">&#34;Ariel&#34;</span><span class="p">),</span>
+      <span class="p">).</span>
+      <span class="nf">OnlyX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="nx">cars</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">a8m</span><span class="p">.</span>       			<span class="c1">// Get the groups, that a8m is connected to:
+</span><span class="c1"></span>            <span class="nf">QueryGroups</span><span class="p">().</span> 			<span class="c1">// (Group(Name=GitHub), Group(Name=GitLab),)
+</span><span class="c1"></span>            <span class="nf">QueryUsers</span><span class="p">().</span>  			<span class="c1">// (User(Name=Ariel, Age=30), User(Name=Neta, Age=28),)
+</span><span class="c1"></span>            <span class="nf">QueryCars</span><span class="p">().</span>   			<span class="c1">//
+</span><span class="c1"></span>            <span class="nf">Where</span><span class="p">(</span>         			<span class="c1">//
+</span><span class="c1"></span>         <span class="nx">car</span><span class="p">.</span><span class="nf">Not</span><span class="p">(</span>                  <span class="c1">//  Get Neta and Ariel cars, but filter out
+</span><span class="c1"></span>            <span class="nx">car</span><span class="p">.</span><span class="nf">ModelEQ</span><span class="p">(</span><span class="s">&#34;TeslaX&#34;</span><span class="p">),</span> <span class="c1">//  those who named &#34;Mazda&#34;
+</span><span class="c1"></span>         <span class="p">),</span>
+      <span class="p">).</span>
+      <span class="nf">All</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed getting cars: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;cars returned:&#34;</span><span class="p">,</span> <span class="nx">cars</span><span class="p">)</span>
+   <span class="c1">// Output: (Car(Model=Tesla, RegisteredAt=&lt;Time&gt;), Car(Model=Ford, RegisteredAt=&lt;Time&gt;),)
+</span><span class="c1"></span>   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// QueryGroupWithUsers 查询所有由用户的组
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">QueryGroupWithUsers</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="nx">groups</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Group</span><span class="p">.</span>
+      <span class="nf">Query</span><span class="p">().</span>
+      <span class="nf">Where</span><span class="p">(</span><span class="nx">group</span><span class="p">.</span><span class="nf">HasUsers</span><span class="p">()).</span>
+      <span class="nf">All</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed getting groups: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;groups returned:&#34;</span><span class="p">,</span> <span class="nx">groups</span><span class="p">)</span>
+   <span class="c1">// Output: (Group(Name=GitHub), Group(Name=GitLab),)
+</span><span class="c1"></span>   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="https://entgo.io/docs/getting-started/">https://entgo.io/docs/getting-started/</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-08-24 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/entorm01/" data-title="ent orm笔记1---快速尝鲜" data-hashtags="orm,go"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/entorm01/" data-title="ent orm笔记1---快速尝鲜"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/orm">orm</a>,&nbsp;<a href="/tags/go">go</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/study_code_03/" class="prev" rel="prev" title="从别人的代码中学习golang系列--03"><i class="fas fa-angle-left fa-fw"></i>从别人的代码中学习golang系列--03</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-08-24 23:48:37 \u002b0800 CST',
+                    title: 'ent orm笔记1---快速尝鲜',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

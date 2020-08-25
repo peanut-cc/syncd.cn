@@ -6,10 +6,19 @@
     <description>Recent content in Go on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 31 Jul 2020 10:08:55 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2020 23:48:37 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ent orm笔记1---快速尝鲜</title>
+      <link>http://example.org/entorm01/</link>
+      <pubDate>Mon, 24 Aug 2020 23:48:37 +0800</pubDate>
+      
+      <guid>http://example.org/entorm01/</guid>
+      <description>前几天看到消息Facebook孵化的ORM ent转为正式项目，出去好奇，简单体验了一下，使用上自己感觉比GORM好用，于是打算把官方的文档进</description>
+    </item>
     
     <item>
       <title>从别人的代码中学习golang系列--03</title>
