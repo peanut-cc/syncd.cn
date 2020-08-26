@@ -6,10 +6,19 @@
     <description>Recent content in Go on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 24 Aug 2020 23:48:37 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2020 10:25:49 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/categories/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ent orm笔记2---schema使用(上)</title>
+      <link>http://example.org/entorm02/</link>
+      <pubDate>Wed, 26 Aug 2020 10:25:49 +0800</pubDate>
+      
+      <guid>http://example.org/entorm02/</guid>
+      <description>在上一篇关于快速使用ent orm的笔记中，我们再最开始使用entc init User 创建schema，在ent orm 中的schema 其实就是数据库模型，在sc</description>
+    </item>
     
     <item>
       <title>ent orm笔记1---快速尝鲜</title>

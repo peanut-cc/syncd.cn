@@ -1,15 +1,5 @@
----
-title: "ent orm笔记2---schema使用(上)"
-date: 2020-08-26T10:25:49+08:00
-draft: false
-author: "fan"
-subtitle: "ent orm笔记1"
-tags: ["orm","go"]
-categories: ["go"]
-toc:
-  enable: true
-  auto: true
----
+# ent orm笔记2---schema使用(上)
+
 
 在上一篇关于快速使用ent orm的笔记中，我们再最开始使用`entc init User` 创建schema，在ent orm 中的schema 其实就是数据库模型，在schema中我们可以通过Fields 定义数据库中表的字段信息；通过Edges 定义表之间的关系信息；通过Index 定义字段的索引信息等等，这篇文章会整理一下关于ent orm 中如何使用这些。
 

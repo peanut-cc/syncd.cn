@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>ent orm笔记2---schema使用(上) | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="ent orm笔记2---schema使用(上)" />
+<meta property="og:description" content="在上一篇关于快速使用ent orm的笔记中，我们再最开始使用entc init User 创建schema，在ent orm 中的schema 其实就是数据库模型，在sc" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/entorm02/" />
+<meta property="article:published_time" content="2020-08-26T10:25:49+08:00" />
+<meta property="article:modified_time" content="2020-08-26T10:25:49+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ent orm笔记2---schema使用(上)"/>
+<meta name="twitter:description" content="在上一篇关于快速使用ent orm的笔记中，我们再最开始使用entc init User 创建schema，在ent orm 中的schema 其实就是数据库模型，在sc"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/entorm02/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/entorm01/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ent orm笔记2---schema使用(上)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/entorm02\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "orm, go","wordcount":  4587 ,
+        "url": "http:\/\/example.org\/entorm02\/","datePublished": "2020-08-26","dateModified": "2020-08-26","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">ent orm笔记2---schema使用(上)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/go">
+                                <i class="far fa-folder fa-fw"></i>Go
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-08-26>2020-08-26</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 4587 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 10 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#fileds">Fileds</a>
+      <ul>
+        <li><a href="#数据类型">数据类型</a></li>
+        <li><a href="#id字段">ID字段</a></li>
+        <li><a href="#数据库类型">数据库类型</a></li>
+        <li><a href="#go-type">GO Type</a></li>
+        <li><a href="#default-values-默认值">Default Values 默认值</a></li>
+        <li><a href="#validators">Validators</a></li>
+        <li><a href="#内置的-validators">内置的 Validators</a></li>
+        <li><a href="#optional-可选字段">Optional 可选字段</a></li>
+        <li><a href="#nillable">Nillable</a></li>
+        <li><a href="#immutable-不可变字段">Immutable 不可变字段</a></li>
+        <li><a href="#uniqueness-唯一索引">Uniqueness 唯一索引</a></li>
+        <li><a href="#storage-key">Storage Key</a></li>
+        <li><a href="#indexes-索引">Indexes 索引</a></li>
+        <li><a href="#struct-tags">Struct Tags</a></li>
+        <li><a href="#sensitive-fields">Sensitive Fields</a></li>
+        <li><a href="#annotations">Annotations</a></li>
+      </ul>
+    </li>
+    <li><a href="#edges">Edges</a>
+      <ul>
+        <li><a href="#快速使用">快速使用</a></li>
+        <li><a href="#一对一关系">一对一关系</a></li>
+        <li><a href="#一对多关系">一对多关系</a></li>
+        <li><a href="#多对多关系">多对多关系</a></li>
+        <li><a href="#多对多单张表">多对多（单张表）</a></li>
+        <li><a href="#其他">其他</a></li>
+      </ul>
+    </li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>在上一篇关于快速使用ent orm的笔记中，我们再最开始使用<code>entc init User</code> 创建schema，在ent orm 中的schema 其实就是数据库模型，在schema中我们可以通过Fields 定义数据库中表的字段信息；通过Edges 定义表之间的关系信息；通过Index 定义字段的索引信息等等，这篇文章会整理一下关于ent orm 中如何使用这些。</p>
+<p>备注：文章中的所有代码在<code>github.com/peanut-cc/ent_orm_notes</code></p>
+<h2 id="fileds">Fileds</h2>
+<p>当我们执行 <code>entc init User</code> 之后，会在当前目录下生成一个ent目录，在该目录下有一个schema目录，默认情况下schema/user.go文件如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="s">&#34;github.com/facebook/ent&#34;</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>如果要对user 这表添加字段，需要在Fileds方法中添加如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;username&#34;</span><span class="p">).</span>
+			<span class="nf">Unique</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;created_at&#34;</span><span class="p">).</span>
+			<span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Float32</span><span class="p">(</span><span class="s">&#34;salary&#34;</span><span class="p">).</span>
+			<span class="nf">Optional</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>注意： 默认情况下，所有字段都是必填字段，可以使用Optional方法将其设置为optional。</strong></p>
+<h3 id="数据类型">数据类型</h3>
+<p>下面的数据类型都是支持的：</p>
+<ul>
+<li>All Go numeric types. Like int, uint8, float64, etc.</li>
+<li>bool</li>
+<li>string</li>
+<li>time.Time</li>
+<li>[]byte (only supported by SQL dialects).</li>
+<li>JSON (only supported by SQL dialects).</li>
+<li>Enum (only supported by SQL dialects).</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;username&#34;</span><span class="p">).</span>
+			<span class="nf">Unique</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;created_at&#34;</span><span class="p">).</span>
+			<span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Float32</span><span class="p">(</span><span class="s">&#34;salary&#34;</span><span class="p">).</span>
+			<span class="nf">Optional</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Bool</span><span class="p">(</span><span class="s">&#34;active&#34;</span><span class="p">).</span>
+			<span class="nf">Default</span><span class="p">(</span><span class="kc">false</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">JSON</span><span class="p">(</span><span class="s">&#34;strings&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{}).</span>
+			<span class="nf">Optional</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Enum</span><span class="p">(</span><span class="s">&#34;state&#34;</span><span class="p">).</span>
+			<span class="nf">Values</span><span class="p">(</span><span class="s">&#34;on&#34;</span><span class="p">,</span> <span class="s">&#34;off&#34;</span><span class="p">).</span>
+			<span class="nf">Optional</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="id字段">ID字段</h3>
+<p>数据库表的id字段，默认是内置的，不需要单独添加，其类型默认为int, 并在数据库中自动递增，</p>
+<p>为了将id配置为在所有表中唯一，需要在schema migration的时候使用WithGlobalUniqueID</p>
+<p>如果需要对id字段进行其他配置，或者想要使用UUID格式存id，则需要覆盖id的配置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;id&#34;</span><span class="p">).</span>
+			<span class="nf">StructTag</span><span class="p">(</span><span class="s">`json:&#34;oid,omitempty&#34;`</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">UUID</span><span class="p">(</span><span class="s">&#34;id&#34;</span><span class="p">,</span> <span class="nx">uuid</span><span class="p">.</span><span class="nx">UUID</span><span class="p">{}),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;id&#34;</span><span class="p">).</span>
+			<span class="nf">MaxLen</span><span class="p">(</span><span class="mi">25</span><span class="p">).</span>
+			<span class="nf">NotEmpty</span><span class="p">().</span>
+			<span class="nf">Unique</span><span class="p">().</span>
+			<span class="nf">Immutable</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="数据库类型">数据库类型</h3>
+<p>每个数据库都有自己的从go的数据类型到数据库类型的映射，例如，Mysql 在数据库中将float64字段创建为双精度的。ent orm 有一个选项参数可以使用SchemaType 方法覆盖默认行为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the Card.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Card</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Float</span><span class="p">(</span><span class="s">&#34;amount&#34;</span><span class="p">).</span>
+			<span class="nf">SchemaType</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+				<span class="nx">dialect</span><span class="p">.</span><span class="nx">MySQL</span><span class="p">:</span>    <span class="s">&#34;decimal(6,2)&#34;</span><span class="p">,</span> <span class="c1">// Override MySQL.
+</span><span class="c1"></span>				<span class="nx">dialect</span><span class="p">.</span><span class="nx">Postgres</span><span class="p">:</span> <span class="s">&#34;numeric&#34;</span><span class="p">,</span>      <span class="c1">// Override Postgres.
+</span><span class="c1"></span>			<span class="p">}),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="go-type">GO Type</h3>
+<p>字段的默认类型是基本的Go数据类型，例如，对于字符串字段，类型为string, 对于时间字段，类型为time.Time</p>
+<p>GoType 方法提供了一个选项，可以使用自定义类型替换默认的ent类型。但自定义类型必须是可以转换为Go的基本类型的类型，或者实现了<a href="https://pkg.go.dev/github.com/facebook/ent/schema/field?tab=doc#ValueScanner" target="_blank" rel="noopener noreffer">ValueScanner</a>
+接口的类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the Card.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Card</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Float</span><span class="p">(</span><span class="s">&#34;amount&#34;</span><span class="p">).</span>
+			<span class="nf">GoType</span><span class="p">(</span><span class="nf">Amount</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+			<span class="nf">Optional</span><span class="p">().</span>
+            <span class="c1">// A ValueScanner type.
+</span><span class="c1"></span>			<span class="nf">GoType</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">sql</span><span class="p">.</span><span class="nx">NullString</span><span class="p">{}),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="default-values-默认值">Default Values 默认值</h3>
+<p>Non-unique 的字段可以通过Default 和 UpdateDefault方法设置默认值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;created_at&#34;</span><span class="p">).</span>
+			<span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;updated_at&#34;</span><span class="p">).</span>
+			<span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">).</span>
+			<span class="nf">UpdateDefault</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="validators">Validators</h3>
+<p>关于字段的validator是通过 func(T) error 函数，该函数使用Validate方法在schema中定义，并在创建或更新schema的时候应用于字段的校验</p>
+<p>字段的validator支持的类型有string 和所有的数字类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+			<span class="nf">Match</span><span class="p">(</span><span class="nx">regexp</span><span class="p">.</span><span class="nf">MustCompile</span><span class="p">(</span><span class="s">&#34;[a-zA-Z_]+$&#34;</span><span class="p">)).</span>
+			<span class="nf">Validate</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">ToLower</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="o">==</span> <span class="nx">s</span> <span class="p">{</span>
+					<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;group name must begin with uppercase&#34;</span><span class="p">)</span>
+				<span class="p">}</span>
+				<span class="k">return</span> <span class="kc">nil</span>
+			<span class="p">}),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="内置的-validators">内置的 Validators</h3>
+<p>ent orm 提供了一些内置的validators, 如下：</p>
+<ul>
+<li>
+<p>Numeric types:
+Positive() - Positive adds a minimum value validator with the value of 1
+Negative() - Negative adds a maximum value validator with the value of -1
+NonNegative() - NonNegative adds a minimum value validator with the value of 0
+Min(i) - Validate that the given value is &gt; i.
+Max(i) - Validate that the given value is &lt; i.
+Range(i, j) - Validate that the given value is within the range [i, j].</p>
+</li>
+<li>
+<p>string:</p>
+<p>MinLen(i)
+MaxLen(i)
+Match(regexp.Regexp)</p>
+</li>
+</ul>
+<h3 id="optional-可选字段">Optional 可选字段</h3>
+<p>可选字段是在创建的时候不是必传的字段，并将在数据库设置为可为空的字段
+默认情况下，字段都是必填字段</p>
+<h3 id="nillable">Nillable</h3>
+<p>有时候你可能希望区分字段的零值和nil，如数据库的某列包含0 或者NULL,Nillable选项正是为此而存在的.</p>
+<p>如果有一个类型为T的字段设置为Nillable ，在通过go generate 生成代码的时候的时候生成的struct 中改字段的类型是*T, 如果数据库中该字段是NULL， 那么在ent orm的查询结果中就是nil, 否则对于没有设置Nillable的字段，如果数据库中字段的值是NULl，返回的则是改字段的零值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;required_name&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;optional_name&#34;</span><span class="p">).</span><span class="nf">Optional</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;nilable_name&#34;</span><span class="p">).</span><span class="nf">Optional</span><span class="p">().</span><span class="nf">Nillable</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;nilable_name2&#34;</span><span class="p">).</span><span class="nf">Optional</span><span class="p">().</span><span class="nf">Nillable</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">).</span><span class="nf">Optional</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age2&#34;</span><span class="p">).</span><span class="nf">Optional</span><span class="p">().</span><span class="nf">Nillable</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们通过如下代码进行数据的创建和查询，这里分别创建了两条数据，第一条数据的设置SetOptionalName，SetNilableName 的字段都没有设置内容，第二次的时候都设置了内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;context&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+
+	<span class="s">&#34;github.com/peanut-cc/ent_orm_notes/schema_notes/ent/user&#34;</span>
+
+	<span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+	<span class="s">&#34;github.com/peanut-cc/ent_orm_notes/schema_notes/ent&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(10.211.55.3:3306)/schema_notes?parseTime=True&#34;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+	<span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+	<span class="c1">// run the auto migration tool
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Create</span><span class="p">().</span><span class="nf">SetRequiredName</span><span class="p">(</span><span class="s">&#34;peanut&#34;</span><span class="p">).</span><span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Create</span><span class="p">().</span><span class="nf">SetRequiredName</span><span class="p">(</span><span class="s">&#34;syncd&#34;</span><span class="p">).</span>
+		<span class="nf">SetOptionalName</span><span class="p">(</span><span class="s">&#34;option_name&#34;</span><span class="p">).</span>
+		<span class="nf">SetNilableName</span><span class="p">(</span><span class="s">&#34;nil_name&#34;</span><span class="p">).</span>
+		<span class="nf">SetNilableName2</span><span class="p">(</span><span class="s">&#34;nil_name2&#34;</span><span class="p">).</span>
+		<span class="nf">SetAge</span><span class="p">(</span><span class="mi">18</span><span class="p">).</span>
+		<span class="nf">SetAge2</span><span class="p">(</span><span class="mi">20</span><span class="p">).</span>
+		<span class="nf">SaveX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="nx">u</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">Where</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nf">RequiredNameEQ</span><span class="p">(</span><span class="s">&#34;peanut&#34;</span><span class="p">)).</span><span class="nf">OnlyX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;required_name is:%v option_name is:%v nil_name is:%v nil_name2 is:%v age is :%v age2 is:%v\n&#34;</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">RequiredName</span><span class="p">,</span>
+		<span class="nx">u</span><span class="p">.</span><span class="nx">OptionalName</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">NilableName</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">NilableName2</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">Age</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">Age2</span><span class="p">)</span>
+	<span class="nx">u2</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">Where</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nf">RequiredNameEQ</span><span class="p">(</span><span class="s">&#34;syncd&#34;</span><span class="p">)).</span><span class="nf">OnlyX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;required_name is:%v option_name is:%v nil_name is:%v nil_name2 is:%v age is :%v age2 is:%v\n&#34;</span><span class="p">,</span> <span class="nx">u2</span><span class="p">.</span><span class="nx">RequiredName</span><span class="p">,</span>
+		<span class="nx">u2</span><span class="p">.</span><span class="nx">OptionalName</span><span class="p">,</span> <span class="nx">u2</span><span class="p">.</span><span class="nx">NilableName</span><span class="p">,</span> <span class="nx">u2</span><span class="p">.</span><span class="nx">NilableName2</span><span class="p">,</span> <span class="nx">u2</span><span class="p">.</span><span class="nx">Age</span><span class="p">,</span> <span class="nx">u2</span><span class="p">.</span><span class="nx">Age2</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是数据的打印结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">2020/08/26 20:39:47 required_name is:peanut option_name is: nil_name is:&lt;nil&gt; nil_name2 is:&lt;nil&gt; age is :0 age2 is:&lt;nil&gt;
+2020/08/26 20:39:47 required_name is:syncd option_name is:option_name nil_name is:0xc000200580 nil_name2 is:0xc000200590 age is :18 age2 is:0xc00020c4d8
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="immutable-不可变字段">Immutable 不可变字段</h3>
+<p>不可变字段，是只能在创建的时候设置值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the user.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;created_at&#34;</span><span class="p">).</span>
+            <span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">).</span>
+            <span class="nf">Immutable</span><span class="p">(),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="uniqueness-唯一索引">Uniqueness 唯一索引</h3>
+<p>可以使用Unique方法给字段设置唯一索引。 注意：唯一所以字段不能具有默认值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the user.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;nickname&#34;</span><span class="p">).</span>
+            <span class="nf">Unique</span><span class="p">(),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="storage-key">Storage Key</h3>
+<p>可以使用StorageKey方法配置自定义存储名称。在SQL中映射为列名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the user.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+            <span class="nf">StorageKey</span><span class="p">(</span><span class="s">`old_name&#34;`</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="indexes-索引">Indexes 索引</h3>
+<p>可以在多个字段和一些关系表中创建索引</p>
+<h3 id="struct-tags">Struct Tags</h3>
+<p>可以使用StructTag方法将自定义struct tag添加到生成的实体中。
+请注意，如果未提供此选项，或者提供的该选项不包含json标记，则默认json标记将与字段名称一起添加。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the user.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+            <span class="nf">StructTag</span><span class="p">(</span><span class="s">`gqlgen:&#34;gql_name&#34;`</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="sensitive-fields">Sensitive Fields</h3>
+<p>可以使用Sensitive方法将字符串字段定义为Sensitive Fields。
+Sensitive Fields不会被打印，并且在编码时将被忽略。
+请注意，Sensitive Fields不能具有struct标记。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the user.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;password&#34;</span><span class="p">).</span>
+            <span class="nf">Sensitive</span><span class="p">(),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="annotations">Annotations</h3>
+<p>在代码生成中，Annotations用于将任意元数据附加到字段对象。模板扩展可以检索这个元数据并在它们的模板中使用它。注意，元数据对象必须可序列化为 JSON 原始值(例如，struct、 map 或 slice)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Fields of the user.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;creation_date&#34;</span><span class="p">).</span>
+            <span class="nf">Annotations</span><span class="p">(</span><span class="nx">entgql</span><span class="p">.</span><span class="nx">Annotation</span><span class="p">{</span>
+                <span class="nx">OrderField</span><span class="p">:</span> <span class="s">&#34;CREATED_AT&#34;</span><span class="p">,</span>
+            <span class="p">}),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="edges">Edges</h2>
+<h3 id="快速使用">快速使用</h3>
+<p>Edges 也理解表之间的association,通常指的我们表之间的一对多，多对多关系等。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://entgo.io/assets/er_user_pets_groups.png,  1.5x,  2x"
+        data-src=""
+        alt="er-group-users"
+        title="er-group-users" /></p>
+<p><code>ent/schema/pet.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Pet holds the schema definition for the Pet entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Pet</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Pet.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Pet.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+		<span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;owner&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+			<span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;pets&#34;</span><span class="p">).</span>
+			<span class="nf">Unique</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ent/schema/user.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+		<span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;pets&#34;</span><span class="p">,</span> <span class="nx">Pet</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+		<span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;groups&#34;</span><span class="p">,</span> <span class="nx">Group</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span><span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;users&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ent/schema/group.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Group holds the schema definition for the Group entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Group</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+		<span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;users&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在上面的关系中，一个用户可以有多个宠物，但是一个宠物值只能属于一个用户。所以这里对于宠物来说是一对一的关系，对于用户来说是多对一关系。</p>
+<p>我们查看一下创建的pets表的信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">pets</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">user_pets</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">pets_users_pets</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">user_pets</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">pets_users_pets</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">user_pets</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">users</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">SET</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>因为在上述关系中：用户和宠物之间是一对多关系，所以这里使用的<code>edge.To</code>;</p>
+<p>而对宠物来说是一对一的关系，所以这里使用<code>edge.From</code>的<code>Ref</code></p>
+<p><code>edge.To</code>和<code>edge.From</code> 是创建表关系的两个方法</p>
+<h3 id="一对一关系">一对一关系</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://entgo.io/assets/er_user_card.png,  1.5x,  2x"
+        data-src=""
+        alt="er-user-card"
+        title="er-user-card" /></p>
+<p>在这个例子中，设定一个用户只能有一张信用卡，而一个信用卡也只能属于一个用户。</p>
+<p><code>ent/schema/user.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;card&#34;</span><span class="p">,</span> <span class="nx">Card</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span><span class="nf">Unique</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ent/schema/card.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Card holds the schema definition for the Card entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Card</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Card.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Card</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;number&#34;</span><span class="p">),</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;expired&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Card.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Card</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;owner&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+         <span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;card&#34;</span><span class="p">).</span>
+         <span class="nf">Unique</span><span class="p">().</span>
+         <span class="c1">// We add the &#34;Required&#34; method to the builder
+</span><span class="c1"></span>         <span class="c1">// to make this edge required on entity creation.
+</span><span class="c1"></span>         <span class="c1">// i.e. Card cannot be created without its owner.
+</span><span class="c1"></span>         <span class="nf">Required</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="一对多关系">一对多关系</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://entgo.io/assets/er_user_pets.png,  1.5x,  2x"
+        data-src=""
+        alt="er-user-pets"
+        title="er-user-pets" /></p>
+<p>在这个例子中用户和宠物之间是一对多关系，每个用户可以有多个宠物，一个宠物只有一个主人</p>
+<p><code>ent/schema/user.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;pets&#34;</span><span class="p">,</span> <span class="nx">Pet</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ent/schema/pet.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Pet holds the schema definition for the Pet entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Pet</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Pet.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Pet.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;owner&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+         <span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;pets&#34;</span><span class="p">).</span>
+         <span class="nf">Unique</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>相关的查询如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;context&#34;</span>
+   <span class="s">&#34;fmt&#34;</span>
+   <span class="s">&#34;log&#34;</span>
+
+   <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+
+   <span class="s">&#34;github.com/peanut-cc/ent_orm_notes/one_to_many/ent&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(192.168.1.100:3306)/one_to_one?parseTime=True&#34;</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+   <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+   <span class="c1">// run the auto migration tool
+</span><span class="c1"></span>   <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nf">Do</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">client</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+   <span class="c1">// Create the 2 pets.
+</span><span class="c1"></span>   <span class="nx">pedro</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Pet</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;pedro&#34;</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;creating pet: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">lola</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Pet</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;lola&#34;</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;creating pet: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="c1">// Create the user, and add its pets on the creation.
+</span><span class="c1"></span>   <span class="c1">// 创建用户，并添加用户和宠物的关系
+</span><span class="c1"></span>   <span class="nx">a8m</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+      <span class="nf">Create</span><span class="p">().</span>
+      <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;a8m&#34;</span><span class="p">).</span>
+      <span class="nf">AddPets</span><span class="p">(</span><span class="nx">pedro</span><span class="p">,</span> <span class="nx">lola</span><span class="p">).</span>
+      <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;creating user: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;User created:&#34;</span><span class="p">,</span> <span class="nx">a8m</span><span class="p">)</span><span class="nx">shell</span>
+   <span class="c1">// Output: User(id=1, age=30, name=a8m)
+</span><span class="c1"></span>
+   <span class="c1">// Query the owner. Unlike `Only`, `OnlyX` panics if an error occurs.
+</span><span class="c1"></span>   <span class="c1">// 根据宠物反向查询所属的用户
+</span><span class="c1"></span>   <span class="nx">owner</span> <span class="o">:=</span> <span class="nx">pedro</span><span class="p">.</span><span class="nf">QueryOwner</span><span class="p">().</span><span class="nf">OnlyX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">owner</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+   <span class="c1">// Output: a8m
+</span><span class="c1"></span>
+   <span class="c1">// Traverse the sub-graph. Unlike `Count`, `CountX` panics if an error occurs.
+</span><span class="c1"></span>   <span class="c1">// 根据宠物反向查询用户，并查询该用户有多少宠物
+</span><span class="c1"></span>   <span class="nx">count</span> <span class="o">:=</span> <span class="nx">pedro</span><span class="p">.</span>
+      <span class="nf">QueryOwner</span><span class="p">().</span> <span class="c1">// a8m
+</span><span class="c1"></span>      <span class="nf">QueryPets</span><span class="p">().</span>  <span class="c1">// pedro, lola
+</span><span class="c1"></span>      <span class="nf">CountX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>   <span class="c1">// count
+</span><span class="c1"></span>   <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">count</span><span class="p">)</span>
+   <span class="c1">// Output: 2
+</span><span class="c1"></span>   <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="多对多关系">多对多关系</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://entgo.io/assets/er_user_groups.png,  1.5x,  2x"
+        data-src=""
+        alt="er-user-groups"
+        title="er-user-groups" /></p>
+<p>在这个例子中，用户和组之间是多对多关系，每个组有多个用户，每个用户也可以加入多个组</p>
+<p><code>ent/schema/group.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Group holds the schema definition for the Group entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Group</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Group.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Group</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;users&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>ent/schema/user.go</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;groups&#34;</span><span class="p">,</span> <span class="nx">Group</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span><span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;users&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个时候，会生成第三张表，group_users表，查看表的信息如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">group_users</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">group_id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">user_id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">group_id</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">user_id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">group_users_user_id</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">user_id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">group_users_group_id</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">group_id</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">groups</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">group_users_user_id</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">user_id</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">users</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>常用的查询方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;groups&#34;</span><span class="p">,</span> <span class="nx">Group</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span><span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;users&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="多对多单张表">多对多（单张表）</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://entgo.io/assets/er_following_followers.png,  1.5x,  2x"
+        data-src=""
+        alt="er-following-followers"
+        title="er-following-followers" /></p>
+<p>这种关系其实也挺常见的，如我们微博账户，不同账户之间可以相关关注</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+		<span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;following&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+			<span class="nf">From</span><span class="p">(</span><span class="s">&#34;followers&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;following&#34;</span><span class="p">,</span> <span class="nx">User</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+         <span class="nf">From</span><span class="p">(</span><span class="s">&#34;followers&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样会生成一个user_following表，表信息为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">user_following</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">user_id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">follower_id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">user_id</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">follower_id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">user_following_follower_id</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">follower_id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">user_following_follower_id</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">follower_id</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">users</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">user_following_user_id</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">user_id</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">users</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="其他">其他</h3>
+<p>在这里和在Fields中同样也有<code>Required</code>   <code> StorageKey</code>  <code>Indexes</code> <code>Annotations</code> 用法基本一样，这里不再说明</p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="https://entgo.io/">https://entgo.io/</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-08-26 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/entorm02/" data-title="ent orm笔记2---schema使用(上)" data-hashtags="orm,go"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/entorm02/" data-title="ent orm笔记2---schema使用(上)"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/orm">orm</a>,&nbsp;<a href="/tags/go">go</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/entorm01/" class="prev" rel="prev" title="ent orm笔记1---快速尝鲜"><i class="fas fa-angle-left fa-fw"></i>ent orm笔记1---快速尝鲜</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-08-26 10:25:49 \u002b0800 CST',
+                    title: 'ent orm笔记2---schema使用(上)',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
