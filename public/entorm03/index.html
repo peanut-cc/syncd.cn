@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>ent orm笔记2---schema使用(下) | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="ent orm笔记2---schema使用(下)" />
+<meta property="og:description" content="Indexes 索引 在前两篇的文章中，其实对于索引也有一些使用， 这里来详细看一下关于索引的使用 Indexes方法可以在一个或者多个字段上设置索引，以提高数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/entorm03/" />
+<meta property="article:published_time" content="2020-08-27T22:37:34+08:00" />
+<meta property="article:modified_time" content="2020-08-27T22:37:34+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ent orm笔记2---schema使用(下)"/>
+<meta name="twitter:description" content="Indexes 索引 在前两篇的文章中，其实对于索引也有一些使用， 这里来详细看一下关于索引的使用 Indexes方法可以在一个或者多个字段上设置索引，以提高数"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/entorm03/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/entorm02/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ent orm笔记2---schema使用(下)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/entorm03\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "orm, go","wordcount":  1592 ,
+        "url": "http:\/\/example.org\/entorm03\/","datePublished": "2020-08-27","dateModified": "2020-08-27","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">ent orm笔记2---schema使用(下)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/go">
+                                <i class="far fa-folder fa-fw"></i>Go
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-08-27>2020-08-27</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1592 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 4 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#indexes-索引">Indexes 索引</a>
+      <ul>
+        <li><a href="#index-on-edges">Index On Edges</a></li>
+      </ul>
+    </li>
+    <li><a href="#config">Config</a></li>
+    <li><a href="#mixin">Mixin</a>
+      <ul>
+        <li><a href="#builtin-mixin">Builtin Mixin</a></li>
+      </ul>
+    </li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="indexes-索引">Indexes 索引</h2>
+<p>在前两篇的文章中，其实对于索引也有一些使用， 这里来详细看一下关于索引的使用</p>
+<p>Indexes方法可以在一个或者多个字段上设置索引，以提高数据检索的速度或者定义数据的唯一性</p>
+<p>在下面这个例子中，对user表的<code>field1</code> 和<code>field2</code> 字段设置了联合索引;对<code>first_name</code>和<code>last_name</code>设置了联合唯一索引; 对<code>field3</code> 设置了唯一索引。</p>
+<p>这里需要注意对于单独的字段设置唯一索引，在Fields中定义字段的时候通过Unique方法即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;github.com/facebook/ent&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+	<span class="s">&#34;github.com/facebook/ent/schema/index&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// User holds the schema definition for the User entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;field1&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;field2&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;field3&#34;</span><span class="p">).</span><span class="nf">Unique</span><span class="p">(),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;first_name&#34;</span><span class="p">),</span>
+		<span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;last_name&#34;</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the User.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">Indexes</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Index</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span>
+		<span class="c1">// non-unique index.
+</span><span class="c1"></span>		<span class="nx">index</span><span class="p">.</span><span class="nf">Fields</span><span class="p">(</span><span class="s">&#34;field1&#34;</span><span class="p">,</span> <span class="s">&#34;field2&#34;</span><span class="p">),</span>
+		<span class="c1">// unique index
+</span><span class="c1"></span>		<span class="nx">index</span><span class="p">.</span><span class="nf">Fields</span><span class="p">(</span><span class="s">&#34;first_name&#34;</span><span class="p">,</span> <span class="s">&#34;last_name&#34;</span><span class="p">).</span><span class="nf">Unique</span><span class="p">(),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>查看一下生成的表的信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">users</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">field1</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">field2</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">field3</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">first_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">last_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="o">`</span><span class="n">field3</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">field3</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="o">`</span><span class="n">user_first_name_last_name</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">first_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">last_name</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">user_field1_field2</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">field1</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">field2</span><span class="o">`</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="index-on-edges">Index On Edges</h3>
+<p>在建立表关系的时候也可以对相应的字段设置索引，主要实在特定关系下设置字段的唯一性</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://entgo.io/assets/er_city_streets.png,  1.5x,  2x"
+        data-src=""
+        alt="er-city-streets"
+        title="er-city-streets" /></p>
+<p>在这个例子中，我们有一个有许多街道的城市，我们希望在每个城市下设置街道名称是唯一的。</p>
+<p><code>ent/schema/city.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// City holds the schema definition for the City entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">City</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the City.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">City</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the City.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">City</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">To</span><span class="p">(</span><span class="s">&#34;streets&#34;</span><span class="p">,</span> <span class="nx">Street</span><span class="p">.</span><span class="nx">Type</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>ent/schema/street.go</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;github.com/facebook/ent&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/edge&#34;</span>
+   <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Street holds the schema definition for the Street entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Street</span> <span class="kd">struct</span> <span class="p">{</span>
+   <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Fields of the Street.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Street</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+      <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Edges of the Street.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Street</span><span class="p">)</span> <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Edge</span><span class="p">{</span>
+      <span class="nx">edge</span><span class="p">.</span><span class="nf">From</span><span class="p">(</span><span class="s">&#34;city&#34;</span><span class="p">,</span> <span class="nx">City</span><span class="p">.</span><span class="nx">Type</span><span class="p">).</span>
+         <span class="nf">Ref</span><span class="p">(</span><span class="s">&#34;streets&#34;</span><span class="p">).</span>
+         <span class="nf">Unique</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在上一篇文章中这种用法我们已经见过，我们看一下这样创建的表信息，主要是看streets这个表：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">streets</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">city_streets</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">streets_cities_streets</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">city_streets</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">streets_cities_streets</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">city_streets</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">cities</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">SET</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在<code>ent/schema/street.go</code> 添加索引的信息后，再次查看streets表的信息，其实这里我们就是通过添加约束，使得一个城市中每个街道的名称是唯一的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">Street</span><span class="p">)</span> <span class="nf">Indexes</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Index</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span>
+      <span class="nx">index</span><span class="p">.</span><span class="nf">Fields</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+         <span class="nf">Edges</span><span class="p">(</span><span class="s">&#34;city&#34;</span><span class="p">).</span>
+         <span class="nf">Unique</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">streets</span><span class="o">`</span> <span class="p">(</span>
+  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="o">`</span><span class="n">city_streets</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="o">`</span><span class="n">street_name_city_streets</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">city_streets</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="o">`</span><span class="n">streets_cities_streets</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">city_streets</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">CONSTRAINT</span> <span class="o">`</span><span class="n">streets_cities_streets</span><span class="o">`</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">city_streets</span><span class="o">`</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="o">`</span><span class="n">cities</span><span class="o">`</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">SET</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="config">Config</h2>
+<p>可以使用Table选项为类型提供自定义表名，如下所示:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;github.com/facebook/ent&#34;</span>
+    <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Config</span><span class="p">()</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Config</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Config</span><span class="p">{</span>
+        <span class="nx">Table</span><span class="p">:</span> <span class="s">&#34;Users&#34;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">),</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="mixin">Mixin</h2>
+<p>Mixin允许您创建可重用的<code>ent.Schema</code>代码。<code>ent.Mixin</code> 接口如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">Mixin</span> <span class="kd">interface</span> <span class="p">{</span>
+    <span class="c1">// Fields returns a slice of fields to add to the schema.
+</span><span class="c1"></span>    <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">Field</span>
+    <span class="c1">// Edges returns a slice of edges to add to the schema.
+</span><span class="c1"></span>    <span class="nf">Edges</span><span class="p">()</span> <span class="p">[]</span><span class="nx">Edge</span>
+    <span class="c1">// Indexes returns a slice of indexes to add to the schema.
+</span><span class="c1"></span>    <span class="nf">Indexes</span><span class="p">()</span> <span class="p">[]</span><span class="nx">Index</span>
+    <span class="c1">// Hooks returns a slice of hooks to add to the schema.
+</span><span class="c1"></span>    <span class="c1">// Note that mixin hooks are executed before schema hooks.
+</span><span class="c1"></span>    <span class="nf">Hooks</span><span class="p">()</span> <span class="p">[]</span><span class="nx">Hook</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Mixin的一个常见用例是将一些常用的通用字段进行内置，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;time&#34;</span>
+
+    <span class="s">&#34;github.com/facebook/ent&#34;</span>
+    <span class="s">&#34;github.com/facebook/ent/schema/field&#34;</span>
+    <span class="s">&#34;github.com/facebook/ent/schema/mixin&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// -------------------------------------------------
+</span><span class="c1">// Mixin definition
+</span><span class="c1"></span>
+<span class="c1">// TimeMixin implements the ent.Mixin for sharing
+</span><span class="c1">// time fields with package schemas.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">TimeMixin</span> <span class="kd">struct</span><span class="p">{</span>
+    <span class="c1">// We embed the `mixin.Schema` to avoid
+</span><span class="c1"></span>    <span class="c1">// implementing the rest of the methods.
+</span><span class="c1"></span>    <span class="nx">mixin</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">TimeMixin</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;created_at&#34;</span><span class="p">).</span>
+            <span class="nf">Immutable</span><span class="p">().</span>
+            <span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">),</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Time</span><span class="p">(</span><span class="s">&#34;updated_at&#34;</span><span class="p">).</span>
+            <span class="nf">Default</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">).</span>
+            <span class="nf">UpdateDefault</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// DetailsMixin implements the ent.Mixin for sharing
+</span><span class="c1">// entity details fields with package schemas.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">DetailsMixin</span> <span class="kd">struct</span><span class="p">{</span>
+    <span class="c1">// We embed the `mixin.Schema` to avoid
+</span><span class="c1"></span>    <span class="c1">// implementing the rest of the methods.
+</span><span class="c1"></span>    <span class="nx">mixin</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">DetailsMixin</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;age&#34;</span><span class="p">).</span>
+            <span class="nf">Positive</span><span class="p">(),</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">).</span>
+            <span class="nf">NotEmpty</span><span class="p">(),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// -------------------------------------------------
+</span><span class="c1">// Schema definition
+</span><span class="c1"></span>
+<span class="c1">// User schema mixed-in the TimeMixin and DetailsMixin fields and therefore
+</span><span class="c1">// has 5 fields: `created_at`, `updated_at`, `age`, `name` and `nickname`.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">User</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Mixin</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Mixin</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Mixin</span><span class="p">{</span>
+        <span class="nx">TimeMixin</span><span class="p">{},</span>
+        <span class="nx">DetailsMixin</span><span class="p">{},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">User</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;nickname&#34;</span><span class="p">).</span>
+            <span class="nf">Unique</span><span class="p">(),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Pet schema mixed-in the DetailsMixin fields and therefore
+</span><span class="c1">// has 3 fields: `age`, `name` and `weight`.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Pet</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Mixin</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Mixin</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Mixin</span><span class="p">{</span>
+        <span class="nx">DetailsMixin</span><span class="p">{},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Fields</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Field</span><span class="p">{</span>
+        <span class="nx">field</span><span class="p">.</span><span class="nf">Float</span><span class="p">(</span><span class="s">&#34;weight&#34;</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="builtin-mixin">Builtin Mixin</h3>
+<p><code>Mixin</code>提供了一些内置的<code>Mixin</code>，可用于将create_time和update_time字段添加到schema中。</p>
+<p>为了使用它们，将<code> mixin.Time mixin</code> 添加到schema，如下所示:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;github.com/facebook/ent&#34;</span>
+    <span class="s">&#34;github.com/facebook/ent/schema/mixin&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">Pet</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">Pet</span><span class="p">)</span> <span class="nf">Mixin</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Mixin</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Mixin</span><span class="p">{</span>
+        <span class="nx">mixin</span><span class="p">.</span><span class="nx">Time</span><span class="p">{},</span>
+        <span class="c1">// Or, mixin.CreateTime only for create_time
+</span><span class="c1"></span>        <span class="c1">// and mixin.UpdateTime only for update_time.
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="https://entgo.io/">https://entgo.io/</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-08-27 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/entorm03/" data-title="ent orm笔记2---schema使用(下)" data-hashtags="orm,go"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/entorm03/" data-title="ent orm笔记2---schema使用(下)"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/orm">orm</a>,&nbsp;<a href="/tags/go">go</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/entorm02/" class="prev" rel="prev" title="ent orm笔记2---schema使用(上)"><i class="fas fa-angle-left fa-fw"></i>ent orm笔记2---schema使用(上)</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-08-27 22:37:34 \u002b0800 CST',
+                    title: 'ent orm笔记2---schema使用(下)',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-pg',
+                    admin: ['peanut-pg'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

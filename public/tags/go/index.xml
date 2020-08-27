@@ -6,10 +6,19 @@
     <description>Recent content in Go on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 26 Aug 2020 10:25:49 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Aug 2020 22:37:34 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ent orm笔记2---schema使用(下)</title>
+      <link>http://example.org/entorm03/</link>
+      <pubDate>Thu, 27 Aug 2020 22:37:34 +0800</pubDate>
+      
+      <guid>http://example.org/entorm03/</guid>
+      <description>Indexes 索引 在前两篇的文章中，其实对于索引也有一些使用， 这里来详细看一下关于索引的使用 Indexes方法可以在一个或者多个字段上设置索引，以提高数</description>
+    </item>
     
     <item>
       <title>ent orm笔记2---schema使用(上)</title>
