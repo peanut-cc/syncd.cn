@@ -111,7 +111,7 @@ theme = "LoveIt"
     [params.comment.gitalk]
       # LoveIt   v0.1.1
       enable = true
-      owner = "peanut-pg"
+      owner = "peanut-cc"
       repo = "blogComment"
       clientId = "12d62df89f42baf9a471"
       clientSecret = "603bc3951c1c2a0685201df45862a1fdb34a83f1"
