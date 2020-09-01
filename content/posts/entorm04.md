@@ -15,6 +15,13 @@ toc:
 
 在前面几篇文章中，我们经常使用的可能就是entc这个命令了，entc这个工具给带来了很多功能，这篇文章主要整理关于ent orm 中Code Generation
 
+之前的例子中有个知识点少整理了，就是关于如果我们想要看orm在执行过程中详细原生sql语句是可以开启Debug看到的，代码如下：
+
+```go
+	client, err := ent.Open("mysql", "root:123456@tcp(10.211.55.3:3306)/graph_traversal?parseTime=True",
+		ent.Debug())
+```
+
 
 
 ## 序言
@@ -85,7 +92,7 @@ Flags:
 
 
 
-### Storage选项
+### Storage
 
 entc 可以为 SQL 和 Gremlin 方言生成资产。
 
@@ -634,21 +641,374 @@ func SetName(m SetNamer, name string) {
 
 
 
+![er-traversal-graph-gopher](https://entgo.io/assets/er_traversal_graph_gopher.png)
 
 
 
 
 
+上面的遍历从一个 Group 实体开始，继续到它的 admin (edge) ，继续到它的朋友(edge) ，获取他们的宠物(edge) ，获取每个宠物的朋友(edge) ，并请求它们的主人
+
+```go
+func Traverse(ctx context.Context, client *ent.Client) error {
+    owner, err := client.Group.         // GroupClient.
+        Query().                        // Query builder.
+        Where(group.Name("Github")).    // Filter only Github group (only 1).
+        QueryAdmin().                   // Getting Dan.
+        QueryFriends().                 // Getting Dan's friends: [Ariel].
+        QueryPets().                    // Their pets: [Pedro, Xabi].
+        QueryFriends().                 // Pedro's friends: [Coco], Xabi's friends: [].
+        QueryOwner().                   // Coco's owner: Alex.
+        Only(ctx)                       // Expect only one entity to return in the query.
+    if err != nil {
+        return fmt.Errorf("failed querying the owner: %v", err)
+    }
+    fmt.Println(owner)
+    // Output:
+    // User(id=3, age=37, name=Alex)
+    return nil
+}
+```
 
 
 
+下面的遍历如何？
+
+![er-traversal-graph-gopher-query](https://entgo.io/assets/er_traversal_graph_gopher_query.png)
 
 
 
+我们希望得到所有宠物(entities)的所有者(edge)是朋友(edge)的一些群管理员(edge)。
+
+```
+func Traverse2(ctx context.Context, client *ent.Client) error {
+	pets, err := client.Pet.
+		Query().
+		Where(
+			pet.HasOwnerWith(
+				user.HasFriendsWith(
+					user.HasManage(),
+				),
+			),
+		).
+		All(ctx)
+	if err != nil {
+		return fmt.Errorf("failed querying the pets: %v", err)
+	}
+	fmt.Println(pets)
+	// Output:
+	// [Pet(id=1, name=Pedro) Pet(id=2, name=Xabi)]
+	return nil
+}
+```
 
 
 
+上面的查询中，查询所有的宠物，条件是: 宠物要有主人，同时宠物的主人是要有朋友，同时该主人还要属于管理员
 
 
 
+## Eager Loading
+
+ent 支持通过它们的edges 查询，并将关联的entities 添加到返回的对象中
+
+通过下面的例子理解：
+
+![er-group-users](https://entgo.io/assets/er_user_pets_groups.png)
+
+
+
+查询上面关系中所有用户和它们的宠物，代码如下：
+
+```go
+func edgerLoading(ctx context.Context, client *ent.Client) {
+   users, err := client.User.Query().WithPets().All(ctx)
+   if err != nil {
+      log.Fatalf("user query failed:%v", err)
+   }
+   log.Println(users)
+   for _, u := range users {
+      for _, p := range u.Edges.Pets {
+         log.Printf("user (%v) -- > Pet (%v)\n", u.Name, p.Name)
+      }
+   }
+
+}
+```
+
+完整的代码在：https://github.com/peanut-cc/ent_orm_notes/graph_traversal
+
+查询的结果如下：
+
+```shell
+2020/09/01 20:09:07 [User(id=1, age=29, name=Dan) User(id=2, age=30, name=Ariel) User(id=3, age=37, name=Alex) User(id=4, age=18, name=peanut)]
+2020/09/01 20:09:07 user (Ariel) -- > Pet (Pedro)
+2020/09/01 20:09:07 user (Ariel) -- > Pet (Xabi)
+2020/09/01 20:09:07 user (Alex) -- > Pet (Coco)
+
+```
+
+
+
+预加载允许查询多个关联，包括嵌套关联，还可以过滤，排序或限制查询结果，例如：
+
+
+
+```go
+func edgerLoading2(ctx context.Context, client *ent.Client) {
+   users, err := client.User.
+      Query().
+      Where(
+         user.AgeGT(18),
+      ).
+      WithPets().
+      WithGroups(func(q *ent.GroupQuery) {
+         q.Limit(5)
+         q.WithUsers().Limit(5)
+      }).All(ctx)
+   if err != nil {
+      log.Fatalf("user query failed:%v", err)
+   }
+   log.Println(users)
+   for _, u := range users {
+      for _, p := range u.Edges.Pets {
+         log.Printf("user (%v) --> Pet (%v)\n", u.Name, p.Name)
+      }
+      for _, g := range u.Edges.Groups {
+         log.Printf("user (%v) -- Group (%v)\n", u.Name, g.Name)
+      }
+   }
+
+}
+```
+
+
+
+每个query-builder都有一个方法列表，其形式为 `With<E>(...func(<N>Query))`
+
+`<E>`代表边缘名称(像`WithGroups`) ，`< N>` 代表边缘类型(像`GroupQuery`)。
+
+注意，只有 SQL 方言支持这个特性
+
+
+
+## Aggregation
+
+
+
+### Group By
+
+按所有用户的姓名和年龄字段分组，并计算其总年龄。
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+
+	"github.com/peanut-cc/ent_orm_notes/groupBy/ent/user"
+
+	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/peanut-cc/ent_orm_notes/groupBy/ent"
+)
+
+func main() {
+	client, err := ent.Open("mysql", "root:123456@tcp(10.211.55.3:3306)/groupBy?parseTime=True",
+		ent.Debug())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Close()
+	ctx := context.Background()
+	// run the auto migration tool
+	if err := client.Schema.Create(ctx); err != nil {
+		log.Fatalf("failed creating schema resources:%v", err)
+	}
+	GenData(ctx, client)
+	Do(ctx, client)
+
+}
+
+func GenData(ctx context.Context, client *ent.Client) {
+	client.User.Create().SetName("peanut").SetAge(18).SaveX(ctx)
+	client.User.Create().SetName("jack").SetAge(20).SaveX(ctx)
+	client.User.Create().SetName("steve").SetAge(22).SaveX(ctx)
+	client.User.Create().SetName("peanut-cc").SetAge(18).SaveX(ctx)
+	client.User.Create().SetName("jack-dd").SetAge(18).SaveX(ctx)
+}
+
+func Do(ctx context.Context, client *ent.Client) {
+	var v []struct {
+		Name  string `json:"name"`
+		Age   int    `json:"age"`
+		Sum   int    `json:"sum"`
+		Count int    `json:"count"`
+	}
+	client.User.
+		Query().
+		GroupBy(
+			user.FieldName, user.FieldAge,
+		).
+		Aggregate(
+			ent.Count(),
+			ent.Sum(user.FieldAge),
+		).
+		ScanX(ctx, &v)
+	log.Println(v)
+
+}
+```
+
+
+
+按一个字段分组，例子如下：
+
+```go
+func Do2(ctx context.Context, client *ent.Client) {
+	names := client.User.Query().GroupBy(user.FieldName).StringsX(ctx)
+	log.Println(names)
+}
+```
+
+
+
+## Predicates
+
+
+
+### Field Predicates
+
+- Bool:
+  -  =, !=
+- Numberic:
+  - =, !=, >, <, >=, <=,
+  - IN, NOT IN
+- Time:
+  - =, !=, >, <, >=, <=
+  - IN, NOT IN
+- String:
+  - =, !=, >, <, >=, <=
+  - IN, NOT IN
+  - Contains, HasPrefix, HasSuffix
+  - ContainsFold, EqualFold (**SQL** specific)
+- Optional fields:
+  - IsNil, NotNil
+
+
+
+### Edge Predicates
+
+
+
+**HasEdge** 例如，查询所有宠物的所有者，使用:
+
+```go
+ client.Pet.
+      Query().
+      Where(pet.HasOwner()).
+      All(ctx)
+```
+
+**HasEdgeWith**
+
+```go
+ client.Pet.
+      Query().
+      Where(pet.HasOwnerWith(user.Name("a8m"))).
+      All(ctx)
+```
+
+
+
+### Negation (NOT)
+
+```go
+client.Pet.
+    Query().
+    Where(pet.Not(pet.NameHasPrefix("Ari"))).
+    All(ctx)
+```
+
+
+
+### Disjunction (OR)
+
+```go
+client.Pet.
+    Query().
+    Where(
+        pet.Or(
+            pet.HasOwner(),
+            pet.Not(pet.HasFriends()),
+        )
+    ).
+    All(ctx)
+```
+
+### Conjunction (AND)
+
+```go
+client.Pet.
+    Query().
+    Where(
+        pet.And(
+            pet.HasOwner(),
+            pet.Not(pet.HasFriends()),
+        )
+    ).
+    All(ctx)
+```
+
+
+
+### Custom Predicates
+
+如果想编写自己的特定于方言的逻辑，Custom predicates可能很有用。
+
+```go
+pets := client.Pet.
+    Query().
+    Where(predicate.Pet(func(s *sql.Selector) {
+        s.Where(sql.InInts(pet.OwnerColumn, 1, 2, 3))
+    })).
+    AllX(ctx)
+```
+
+
+
+## Paging And Ordering
+
+### Limit
+
+将查询结果限制为 n 个实体。
+
+```go
+users, err := client.User.
+    Query().
+    Limit(n).
+    All(ctx)
+```
+
+### Offset
+
+设置从查询返回的第一个最大数量。
+
+```go
+users, err := client.User.
+    Query().
+    Offset(10).
+    All(ctx)
+```
+
+### Ordering
+
+Order 返回按一个或多个字段的值排序的实体。
+
+```go
+users, err := client.User.Query().
+    Order(ent.Asc(user.FieldName)).
+    All(ctx)
+```
 
