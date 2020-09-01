@@ -6,13 +6,22 @@
     <description>Recent content in Posts on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 27 Aug 2020 22:37:34 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 31 Aug 2020 15:08:42 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>ent orm笔记2---schema使用(下)</title>
+      <title>ent orm笔记4---Code Generation</title>
+      <link>http://example.org/entorm04/</link>
+      <pubDate>Mon, 31 Aug 2020 15:08:42 +0800</pubDate>
+      
+      <guid>http://example.org/entorm04/</guid>
+      <description>在前面几篇文章中，我们经常使用的可能就是entc这个命令了，entc这个工具给带来了很多功能，这篇文章主要整理关于ent orm 中Code Generation 之前的</description>
+    </item>
+    
+    <item>
+      <title>ent orm笔记3---schema使用(下)</title>
       <link>http://example.org/entorm03/</link>
       <pubDate>Thu, 27 Aug 2020 22:37:34 +0800</pubDate>
       

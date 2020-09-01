@@ -1,15 +1,5 @@
----
-title: "ent orm笔记4---Code Generation"
-date: 2020-08-31T15:08:42+08:00
-draft: false
-author: "fan"
-subtitle: "ent orm笔记2"
-tags: ["orm","go"]
-categories: ["go"]
-toc:
-  enable: true
-  auto: true
----
+# ent orm笔记4---Code Generation
+
 
 
 

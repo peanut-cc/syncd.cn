@@ -1,5 +1,5 @@
 ---
-title: "ent orm笔记2---schema使用(下)"
+title: "ent orm笔记3---schema使用(下)"
 date: 2020-08-27T22:37:34+08:00
 draft: false
 author: "fan"
