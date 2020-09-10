@@ -6,10 +6,19 @@
     <description>Recent content in Posts on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 31 Aug 2020 15:08:42 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 02 Sep 2020 23:09:43 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ent orm笔记5---结束</title>
+      <link>http://example.org/entorm05/</link>
+      <pubDate>Wed, 02 Sep 2020 23:09:43 +0800</pubDate>
+      
+      <guid>http://example.org/entorm05/</guid>
+      <description>Hooks Hooks允许你在对表做一些操作的时候添加一些自定义的处理逻辑。如当我对某个表的某条数据进行更新的前和后，做一些自定义的操作，其实这个就和</description>
+    </item>
     
     <item>
       <title>ent orm笔记4---Code Generation</title>

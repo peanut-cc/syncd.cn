@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>ent orm笔记5---结束 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="ent orm笔记5---结束" />
+<meta property="og:description" content="Hooks Hooks允许你在对表做一些操作的时候添加一些自定义的处理逻辑。如当我对某个表的某条数据进行更新的前和后，做一些自定义的操作，其实这个就和" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/entorm05/" />
+<meta property="article:published_time" content="2020-09-02T23:09:43+08:00" />
+<meta property="article:modified_time" content="2020-09-02T23:09:43+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ent orm笔记5---结束"/>
+<meta name="twitter:description" content="Hooks Hooks允许你在对表做一些操作的时候添加一些自定义的处理逻辑。如当我对某个表的某条数据进行更新的前和后，做一些自定义的操作，其实这个就和"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/entorm05/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/entorm04/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ent orm笔记5---结束",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/entorm05\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "orm, go","wordcount":  3329 ,
+        "url": "http:\/\/example.org\/entorm05\/","datePublished": "2020-09-02","dateModified": "2020-09-02","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">ent orm笔记5---结束</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/go">
+                                <i class="far fa-folder fa-fw"></i>Go
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-09-02>2020-09-02</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 3329 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 7 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#hooks">Hooks</a>
+      <ul>
+        <li><a href="#runtime-hooks">Runtime hooks</a></li>
+        <li><a href="#schema-hooks">Schema hooks</a></li>
+        <li><a href="#evaluation-order">Evaluation order</a></li>
+      </ul>
+    </li>
+    <li><a href="#transactions">Transactions</a>
+      <ul>
+        <li><a href="#最佳实践">最佳实践</a></li>
+      </ul>
+    </li>
+    <li><a href="#migration">Migration</a>
+      <ul>
+        <li><a href="#auto-migration">Auto Migration</a></li>
+        <li><a href="#drop-resources">Drop Resources</a></li>
+        <li><a href="#universal-ids">Universal IDs</a></li>
+        <li><a href="#offline-mode">Offline Mode</a></li>
+      </ul>
+    </li>
+    <li><a href="#sqldb-integration">sql.DB Integration</a>
+      <ul>
+        <li><a href="#use-opencensus-with-mysql">Use Opencensus With MySQL</a></li>
+        <li><a href="#use-pgx-with-postgresql">Use pgx with PostgreSQL</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="hooks">Hooks</h2>
+<p>Hooks允许你在对表做一些操作的时候添加一些自定义的处理逻辑。如当我对某个表的某条数据进行更新的前和后，做一些自定义的操作，其实这个就和web 中 middleware 中间件的原理类似</p>
+<p>具体我们可以一下的操作中增加hook:</p>
+<ul>
+<li><code>Create</code> - Create node in the graph.</li>
+<li><code>UpdateOne</code> - Update a node in the graph. For example, increment its field.</li>
+<li><code>Update</code> - Update multiple nodes in the graph that match a predicate.</li>
+<li><code>DeleteOne</code> - Delete a node from the graph.</li>
+<li><code>Delete</code> - Delete all nodes that match a predicate.</li>
+</ul>
+<p>mutation hooks 有两种类型：<strong>schema hooks</strong>  和 <strong>runtime hooks</strong></p>
+<p>schema hooks 主要是在schema 中添加一些自定义操作</p>
+<p>runtime hooks 主要是用在像logging, metrics, tracing,等等</p>
+<h3 id="runtime-hooks">Runtime hooks</h3>
+<p>这里通过一个简单的例子理解：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+   <span class="s">&#34;context&#34;</span>
+   <span class="s">&#34;log&#34;</span>
+   <span class="s">&#34;time&#34;</span>
+
+   <span class="nx">_</span> <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+   <span class="s">&#34;github.com/peanut-cc/ent_orm_notes/hook_runtime_example/ent&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:123456@tcp(10.211.55.3:3306)/hook_runtime?parseTime=True&#34;</span><span class="p">)</span>
+   <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;ent open db error:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+   <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+   <span class="c1">// run the auto migration tool
+</span><span class="c1"></span>   <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources:%v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+   <span class="p">}</span>
+
+   <span class="nx">client</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">MutateFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">m</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutation</span><span class="p">)</span> <span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Value</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">start</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span>
+         <span class="k">defer</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Op=%s\tType=%s\tTime=%s\tConreteType=%T&#34;</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nf">Op</span><span class="p">(),</span> <span class="nx">m</span><span class="p">.</span><span class="nf">Type</span><span class="p">(),</span> <span class="nx">time</span><span class="p">.</span><span class="nf">Since</span><span class="p">(</span><span class="nx">start</span><span class="p">),</span> <span class="nx">m</span><span class="p">)</span>
+         <span class="p">}()</span>
+         <span class="k">return</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Mutate</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span>
+      <span class="p">})</span>
+   <span class="p">})</span>
+   <span class="nf">Do</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">client</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Create</span><span class="p">().</span><span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;peanut&#34;</span><span class="p">).</span><span class="nf">SaveX</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>日志打印如下：</p>
+<p><code>2020/09/02 11:44:55 Op=OpCreate Type=User       Time=4.535547ms ConreteType=*ent.UserMutation</code></p>
+<p>这里是添加了一个全局的hook, 记录了我们对数据库每条记录操作的耗时，这个在日常的工作中也是非常有用的。</p>
+<p>但是在某些场景下，我们可能有更细粒度的使用，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// &lt;client was defined in the previous block&gt;
+</span><span class="c1"></span>
+    <span class="c1">// Add a hook only on user mutations.
+</span><span class="c1"></span>    <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span> <span class="p">{</span>
+        <span class="c1">// Use the &#34;&lt;project&gt;/ent/hook&#34; to get the concrete type of the mutation.
+</span><span class="c1"></span>        <span class="k">return</span> <span class="nx">hook</span><span class="p">.</span><span class="nf">UserFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">m</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">UserMutation</span><span class="p">)</span> <span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Value</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Mutate</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+    
+    <span class="c1">// Add a hook only on update operations.
+</span><span class="c1"></span>    <span class="nx">client</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="nx">hook</span><span class="p">.</span><span class="nf">On</span><span class="p">(</span><span class="nf">Logger</span><span class="p">(),</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">OpUpdate</span><span class="p">|</span><span class="nx">ent</span><span class="p">.</span><span class="nx">OpUpdateOne</span><span class="p">))</span>
+    
+    <span class="c1">// Reject delete operations.
+</span><span class="c1"></span>    <span class="nx">client</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="nx">hook</span><span class="p">.</span><span class="nf">Reject</span><span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">OpDelete</span><span class="p">|</span><span class="nx">ent</span><span class="p">.</span><span class="nx">OpDeleteOne</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果希望共享一个在多种类型(例如 Group 和 User)之间变化字段的钩子。有两种方法可以做到这一点:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Option 1: use type assertion.
+</span><span class="c1"></span><span class="nx">client</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">MutateFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">m</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutation</span><span class="p">)</span> <span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Value</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">ns</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.(</span><span class="kd">interface</span><span class="p">{</span> <span class="nf">SetName</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">});</span> <span class="nx">ok</span> <span class="p">{</span>
+            <span class="nx">ns</span><span class="p">.</span><span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Ariel Mashraki&#34;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Mutate</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+
+<span class="c1">// Option 2: use the generic ent.Mutation interface.
+</span><span class="c1"></span><span class="nx">client</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">MutateFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">m</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutation</span><span class="p">)</span> <span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Value</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nf">SetField</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">,</span> <span class="s">&#34;Ariel Mashraki&#34;</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="c1">// An error is returned, if the field is not defined in
+</span><span class="c1"></span>            <span class="c1">// the schema, or if the type mismatch the field type.
+</span><span class="c1"></span>        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Mutate</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="schema-hooks">Schema hooks</h3>
+<p>schema 在定义schema的时候使用，并且仅应用于schema type的更改，这个初衷是把schem 中关于节点类型相关的所有逻辑集中在一个地方，代码例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">schema</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;fmt&#34;</span>
+
+    <span class="nx">gen</span> <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+    <span class="s">&#34;&lt;project&gt;/ent/hook&#34;</span>
+
+    <span class="s">&#34;github.com/facebook/ent&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Card holds the schema definition for the CreditCard entity.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Card</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">ent</span><span class="p">.</span><span class="nx">Schema</span>
+<span class="p">}</span>
+
+<span class="c1">// Hooks of the Card.
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">Card</span><span class="p">)</span> <span class="nf">Hooks</span><span class="p">()</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Hook</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Hook</span><span class="p">{</span>
+        <span class="c1">// First hook.
+</span><span class="c1"></span>        <span class="nx">hook</span><span class="p">.</span><span class="nf">On</span><span class="p">(</span>
+            <span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">hook</span><span class="p">.</span><span class="nf">CardFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">m</span> <span class="o">*</span><span class="nx">gen</span><span class="p">.</span><span class="nx">CardMutation</span><span class="p">)</span> <span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Value</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="nx">num</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.</span><span class="nf">Number</span><span class="p">();</span> <span class="nx">ok</span> <span class="o">&amp;&amp;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">10</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;card number is too short&#34;</span><span class="p">)</span>
+                    <span class="p">}</span>
+                    <span class="k">return</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Mutate</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span>
+                <span class="p">})</span>
+            <span class="p">},</span>
+            <span class="c1">// Limit the hook only for these operations.
+</span><span class="c1"></span>            <span class="nx">ent</span><span class="p">.</span><span class="nx">OpCreate</span><span class="p">|</span><span class="nx">ent</span><span class="p">.</span><span class="nx">OpUpdate</span><span class="p">|</span><span class="nx">ent</span><span class="p">.</span><span class="nx">OpUpdateOne</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1">// Second hook.
+</span><span class="c1"></span>        <span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutator</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">MutateFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">m</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Mutation</span><span class="p">)</span> <span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Value</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">m</span><span class="p">.(</span><span class="kd">interface</span><span class="p">{</span> <span class="nf">SetName</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="p">});</span> <span class="nx">ok</span> <span class="p">{</span>
+                    <span class="nx">s</span><span class="p">.</span><span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Boring&#34;</span><span class="p">)</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Mutate</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">m</span><span class="p">)</span>
+            <span class="p">})</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>请注意，如果使用schema hook，则必须在main包中添加以下导入：</p>
+<p><code>import _ &quot;&lt;project&gt;/ent/runtime&quot;</code></p>
+<h3 id="evaluation-order">Evaluation order</h3>
+<p>Hook按照它们注册到client的顺序被调用。因此client.Use(f，g，h)在mutations执行 f (g (h (&hellip;))。</p>
+<p>还要注意，<strong>runtime hooks</strong>在<strong>schema hooks</strong>.之前调用。也就是说，如果 g 和 h 是在schema中定义的，而 f 是使用 client.Use(&hellip;)注册的。 它们将被执行如下: f (g (h (&hellip;)))。</p>
+<h2 id="transactions">Transactions</h2>
+<p>开始一个事务，例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// GenTx generates group of entities in a transaction.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">GenTx</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Tx</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;starting a transaction: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">hub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">Group</span><span class="p">.</span>
+        <span class="nf">Create</span><span class="p">().</span>
+        <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Github&#34;</span><span class="p">).</span>
+        <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">rollback</span><span class="p">(</span><span class="nx">tx</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed creating the group: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">))</span>
+    <span class="p">}</span>
+    <span class="c1">// Create the admin of the group.
+</span><span class="c1"></span>    <span class="nx">dan</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+        <span class="nf">Create</span><span class="p">().</span>
+        <span class="nf">SetAge</span><span class="p">(</span><span class="mi">29</span><span class="p">).</span>
+        <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Dan&#34;</span><span class="p">).</span>
+        <span class="nf">AddManage</span><span class="p">(</span><span class="nx">hub</span><span class="p">).</span>
+        <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">rollback</span><span class="p">(</span><span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">// Create user &#34;Ariel&#34;.
+</span><span class="c1"></span>    <span class="nx">a8m</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span>
+        <span class="nf">Create</span><span class="p">().</span>
+        <span class="nf">SetAge</span><span class="p">(</span><span class="mi">30</span><span class="p">).</span>
+        <span class="nf">SetName</span><span class="p">(</span><span class="s">&#34;Ariel&#34;</span><span class="p">).</span>
+        <span class="nf">AddGroups</span><span class="p">(</span><span class="nx">hub</span><span class="p">).</span>
+        <span class="nf">AddFriends</span><span class="p">(</span><span class="nx">dan</span><span class="p">).</span>
+        <span class="nf">Save</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">rollback</span><span class="p">(</span><span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a8m</span><span class="p">)</span>
+    <span class="c1">// Output:
+</span><span class="c1"></span>    <span class="c1">// User(id=2, age=30, name=Ariel)
+</span><span class="c1"></span>    
+    <span class="c1">// Commit the transaction.
+</span><span class="c1"></span>    <span class="k">return</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Commit</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// rollback calls to tx.Rollback and wraps the given error
+</span><span class="c1">// with the rollback error if occurred.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">rollback</span><span class="p">(</span><span class="nx">tx</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Tx</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">rerr</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Rollback</span><span class="p">();</span> <span class="nx">rerr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">err</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;%v: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">rerr</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">err</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有些情况，如果你现有的代码已经可以用<code>*ent.Client</code> 正常执行，这个时候，你希望这个执行过程添加事务的功能，这种情况下，可以通过如下方式实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// WrapGen wraps the existing &#34;Gen&#34; function in a transaction.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">WrapGen</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Tx</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">err</span>
+    <span class="p">}</span>
+    <span class="nx">txClient</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Client</span><span class="p">()</span>
+    <span class="c1">// Use the &#34;Gen&#34; below, but give it the transactional client; no code changes to &#34;Gen&#34;.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Gen</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">txClient</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">rollback</span><span class="p">(</span><span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Commit</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// Gen generates a group of entities.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Gen</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="c1">// ...
+</span><span class="c1"></span>    <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="最佳实践">最佳实践</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">WithTx</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">tx</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Tx</span><span class="p">)</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Tx</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">err</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">v</span> <span class="o">:=</span> <span class="nb">recover</span><span class="p">();</span> <span class="nx">v</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="nx">tx</span><span class="p">.</span><span class="nf">Rollback</span><span class="p">()</span>
+            <span class="nb">panic</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">fn</span><span class="p">(</span><span class="nx">tx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">rerr</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Rollback</span><span class="p">();</span> <span class="nx">rerr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="nx">err</span> <span class="p">=</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">Wrapf</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;rolling back transaction: %v&#34;</span><span class="p">,</span> <span class="nx">rerr</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">err</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Commit</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">Wrapf</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&#34;committing transaction: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// WithTx helper.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">WithTx</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">client</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">tx</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Tx</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">Gen</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">tx</span><span class="p">.</span><span class="nf">Client</span><span class="p">())</span>
+    <span class="p">});</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>像schema hooks 和runtime hooks 一样，hooks可以注册在事务上，并且将会被执行在Tx.Commit<code>or</code>Tx.Rollback</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">client</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="nx">tx</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Tx</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">err</span>
+    <span class="p">}</span>
+    <span class="c1">// Add a hook on Tx.Commit.
+</span><span class="c1"></span>    <span class="nx">tx</span><span class="p">.</span><span class="nf">OnCommit</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Committer</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Committer</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">CommitFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">tx</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Tx</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+            <span class="c1">// Code before the actual commit.
+</span><span class="c1"></span>            <span class="nx">err</span> <span class="o">:=</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">tx</span><span class="p">)</span>
+            <span class="c1">// Code after the transaction was committed.
+</span><span class="c1"></span>            <span class="k">return</span> <span class="nx">err</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+    <span class="c1">// Add a hook on Tx.Rollback.
+</span><span class="c1"></span>    <span class="nx">tx</span><span class="p">.</span><span class="nf">OnRollback</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">next</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Rollbacker</span><span class="p">)</span> <span class="nx">ent</span><span class="p">.</span><span class="nx">Rollbacker</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">RollbackFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">tx</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Tx</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+            <span class="c1">// Code before the actual rollback.
+</span><span class="c1"></span>            <span class="nx">err</span> <span class="o">:=</span> <span class="nx">next</span><span class="p">.</span><span class="nf">Rollback</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">tx</span><span class="p">)</span>
+            <span class="c1">// Code after the transaction was rolled back.
+</span><span class="c1"></span>            <span class="k">return</span> <span class="nx">err</span>
+        <span class="p">})</span>
+    <span class="p">})</span>
+    <span class="c1">//
+</span><span class="c1"></span>    <span class="c1">// &lt;Code goes here&gt;
+</span><span class="c1"></span>    <span class="c1">//
+</span><span class="c1"></span>    <span class="k">return</span> <span class="nx">err</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="migration">Migration</h2>
+<p>ent 提供了数据库迁移支持，可以使用数据库表结构与<code>ent/migrate/schema </code> 中定义的对象保持一致。</p>
+<h3 id="auto-migration">Auto Migration</h3>
+<p>在程序的初始化过程中，运行auto-migration</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Create 将创建 ent 项目所需的所有数据库资源。默认情况下，Create 在“ append-only”模式下工作; 这意味着，它只创建新的表和索引，将列追加到表或扩展列类型。例如，将 int 改为 bigint。</p>
+<p>删除列或索引怎么样？</p>
+<h3 id="drop-resources">Drop Resources</h3>
+<p>WithDropIndex 和 WithDropColumn 两个选项用于删除表列和索引。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+    
+    <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+    <span class="s">&#34;&lt;project&gt;/ent/migrate&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:pass@tcp(localhost:3306)/test&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed connecting to mysql: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+    <span class="c1">// Run migration.
+</span><span class="c1"></span>    <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span>
+        <span class="nx">ctx</span><span class="p">,</span> 
+        <span class="nx">migrate</span><span class="p">.</span><span class="nf">WithDropIndex</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span>
+        <span class="nx">migrate</span><span class="p">.</span><span class="nf">WithDropColumn</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span> 
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>为了在调试模式下运行迁移(打印所有 SQL 查询) ，请运行:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Debug</span><span class="p">().</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span>
+    <span class="nx">ctx</span><span class="p">,</span> 
+    <span class="nx">migrate</span><span class="p">.</span><span class="nf">WithDropIndex</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span>
+    <span class="nx">migrate</span><span class="p">.</span><span class="nf">WithDropColumn</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="universal-ids">Universal IDs</h3>
+<p>默认情况下，每个表的 SQL 主键从1开始; 这意味着不同类型的多个实体可以共享相同的 ID。不像 AWS Neptune， 是 uuid。</p>
+<p>如果使用 GraphQL，这将不能很好地工作，因为它要求对象 ID 是唯一的。</p>
+<p>要启用项目的 Universal-IDs 支持，请将 WithGlobalUniqueID 选项传递给迁移。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+    
+    <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+    <span class="s">&#34;&lt;project&gt;/ent/migrate&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:pass@tcp(localhost:3306)/test&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed connecting to mysql: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+    <span class="c1">// Run migration.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">migrate</span><span class="p">.</span><span class="nf">WithGlobalUniqueID</span><span class="p">(</span><span class="kc">true</span><span class="p">));</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed creating schema resources: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>它是如何工作的？Ent 迁移为每个实体(表)的 id 分配1 &laquo; 32范围，并将此信息存储在名为 ent _ types 的表中。例如，a 类型的 id 的范围是[1,4294967296] ，b 类型的 id 范围是[4294967296,8589934592]等。</p>
+<p>请注意，如果启用此选项，则可能的表的最大数量为65535。</p>
+<h3 id="offline-mode">Offline Mode</h3>
+<p>脱机模式允许您将模式更改写入 io。然后在数据库中执行它们。这对于在数据库上执行 SQL 命令之前验证它们或手动运行 SQL 脚本非常有用。</p>
+<p><strong>Print changes</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+    <span class="s">&#34;os&#34;</span>
+    
+    <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+    <span class="s">&#34;&lt;project&gt;/ent/migrate&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:pass@tcp(localhost:3306)/test&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed connecting to mysql: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+    <span class="c1">// Dump migration changes to stdout.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">WriteTo</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed printing schema changes: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Write changes to a file</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+    <span class="s">&#34;os&#34;</span>
+    
+    <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+    <span class="s">&#34;&lt;project&gt;/ent/migrate&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;root:pass@tcp(localhost:3306)/test&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed connecting to mysql: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+    <span class="c1">// Dump migration changes to an SQL script.
+</span><span class="c1"></span>    <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="s">&#34;migrate.sql&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;create migrate file: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">WriteTo</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">f</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed printing schema changes: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="sqldb-integration">sql.DB Integration</h2>
+<p>下面的示例演示如何将自定义 sql.db 对象传递给 ent.Client。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;time&#34;</span>
+
+    <span class="s">&#34;&lt;your_project&gt;/ent&#34;</span>
+    <span class="s">&#34;github.com/facebook/ent/dialect/sql&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">Open</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">drv</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sql</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;&lt;mysql-dsn&gt;&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+    <span class="p">}</span>
+    <span class="c1">// Get the underlying sql.DB object of the driver.
+</span><span class="c1"></span>    <span class="nx">db</span> <span class="o">:=</span> <span class="nx">drv</span><span class="p">.</span><span class="nf">DB</span><span class="p">()</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nf">SetMaxIdleConns</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nf">SetMaxOpenConns</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nf">SetConnMaxLifetime</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nf">Driver</span><span class="p">(</span><span class="nx">drv</span><span class="p">)),</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;database/sql&#34;</span>
+    <span class="s">&#34;time&#34;</span>
+
+    <span class="s">&#34;&lt;your_project&gt;/ent&#34;</span>
+    <span class="nx">entsql</span> <span class="s">&#34;github.com/facebook/ent/dialect/sql&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">Open</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">db</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sql</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="s">&#34;&lt;mysql-dsn&gt;&#34;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+    <span class="p">}</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nf">SetMaxIdleConns</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nf">SetMaxOpenConns</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nf">SetConnMaxLifetime</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span><span class="p">)</span>
+    <span class="c1">// Create an ent.Driver from `db`.
+</span><span class="c1"></span>    <span class="nx">drv</span> <span class="o">:=</span> <span class="nx">entsql</span><span class="p">.</span><span class="nf">OpenDB</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="nx">db</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nf">Driver</span><span class="p">(</span><span class="nx">drv</span><span class="p">)),</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="use-opencensus-with-mysql">Use Opencensus With MySQL</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;database/sql&#34;</span>
+    <span class="s">&#34;database/sql/driver&#34;</span>
+
+    <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+    
+    <span class="s">&#34;contrib.go.opencensus.io/integrations/ocsql&#34;</span>
+    <span class="s">&#34;github.com/go-sql-driver/mysql&#34;</span>
+    <span class="nx">entsql</span> <span class="s">&#34;github.com/facebook/ent/dialect/sql&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">connector</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">dsn</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">connector</span><span class="p">)</span> <span class="nf">Connect</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">(</span><span class="nx">driver</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Driver</span><span class="p">().</span><span class="nf">Open</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">dsn</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">connector</span><span class="p">)</span> <span class="nf">Driver</span><span class="p">()</span> <span class="nx">driver</span><span class="p">.</span><span class="nx">Driver</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">ocsql</span><span class="p">.</span><span class="nf">Wrap</span><span class="p">(</span>
+        <span class="nx">mysql</span><span class="p">.</span><span class="nx">MySQLDriver</span><span class="p">{},</span>
+        <span class="nx">ocsql</span><span class="p">.</span><span class="nf">WithAllTraceOptions</span><span class="p">(),</span>
+        <span class="nx">ocsql</span><span class="p">.</span><span class="nf">WithRowsClose</span><span class="p">(</span><span class="kc">false</span><span class="p">),</span>
+        <span class="nx">ocsql</span><span class="p">.</span><span class="nf">WithRowsNext</span><span class="p">(</span><span class="kc">false</span><span class="p">),</span>
+        <span class="nx">ocsql</span><span class="p">.</span><span class="nf">WithDisableErrSkip</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Open new connection and start stats recorder.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Open</span><span class="p">(</span><span class="nx">dsn</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span> <span class="p">{</span>
+    <span class="nx">db</span> <span class="o">:=</span> <span class="nx">sql</span><span class="p">.</span><span class="nf">OpenDB</span><span class="p">(</span><span class="nx">connector</span><span class="p">{</span><span class="nx">dsn</span><span class="p">})</span>
+    <span class="c1">// Create an ent.Driver from `db`.
+</span><span class="c1"></span>    <span class="nx">drv</span> <span class="o">:=</span> <span class="nx">entsql</span><span class="p">.</span><span class="nf">OpenDB</span><span class="p">(</span><span class="s">&#34;mysql&#34;</span><span class="p">,</span> <span class="nx">db</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nf">Driver</span><span class="p">(</span><span class="nx">drv</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="use-pgx-with-postgresql">Use pgx with PostgreSQL</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;context&#34;</span>
+    <span class="s">&#34;database/sql&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+
+    <span class="s">&#34;&lt;project&gt;/ent&#34;</span>
+
+    <span class="s">&#34;github.com/facebook/ent/dialect&#34;</span>
+    <span class="nx">entsql</span> <span class="s">&#34;github.com/facebook/ent/dialect/sql&#34;</span>
+    <span class="nx">_</span> <span class="s">&#34;github.com/jackc/pgx/v4/stdlib&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Open new connection
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Open</span><span class="p">(</span><span class="nx">databaseUrl</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">ent</span><span class="p">.</span><span class="nx">Client</span> <span class="p">{</span>
+    <span class="nx">db</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sql</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;pgx&#34;</span><span class="p">,</span> <span class="nx">databaseUrl</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">defer</span> <span class="nx">db</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+
+    <span class="c1">// Create an ent.Driver from `db`.
+</span><span class="c1"></span>    <span class="nx">drv</span> <span class="o">:=</span> <span class="nx">entsql</span><span class="p">.</span><span class="nf">OpenDB</span><span class="p">(</span><span class="nx">dialect</span><span class="p">.</span><span class="nx">Postgres</span><span class="p">,</span> <span class="nx">db</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">ent</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="nx">ent</span><span class="p">.</span><span class="nf">Driver</span><span class="p">(</span><span class="nx">drv</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">client</span> <span class="o">:=</span> <span class="nf">Open</span><span class="p">(</span><span class="s">&#34;postgresql://user:password@127.0.0.1/database&#34;</span><span class="p">)</span>
+
+    <span class="c1">// Your code. For example:
+</span><span class="c1"></span>    <span class="nx">ctx</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">users</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">All</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">users</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="总结">总结</h2>
+<p>对en orm 整个文档进行整理学习之后，计划后续通过ent orm ,gin web框架实现一个blog，这样也算是对于ent orm 有一个简单的应用</p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="https://entgo.io/">https://entgo.io/</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-09-02 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/entorm05/" data-title="ent orm笔记5---结束" data-hashtags="orm,go"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/entorm05/" data-title="ent orm笔记5---结束"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/orm">orm</a>,&nbsp;<a href="/tags/go">go</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/entorm04/" class="prev" rel="prev" title="ent orm笔记4---Code Generation"><i class="fas fa-angle-left fa-fw"></i>ent orm笔记4---Code Generation</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-09-02 23:09:43 \x2b0800 CST',
+                    title: 'ent orm笔记5---结束',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-cc',
+                    admin: ['peanut-cc'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
