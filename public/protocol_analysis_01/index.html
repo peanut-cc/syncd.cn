@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>安全杂乱笔记整理1---常用服务端口总结 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="安全杂乱笔记整理1---常用服务端口总结" />
+<meta property="og:description" content="不管作为网络工程是还是安全从业者，其实都应该知道常用服务的端口及协议情况，这里进行简单的整理。 FTP服务 描述：通常情况下，FTP会占用 20 和 21" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/protocol_analysis_01/" />
+<meta property="article:published_time" content="2020-09-14T23:20:11+08:00" />
+<meta property="article:modified_time" content="2020-09-14T23:20:11+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="安全杂乱笔记整理1---常用服务端口总结"/>
+<meta name="twitter:description" content="不管作为网络工程是还是安全从业者，其实都应该知道常用服务的端口及协议情况，这里进行简单的整理。 FTP服务 描述：通常情况下，FTP会占用 20 和 21"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/protocol_analysis_01/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/entorm05/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "安全杂乱笔记整理1---常用服务端口总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/protocol_analysis_01\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "安全","wordcount":  1349 ,
+        "url": "http:\/\/example.org\/protocol_analysis_01\/","datePublished": "2020-09-14","dateModified": "2020-09-14","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">安全杂乱笔记整理1---常用服务端口总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/%E5%AE%89%E5%85%A8">
+                                <i class="far fa-folder fa-fw"></i>安全
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-09-14>2020-09-14</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1349 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ftp服务">FTP服务</a></li>
+    <li><a href="#ssh服务">SSH服务</a></li>
+    <li><a href="#telnet远程终端服务">Telnet远程终端服务</a></li>
+    <li><a href="#smtp简单邮件传输协议">SMTP简单邮件传输协议</a></li>
+    <li><a href="#dns协议">DNS协议</a></li>
+    <li><a href="#dhcp服务">DHCP服务</a></li>
+    <li><a href="#tftp简单文件传输协议">TFTP简单文件传输协议</a></li>
+    <li><a href="#http超文本传输协议">HTTP超文本传输协议</a></li>
+    <li><a href="#pop3-邮局协议">POP3 邮局协议</a></li>
+    <li><a href="#ntp网络时间协议">NTP网络时间协议</a></li>
+    <li><a href="#snmp简单网络管理协议">SNMP简单网络管理协议</a></li>
+    <li><a href="#ldap轻型目录访问协议">LDAP轻型目录访问协议</a></li>
+    <li><a href="#rsync服务">rsync服务</a></li>
+    <li><a href="#mysql服务">MySQL服务</a></li>
+    <li><a href="#redis服务">Redis服务</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>不管作为网络工程是还是安全从业者，其实都应该知道常用服务的端口及协议情况，这里进行简单的整理。</p>
+<h2 id="ftp服务">FTP服务</h2>
+<p>描述：通常情况下，FTP会占用 20 和 21 端口。21端口用于连接，20端口用于数据传输</p>
+<p>端口：20, 21</p>
+<p>协议：TCP</p>
+<p>端口十六进制： 20端口：14    21 端口: 15</p>
+<h2 id="ssh服务">SSH服务</h2>
+<p>描述：SSH为Secure Shell的缩写，专为远程登录会话和其他网络服务提供安全性的协议</p>
+<p>端口：22</p>
+<p>协议：TCP</p>
+<p>端口十六进制：16</p>
+<h2 id="telnet远程终端服务">Telnet远程终端服务</h2>
+<p>描述：是Internet远程登录服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。</p>
+<p>端口：23</p>
+<p>协议：TCP</p>
+<p>端口十六进制：17</p>
+<h2 id="smtp简单邮件传输协议">SMTP简单邮件传输协议</h2>
+<p>描述：SMTP是一种提供可靠且有效的电子邮件传输的协议。SMTP是建立在FTP文件传输服务上的一种邮件服务，主要用于系统之间的邮件信息传递，并提供有关来信的通知</p>
+<p>端口：25</p>
+<p>协议：UDP</p>
+<p>端口十六进制：19</p>
+<h2 id="dns协议">DNS协议</h2>
+<p>描述：<strong>域名系统</strong>是互联网的一项服务。它是将域名和IP地址相互映射的一个分布式数据库</p>
+<p>端口：53</p>
+<p>协议：TCP UDP</p>
+<p>端口十六进制：35</p>
+<h2 id="dhcp服务">DHCP服务</h2>
+<p>描述：动态主机配置协议是一个局域网的网络协议。指的是由服务器控制一段IP地址范围，客户机登录服务器时就可以自动获得服务器分配的IP地址和子网掩码。DHCP封包在传输层( Transport Layer）是采用UDP协议，而当 Client传送给封包给 Server时，采用的是UDP 67 Port，从 Server传送给 Client则是使用UDP 68 Port</p>
+<p>端口：67,  68</p>
+<p>协议：UDP</p>
+<p>端口十六进制：67端口：43  ,  68端口：44</p>
+<h2 id="tftp简单文件传输协议">TFTP简单文件传输协议</h2>
+<p>描述：是TCP/IP协议族中的一个用来在客户机与服务器之间进行简单文件传输的协议，提供不复杂、开销不大的文件传输服务。</p>
+<p>端口：69</p>
+<p>协议：UDP</p>
+<p>端口十六进制：45</p>
+<h2 id="http超文本传输协议">HTTP超文本传输协议</h2>
+<p>描述：http是一个简单的请求-响应协议，它通常运行在TCP之上。它指定了客户端可能发送给服务器什么样的消息以及得到什么样的响应， http使用80端口，https使用443端口</p>
+<p>端口：80， 443</p>
+<p>协议：TCP</p>
+<p>端口十六进制：80端口：50，443 端口：1bb</p>
+<h2 id="pop3-邮局协议">POP3 邮局协议</h2>
+<p>描述：主要用于支持使用客户端远程管理在服务器上的电子邮件。其实就是用于收邮件的。</p>
+<p>端口：110</p>
+<p>协议：TCP</p>
+<p>端口十六进制：6e</p>
+<h2 id="ntp网络时间协议">NTP网络时间协议</h2>
+<p>描述：是用来使计算机时间同步化的一种协议</p>
+<p>端口：123</p>
+<p>协议：UDP</p>
+<p>端口十六进制：7b</p>
+<h2 id="snmp简单网络管理协议">SNMP简单网络管理协议</h2>
+<p>描述：简单网络管理协议 是专门设计用于在 IP 网络管理网络节点（服务器，工作站，路由器，交换机及HUBS等）的一种标准协议，它是一种应用层协议。</p>
+<p>端口：161</p>
+<p>协议：UDP</p>
+<p>端口十六进制：a1</p>
+<h2 id="ldap轻型目录访问协议">LDAP轻型目录访问协议</h2>
+<p>描述：是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息。</p>
+<p>端口：389， 636</p>
+<p>协议：UDP/TCP</p>
+<p>端口十六进制：389端口：185 ,  636端口：27c</p>
+<h2 id="rsync服务">rsync服务</h2>
+<p>描述：rsync是linux系统下的数据镜像备份工具</p>
+<p>端口：873</p>
+<p>协议：TCP</p>
+<p>端口十六进制：369</p>
+<h2 id="mysql服务">MySQL服务</h2>
+<p>描述：mysql数据库</p>
+<p>端口：3306</p>
+<p>协议：TCP</p>
+<p>端口十六进制：cea</p>
+<h2 id="redis服务">Redis服务</h2>
+<p>描述：redis数据库</p>
+<p>端口：6379</p>
+<p>协议：TCP</p>
+<p>端口十六进制：18eb</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-09-14 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/protocol_analysis_01/" data-title="安全杂乱笔记整理1---常用服务端口总结" data-hashtags="安全"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/protocol_analysis_01/" data-title="安全杂乱笔记整理1---常用服务端口总结"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8">安全</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/entorm05/" class="prev" rel="prev" title="ent orm笔记5---结束"><i class="fas fa-angle-left fa-fw"></i>ent orm笔记5---结束</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-09-14 23:20:11 \u002b0800 CST',
+                    title: '安全杂乱笔记整理1---常用服务端口总结',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-cc',
+                    admin: ['peanut-cc'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

@@ -6,10 +6,19 @@
     <description>Recent content in 安全 on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 05 Jul 2020 10:38:33 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2020 23:20:11 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>安全杂乱笔记整理1---常用服务端口总结</title>
+      <link>http://example.org/protocol_analysis_01/</link>
+      <pubDate>Mon, 14 Sep 2020 23:20:11 +0800</pubDate>
+      
+      <guid>http://example.org/protocol_analysis_01/</guid>
+      <description>不管作为网络工程是还是安全从业者，其实都应该知道常用服务的端口及协议情况，这里进行简单的整理。 FTP服务 描述：通常情况下，FTP会占用 20 和 21</description>
+    </item>
     
     <item>
       <title>Nmap常见扫描方式流量分析</title>
