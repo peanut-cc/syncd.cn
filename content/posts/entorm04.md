@@ -1,5 +1,5 @@
 ---
-title: "ent orm笔记4---Code Generation"
+mmtitle: "ent orm笔记4---Code Generation"
 date: 2020-08-31T15:08:42+08:00
 draft: false
 author: "fan"
