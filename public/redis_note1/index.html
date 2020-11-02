@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Redis核心技术与实战笔记1-redis中的数据结构 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="Redis核心技术与实战笔记1-redis中的数据结构" />
+<meta property="og:description" content="在看redis数据结构之前，先回忆下一下Redis中存储的数据类型有哪些？ String 字符串 List 列表 Hash 哈希 Set 集合 Sorted Set 有序集合 其实上面这些更准确的说，应该" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/redis_note1/" />
+<meta property="article:published_time" content="2020-11-02T15:42:45+08:00" />
+<meta property="article:modified_time" content="2020-11-02T15:42:45+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Redis核心技术与实战笔记1-redis中的数据结构"/>
+<meta name="twitter:description" content="在看redis数据结构之前，先回忆下一下Redis中存储的数据类型有哪些？ String 字符串 List 列表 Hash 哈希 Set 集合 Sorted Set 有序集合 其实上面这些更准确的说，应该"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/redis_note1/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/mysql_note01/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Redis核心技术与实战笔记1-redis中的数据结构",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/redis_note1\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Redis","wordcount":  2991 ,
+        "url": "http:\/\/example.org\/redis_note1\/","datePublished": "2020-11-02","dateModified": "2020-11-02","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Redis核心技术与实战笔记1-redis中的数据结构</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/redis">
+                                <i class="far fa-folder fa-fw"></i>Redis
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-11-02>2020-11-02</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2991 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 6 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#键和值的结构组织">键和值的结构组织</a></li>
+    <li><a href="#为什么哈希表操作变慢了">为什么哈希表操作变慢了</a></li>
+    <li><a href="#集合数据操作效率">集合数据操作效率</a>
+      <ul>
+        <li><a href="#压缩列表">压缩列表</a></li>
+        <li><a href="#跳表">跳表</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>在看redis数据结构之前，先回忆下一下Redis中存储的数据类型有哪些？</p>
+<ul>
+<li>String 字符串</li>
+<li>List 列表</li>
+<li>Hash 哈希</li>
+<li>Set 集合</li>
+<li>Sorted Set 有序集合</li>
+</ul>
+<p>其实上面这些更准确的说，应该是Redis键值对中值的数据类型，也就是数据的保存形式。而这个笔记要整理的其实是它们的底层实现。</p>
+<p><a href="https://imgchr.com/i/BBx7Nj" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BBx7Nj.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BBx7Nj.jpg"
+        title="BBx7Nj.jpg" /></a>
+</p>
+<p>String类型的底层实现只有一种数据结构，也就是简单的动态字符串，而List,Hash,Set和Sorted Set 这四种数据类型都有两种底层实现结构。通常情况下把这四种类型成为集合类型，特定是一个键对应一个集合数据。</p>
+<h2 id="键和值的结构组织">键和值的结构组织</h2>
+<p>为了实现从键到值的快速访问，Redis使用了一个哈希表来保存所有的键值对
+一个哈希表，其实就是一个数组，数组的每个元素称为一个哈希桶。所以，一个哈希表是由多个哈希桶组成，每个哈希桶中保存了键值对数据。</p>
+<p><strong>注意： 哈希桶里元素保存的并不是值本身，而是指向具体值的指针。</strong></p>
+<p><a href="https://imgchr.com/i/BD99Ug" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BD99Ug.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BD99Ug.jpg"
+        title="BD99Ug.jpg" /></a>
+</p>
+<p>如上图中哈希桶中的entry元素中保存了*key 和 *value指针，分别指向实际的键和值。</p>
+<p>因为这个哈希表保存了所有的键值对，所以，我也把它称为全局哈希表。 哈希表的好处非常明显，可以用O(1)的时间复杂度快速查找到键值对。只需要计算 键的哈希值，就可以知道它所对应的哈希桶位置，然后就可以访问相应的 entry 元素。</p>
+<p><strong>注意：哈希表的冲突问题和 rehash 可能带来的操作阻塞</strong></p>
+<p>当往 Redis 中 写入大量数据后，就可能发现操作有时候会突然变慢了</p>
+<h2 id="为什么哈希表操作变慢了">为什么哈希表操作变慢了</h2>
+<p>哈希冲突，也就是 指，两个 key 的哈希值和哈希桶计算对应关系时，正好落在了同一个哈希桶中。</p>
+<p>Redis 解决哈希冲突的方式，就是链式哈希。就是指同一个哈希 桶中的多个元素用一个链表来保存，它们之间依次用指针连接。</p>
+<p><a href="https://imgchr.com/i/BDPYND" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BDPYND.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BDPYND.jpg"
+        title="BDPYND.jpg" /></a>
+</p>
+<p>entry1、entry2 和 entry3 都需要保存在哈希桶 3 中，导致了哈希冲突。此 时，entry1 元素会通过一个<code>*next</code> 指针指向 entry2，同样，entry2 也会通过<code>*next</code>指针 指向 entry3。这样一来，即使哈希桶 3 中的元素有 100 个，我们也可以通过 entry 元素 中的指针，把它们连起来。这就形成了一个链表，也叫作哈希冲突链。</p>
+<p><strong>注意：哈希冲突链上的元素只能通过指针逐一查找再操作。如果哈希表里写入的数据越来越多，哈希冲突可能也会越来越多，从而导致哈希冲突链过长，进而导致这链上的元素查找耗时长，效率降低。</strong></p>
+<p>Redis 会对哈希表做<code>rehash</code>操作, <code>rehash</code> 就是增加现有哈希桶的数量，让逐渐增多的entry元素能在更多的桶之间分散保存，减少单个桶中元素数量，从而减少单个桶中的冲突。</p>
+<p>为了让rehash操作更加高效，Redis默认使用两个全局哈希表：哈希表1和哈希表2
+在开始插入数据时，默认使用哈希表1，此时的哈希表2 并没有被分配空间，随着数据增加，redis 开始执行rehash ，这个过程分为三步：</p>
+<ul>
+<li>给哈希表2分配更大的空间，例如是当前哈希表1大小的两倍</li>
+<li>哈希表1中的数据重映射并拷贝到哈希表2中</li>
+<li>释放哈希表1的空间</li>
+</ul>
+<p>到此，我们就可以从哈希表 1 切换到哈希表 2，用增大的哈希表 2 保存更多数据，而原来 的哈希表 1 留作下一次 rehash 扩容备用。</p>
+<p><strong>注意：第二步涉及大量的数据拷贝，如果一次性把哈希表 1 中的数据都 迁移完，会造成 Redis 线程阻塞，无法服务其他请求。此时，Redis 就无法快速访问数据 了。</strong></p>
+<p>为了避免这个问题，Redis 采用了渐进式 rehash。</p>
+<p><a href="https://imgchr.com/i/BDK99x" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BDK99x.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BDK99x.jpg"
+        title="BDK99x.jpg" /></a>
+</p>
+<p>简单来说就是在第二步拷贝数据时，Redis 仍然正常处理客户端请求，每处理一个请求 时，从哈希表 1 中的第一个索引位置开始，顺带着将这个索引位置上的所有 entries 拷贝 到哈希表 2 中;等处理下一个请求时，再顺带拷贝哈希表 1 中的下一个索引位置的 entries。</p>
+<p>这样就把一次性大量拷贝的开销，分摊到了多次处理请求的过程中，避免了耗时操 作，保证了数据的快速访问。</p>
+<p>对于 String 类型来说，找到哈希桶就能直接增删改查了，所以，哈希表的 O(1) 操作复杂度也就 是它的复杂度了。</p>
+<p>但是，对于集合类型来说，即使找到哈希桶了，还要在集合中再进一步操作。</p>
+<h2 id="集合数据操作效率">集合数据操作效率</h2>
+<p>在最开始的时候已经知道，集合类型的底层数据结构主要有 5 种:整数数组、双向链表、哈 希表、压缩列表和跳表。</p>
+<p>这里整数数组和双向链表的操作特征都是顺序读写，即数组通过下表，链表通过逐个元素访问，操作复杂度基本是O(N)。 这里详细整理一下关于压缩列表和跳表</p>
+<h3 id="压缩列表">压缩列表</h3>
+<p>压缩列表实际上类似于一个数组，数组中的每一个元素都对应保存一个数据。和数组不同 的是，压缩列表在表头有三个字段 <strong>zlbytes、zltail 和 zllen</strong>，分别表示列表长度、列表尾的 偏移量和列表中的 entry 个数;压缩列表在表尾还有一个** zlend**，表示列表结束。</p>
+<p><a href="https://imgchr.com/i/BDlTZF" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BDlTZF.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BDlTZF.jpg"
+        title="BDlTZF.jpg" /></a>
+</p>
+<p>在压缩列表中如果查找第一个元素和最后一个元素可以通过表头三个字段 的长度直接定位，复杂度是 O(1)。而查找其他元素时，就没有这么高效了，只能逐个查 找，此时的复杂度就是 O(N) 了。</p>
+<h3 id="跳表">跳表</h3>
+<p>有序链表只能逐一查找元素，导致操作起来非常缓慢，于是就出现了跳表。具体来说，跳 表在链表的基础上，增加了多级索引，通过索引位置的几个跳转，实现数据的快速定位， 如下图所示:
+<a href="https://imgchr.com/i/BD1geO" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BD1geO.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BD1geO.jpg"
+        title="BD1geO.jpg" /></a>
+</p>
+<p>如果我们要在链表中查找 33 这个元素，只能从头开始遍历链表，查找 6 次，直到找到 33 为止。此时，复杂度是 O(N)，查找效率很低。</p>
+<p>为了提高查找速度，我们来增加一级索引:从第一个元素开始，每两个元素选一个出来作 为索引。这些索引再通过指针指向原始的链表。例如，从前两个元素中抽取元素 1 作为一 级索引，从第三、四个元素中抽取元素 11 作为一级索引。此时，我们只需要 4 次查找就 能定位到元素 33 了。</p>
+<p>如果我们还想再快，可以再增加二级索引:从一级索引中，再抽取部分元素作为二级索 引。例如，从一级索引中抽取 1、27、100 作为二级索引，二级索引指向一级索引。这 样，我们只需要 3 次查找，就能定位到元素 33 了。</p>
+<p>当数据量很大时，跳表的查找复杂度就是 O(logN)。</p>
+<h2 id="总结">总结</h2>
+<p>不同数据结构的时间复杂度如下：
+<a href="https://imgchr.com/i/BD3Vh9" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s1.ax1x.com/2020/11/02/BD3Vh9.jpg,  1.5x,  2x"
+        data-src=""
+        alt="BD3Vh9.jpg"
+        title="BD3Vh9.jpg" /></a>
+</p>
+<p>例如，Hash 类 型的 HGET、HSET 和 HDEL，Set 类型的 SADD、SREM、SRANDMEMBER 等。这些操 作的复杂度由集合采用的数据结构决定，例如，HGET、HSET 和 HDEL 是对哈希表做操 作，所以它们的复杂度都是 O(1);Set 类型用哈希表作为底层数据结构时，它的 SADD、 SREM、SRANDMEMBER 复杂度也是 O(1)。</p>
+<p>注意：集合类型支持同时对多个元素进行增删改查，例如 Hash 类型的 HMGET 和 HMSET，Set 类型的 SADD 也支持同时增加多个元素。此时，这些操 作的复杂度，就是由单个元素操作复杂度和元素个数决定的。</p>
+<p>如 Hash 类型的 HGETALL 和 Set 类型的 SMEMBERS，或者返回一个范围内的部分数据，比如 List 类型的 LRANGE 和 ZSet 类型的 ZRANGE。这类操作的复杂度一般是 O(N)，比较耗时， 我们应该尽量避免。</p>
+<p>Redis 从 2.8 版本开始提供了 SCAN 系列操作(包括 HSCAN，SSCAN 和 ZSCAN)，这类操作实现了渐进式遍历，每次只返回有限数量的数据。这样一来，相比于 HGETALL、SMEMBERS 这类操作来说，就避免了一次性返回所有元素而导致的 Redis 阻 塞。</p>
+<p>集合类型对集合中所有元素个数的记录，如 LLEN 和 SCARD。这 类操作复杂度只有 O(1)，这是因为当集合类型采用压缩列表、双向链表、整数数组这些数 据结构时，这些结构中专门记录了元素的个数统计，因此可以高效地完成相关操作。</p>
+<p>如压缩列表和双向链表都会记录表头 和表尾的偏移量。这样一来，对于 List 类型的 LPOP、RPOP、LPUSH、RPUSH 这四个操 作来说，它们是在列表的头尾增删元素，这就可以通过偏移量直接定位，所以它们的复杂 度也只有 O(1)，可以实现快速操作。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-11-02 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/redis_note1/" data-title="Redis核心技术与实战笔记1-redis中的数据结构" data-hashtags="Redis"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/redis_note1/" data-title="Redis核心技术与实战笔记1-redis中的数据结构"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/redis">Redis</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/mysql_note01/" class="prev" rel="prev" title="mysql笔记--基础知识"><i class="fas fa-angle-left fa-fw"></i>mysql笔记--基础知识</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-11-02 15:42:45 \x2b0800 CST',
+                    title: 'Redis核心技术与实战笔记1-redis中的数据结构',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-cc',
+                    admin: ['peanut-cc'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

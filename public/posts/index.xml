@@ -6,10 +6,19 @@
     <description>Recent content in Posts on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 29 Sep 2020 19:40:56 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2020 15:42:45 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis核心技术与实战笔记1-redis中的数据结构</title>
+      <link>http://example.org/redis_note1/</link>
+      <pubDate>Mon, 02 Nov 2020 15:42:45 +0800</pubDate>
+      
+      <guid>http://example.org/redis_note1/</guid>
+      <description>在看redis数据结构之前，先回忆下一下Redis中存储的数据类型有哪些？ String 字符串 List 列表 Hash 哈希 Set 集合 Sorted Set 有序集合 其实上面这些更准确的说，应该</description>
+    </item>
     
     <item>
       <title>mysql笔记--基础知识</title>
