@@ -6,10 +6,19 @@
     <description>Recent content in Posts on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 03 Nov 2020 10:49:58 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2020 14:26:31 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis核心技术与实战笔记4-数据同步以及哨兵机制</title>
+      <link>http://example.org/redis_note4/</link>
+      <pubDate>Thu, 05 Nov 2020 14:26:31 +0800</pubDate>
+      
+      <guid>http://example.org/redis_note4/</guid>
+      <description>我们通常说Redis具有高可靠性，具有两层含义： 一是数据 尽量少丢失 二是服务尽量少中断 AOF 和 RDB 保证了数据尽量少丢失；对于尽量少中断则是增加副本冗</description>
+    </item>
     
     <item>
       <title>Redis核心技术与实战笔记3-Redis数据持久化</title>
