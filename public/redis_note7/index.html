@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Redis核心技术与实战笔记7—集合的应用场景 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="Redis核心技术与实战笔记7—集合的应用场景" />
+<meta property="og:description" content="要想选择合适的集合，就得了解常用的集合统计模式。 集合类 型常见的四种统计模式，包括聚合统计、排序统计、二值状态统计和基数统计 聚合统计 所谓的聚合" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/redis_note7/" />
+<meta property="article:published_time" content="2020-11-16T20:02:32+08:00" />
+<meta property="article:modified_time" content="2020-11-16T20:02:32+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Redis核心技术与实战笔记7—集合的应用场景"/>
+<meta name="twitter:description" content="要想选择合适的集合，就得了解常用的集合统计模式。 集合类 型常见的四种统计模式，包括聚合统计、排序统计、二值状态统计和基数统计 聚合统计 所谓的聚合"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/redis_note7/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/redis_note6/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Redis核心技术与实战笔记7—集合的应用场景",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/redis_note7\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Redis","wordcount":  4703 ,
+        "url": "http:\/\/example.org\/redis_note7\/","datePublished": "2020-11-16","dateModified": "2020-11-16","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Redis核心技术与实战笔记7—集合的应用场景</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/redis">
+                                <i class="far fa-folder fa-fw"></i>Redis
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-11-16>2020-11-16</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 4703 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 10 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#聚合统计">聚合统计</a>
+      <ul>
+        <li><a href="#具体例子">具体例子</a></li>
+      </ul>
+    </li>
+    <li><a href="#排序统计">排序统计</a></li>
+    <li><a href="#二值状态统计">二值状态统计</a></li>
+    <li><a href="#基数统计">基数统计</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>要想选择合适的集合，就得了解常用的集合统计模式。
+集合类 型常见的四种统计模式，包括<strong>聚合统计</strong>、<strong>排序统计</strong>、<strong>二值状态统计</strong>和<strong>基数统计</strong></p>
+<h2 id="聚合统计">聚合统计</h2>
+<p>所谓的聚合统计，就是指统计多个集合元素的聚合结果，包括:统计多个集合的共有元素 (交集统计);把两个集合相比，统计其中一个集合独有的元素(差集统计);统计多个 集合的所有元素(并集统计)</p>
+<p>假如如统计手机App每天的新增用户数和第二天留存的用户数，这就是一种聚合统计
+可以用一个集合记录所有登录过 App 的用户 ID，同时，用另 一个集合记录每一天登录过 App 的用户 ID。然后，再对这两个集合做聚合统计。</p>
+<p>记录所有登录过 App 的用户 ID 还是比较简单的，我们可以直接使用 Set 类型，把 key 设 置为 user:id，表示记录的是用户 ID，value 就是一个 Set 集合，里面是所有登录过 App 的用户 ID，我们可以把这个 Set 叫作<strong>累计用户 Set</strong></p>
+<p><a href="https://imgchr.com/i/Dkww0f" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s3.ax1x.com/2020/11/16/Dkww0f.jpg,  1.5x,  2x"
+        data-src=""
+        alt="Dkww0f.jpg"
+        title="Dkww0f.jpg" /></a>
+</p>
+<p>需要注意的是，累计用户 Set 中没有日期信息，我们是不能直接统计每天的新增用户的。 所以，我们还需要把每一天登录的用户 ID，记录到一个新集合中，我们把这个集合叫作<strong>每日用户 Set</strong>，它有两个特点:</p>
+<ol>
+<li>key 是 user:id 以及当天日期，例如 user🆔20201116</li>
+<li>value 是 Set 集合，记录当天登录的用户 ID。</li>
+</ol>
+<p><a href="https://imgchr.com/i/DkBudK" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s3.ax1x.com/2020/11/16/DkBudK.jpg,  1.5x,  2x"
+        data-src=""
+        alt="DkBudK.jpg"
+        title="DkBudK.jpg" /></a>
+</p>
+<p>在统计每天的新增用户时，我们只用计算每日用户 Set 和累计用户 Set 的差集就行。</p>
+<h3 id="具体例子">具体例子</h3>
+<p>假如我们上面的这个app是2020 年 11 月 16 日上线，所以11月16日目前是没有用户的，那么这个时候<strong>累计用户 Set</strong> 就是空集
+当天登录的用户 ID 会被记录到 key 为 user🆔20201116 的 Set 中。所以，user🆔20201116 这个 Set 中的用户就是当天的新增用户。</p>
+<p>然后，我们计算累计用户 Set 和 user🆔20201116 Set 的并集结果，结果保存在 user:id 这个累计用户 Set 中，如下所示:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">127.0.0.1:6379&gt; SADD user🆔20201116 100301
+(integer) 1
+127.0.0.1:6379&gt; SUNION user:id user🆔20201116
+1) &#34;100301&#34;
+127.0.0.1:6379&gt; SUNIONSTORE user:id user:id user🆔20201116
+(integer) 1
+127.0.0.1:6379&gt; SADD user🆔20201117 100301
+(integer) 1
+127.0.0.1:6379&gt; SADD user🆔20201117 100615
+(integer) 1
+127.0.0.1:6379&gt; SDIFF user🆔20201117 user:id
+1) &#34;100615&#34;
+127.0.0.1:6379&gt; SINTER user🆔20201116 user🆔20201117
+1) &#34;100301&#34;
+127.0.0.1:6379&gt; 
+</code></pre></td></tr></table>
+</div>
+</div><p><code>SADD user🆔20201116 100301</code> 就表示我们app上线了登陆了一个用户,因为之前并没有用户登陆，所以这个时候执行<code>SUNION user:id user🆔20201116</code> 只有 <code>100301</code> 一个用户</p>
+<p>而第二天17号，我们又有新的用户登陆，并且昨天的用户也登陆了，我们执行了<code>SADD user🆔20201117 100301</code> 和 <code>SADD user🆔20201117 100615</code></p>
+<p>那么这个时候，我们执行 <code>SDIFF user🆔20201117 user:id</code> 计算<code>累计用户 Set</code> 和 <code>user🆔20201117Set</code> 的差集, 就可以获取到11月17日的新增用户</p>
+<p>同时这个时候我们可以通过 <code>SINTER user🆔20201116 user🆔20201117</code> 计算当天的留存用户</p>
+<p><strong>注意：
+Set 的差集、并集和交集的计算复杂度较高，在数据量较大的情况下，如果直接执行这些计 算，会导致 Redis 实例阻塞。所以，我给你分享一个小建议:你可以从主从集群中选择一 个从库，让它专门负责聚合计算，或者是把数据读取到客户端，在客户端来完成聚合统 计，这样就可以规避阻塞主库实例和其他从库实例的风险了。</strong></p>
+<h2 id="排序统计">排序统计</h2>
+<p>在电商网站上提供最新评论 列表的场景为例，最新评论列表包含了所有评论中的最新留言，这就要求集合类型能对元素保序，也就是 说，集合中的元素可以按序排列，这种对元素保序的集合类型叫作有序集合。</p>
+<p>在 Redis 常用的 4 个集合类型中**(List、Hash、Set、Sorted Set)**，<code>List</code> 和 <code>Sorted Set</code> 就属于有序集合。</p>
+<p>List 是按照元素进入 List 的顺序进行排序的，而 <code>Sorted Set</code> 可以根据元素的权重来排序，这种情况该如何选择？</p>
+<p>如果使用List，每个商品对应一个 List，这个 List 包含了对这个商品的所有评 论，而且会按照评论时间保存这些评论，每来一个新评论，就用 LPUSH 命令把它插入 List 的队头。
+在只有一页评论的时候，我们可以很清晰地看到最新的评论，但是，在实际应用中，网站 一般会分页显示最新的评论列表，一旦涉及到分页操作，List 就可能会出现问题了。</p>
+<p>假设当前的评论 List 是{A, B, C, D, E, F}(其中，A 是最新的评论，以此类推，F 是最早的 评论)，在展示第一页的 3 个评论时，我们可以用下面的命令，得到最新的三条评论 A、 B、C:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1 LRANGE product1 0 2 2 1) &#34;A&#34;
+3 2) &#34;B&#34;
+4 3) &#34;C&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>然后，再用下面的命令获取第二页的 3 个评论，也就是 D、E、F。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1 LRANGE product1 3 5 2 1) &#34;D&#34;
+3 2) &#34;E&#34;
+4 3) &#34;F&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>但是，如果在展示第二页前，又产生了一个新评论 G，评论 G 就会被 LPUSH 命令插入到 评论 List 的队头，评论 List 就变成了{G, A, B, C, D, E, F}。此时，再用刚才的命令获取第 二页评论时，就会发现，评论 C 又被展示出来了，也就是 C、D、E。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1 LRANGE product1 3 5 2 1) &#34;C&#34;
+3 2) &#34;D&#34;
+4 3) &#34;E&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>List 是通过元素在 List 中的位置来排序的，当有一个新 元素插入时，原先的元素在 List 中的位置都后移了一位，比如说原来在第 1 位的元素现在 排在了第 2 位。所以，对比新元素插入前后，List 相同位置上的元素就会发生变化，用 LRANGE 读取时，就会读到旧元素。</p>
+<p>和 List 相比，<code>Sorted Set</code> 就不存在这个问题，因为它是根据元素的实际权重来排序和获取 数据的。</p>
+<p>我们可以按评论时间的先后给每条评论设置一个权重值，然后再把评论保存到 <code>Sorted Set</code> 中。<code>Sorted Set</code> 的 <code>ZRANGEBYSCORE</code> 命令就可以按权重排序后返回元素。这样的话，即 使集合中的元素频繁更新，<code>Sorted Set</code> 也能通过 <code>ZRANGEBYSCORE</code> 命令准确地获取到按 序排列的数据。</p>
+<p>假设越新的评论权重越大，目前最新评论的权重是 N，我们执行下面的命令时，就可以获 得最新的 10 条评论:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ZRANGEBYSCORE comments N-9 N
+</code></pre></td></tr></table>
+</div>
+</div><p>所以，在面对需要展示最新列表、排行榜等场景时，如果数据更新频繁或者需要分页显 示，建议优先考虑使用 <code>Sorted Set</code>。</p>
+<h2 id="二值状态统计">二值状态统计</h2>
+<p>这里的二值状态就是指集合元素的取 值就只有 0 和 1 两种。在签到打卡的场景中，我们只用记录签到(1)或未签到(0)，所 以它就是非常典型的二值状态</p>
+<p>在签到统计时，每个用户一天的签到用 1 个 bit 位就能表示，一个月(假设是 31 天)的签 到情况用 31 个 bit 位就可以，而一年的签到也只需要用 365 个 bit 位，根本不用太复杂 的集合类型。这个时候，我们就可以选择 Bitmap。这是 Redis 提供的扩展数据类型。我 来给你解释一下它的实现原理。</p>
+<p>Bitmap 本身是用 String 类型作为底层数据结构实现的一种统计二值状态的数据类型。 String 类型是会保存为二进制的字节数组，所以，Redis 就把字节数组的每个 bit 位利用 起来，用来表示一个元素的二值状态。你可以把 Bitmap 看作是一个 bit 数组。</p>
+<p>Bitmap 提供了 GETBIT/SETBIT 操作，使用一个偏移值 offset 对 bit 数组的某一个 bit 位 进行读和写。不过，需要注意的是，Bitmap 的偏移量是从 0 开始算的，也就是说 offset 的最小值是 0。当使用 SETBIT 对一个 bit 位进行写操作时，这个 bit 位会被设置为 1。 Bitmap 还提供了 BITCOUNT 操作，用来统计这个 bit 数组中所有“1”的个数。</p>
+<p>假设我们要统计 ID 3000 的用户在 2020 年 8 月份的签到情况，就可以按照下面的步骤进 行操作。</p>
+<p>第一步，执行下面的命令，记录该用户 8 月 3 号已签到。</p>
+<p><code>SETBIT uid:sign:3000:202008 2 1</code></p>
+<p>第二步，检查该用户 8 月 3 日是否签到。</p>
+<p><code>GETBIT uid:sign:3000:202008 2</code></p>
+<p>第三步，统计该用户在 8 月份的签到次数。</p>
+<p><code>BITCOUNT uid:sign:3000:202008</code></p>
+<p>这样，我们就知道该用户在 8 月份的签到情况了,
+可以再思 考一个问题:如果记录了 1 亿个用户 10 天的签到情况，你有办法统计出这 10 天连续签到 的用户总数吗?</p>
+<p>其实Bitmap 支持用 BITOP 命令对多个 Bitmap 按位 做“与”“或”“异或”的操作，操作的结果会保存到一个新的 Bitmap 中。</p>
+<p>我以按位“与”操作为例来具体解释一下。从下图中，可以看到，三个 Bitmap bm1、 bm2 和 bm3，对应 bit 位做“与”操作，结果保存到了一个新的 Bitmap 中(示例中，这 个结果 Bitmap 的 key 被设为“resmap”)。</p>
+<p><a href="https://imgchr.com/i/DAXMIP" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s3.ax1x.com/2020/11/16/DAXMIP.jpg,  1.5x,  2x"
+        data-src=""
+        alt="DAXMIP.jpg"
+        title="DAXMIP.jpg" /></a>
+</p>
+<p>在统计 1 亿个用户连续 10 天的签到情况时，你可以把每天的日期作为 key，每个 key 对应一个 1 亿位的 Bitmap，每一个 bit 对应一个用户当天的签到情况。</p>
+<p>接下来，我们对 10 个 Bitmap 做“与”操作，得到的结果也是一个 Bitmap。在这个 Bitmap 中，只有 10 天都签到的用户对应的 bit 位上的值才会是 1。最后，我们可以用 BITCOUNT 统计下 Bitmap 中的 1 的个数，这就是连续签到 10 天的用户总数了。</p>
+<p>现在，我们可以计算一下记录了 10 天签到情况后的内存开销。每天使用 1 个 1 亿位的 Bitmap，大约占 12MB 的内存(10^8/8/1024/1024)，10 天的 Bitmap 的内存开销约 为 120MB，内存压力不算太大。不过，在实际应用时，最好对 Bitmap 设置过期时间，让 Redis 自动删除不再需要的签到记录，以节省内存开销。</p>
+<p>所以，如果只需要统计数据的二值状态，例如商品有没有、用户在不在等，就可以使用 Bitmap，因为它只用一个 bit 位就能表示 0 或 1。在记录海量数据时，Bitmap 能够有效 地节省内存空间。</p>
+<h2 id="基数统计">基数统计</h2>
+<p>基数统计就是指统计一个集合中不重复的元 素个数。对应到我们刚才介绍的场景中，就是统计网页的 UV。</p>
+<p>网页 UV 的统计有个独特的地方，就是需要去重，一个用户一天内的多次访问只能算作一 次。在 Redis 的集合类型中，Set 类型默认支持去重，所以看到有去重需求时，我们可能 第一时间就会想到用 Set 类型。</p>
+<p>有一个用户 user1 访问 page1 时，你把这个信息加到 Set 中:</p>
+<p><code>SADD page1:uv user1</code></p>
+<p>用户 1 再来访问时，Set 的去重功能就保证了不会重复记录用户 1 的访问次数，这样，用 户 1 就算是一个独立访客。当你需要统计 UV 时，可以直接用 SCARD 命令，这个命令会 返回一个集合中的元素个数。</p>
+<p>但是，如果 page1 非常火爆，UV 达到了千万，这个时候，一个 Set 就要记录千万个用户 ID。对于一个搞大促的电商网站而言，这样的页面可能有成千上万个，如果每个页面都用 这样的一个 Set，就会消耗很大的内存空间。</p>
+<p>当然，也可以用 Hash 类型记录 UV。
+例如，可以把用户 ID 作为 Hash 集合的 key，当用户访问页面时，就用 HSET 命令(用 于设置 Hash 集合元素的值)，对这个用户 ID 记录一个值“1”，表示一个独立访客，用 户 1 访问 page1 后，我们就记录为 1 个独立访客，如下所示:</p>
+<p><code>HSET page1:uv user1 1</code></p>
+<p>即使用户 1 多次访问页面，重复执行这个 HSET 命令，也只会把 user1 的值设置为 1，仍 然只记为 1 个独立访客。当要统计 UV 时，我们可以用 HLEN 命令统计 Hash 集合中的所 有元素个数。</p>
+<p>但是，和 Set 类型相似，当页面很多时，Hash 类型也会消耗很大的内存空间。那么，有什 么办法既能完成统计，还能节省内存吗?</p>
+<p>这时候，就要用到 Redis 提供的 HyperLogLog 了。</p>
+<p>HyperLogLog 是一种用于统计基数的数据集合类型，它的最大优势就在于，当集合元素数 量非常多时，它计算基数所需的空间总是固定的，而且还很小。
+在 Redis 中，每个 HyperLogLog 只需要花费 12 KB 内存，就可以计算接近 2^64 个元素 的基数。你看，和元素越多就越耗费内存的 Set 和 Hash 类型相比，HyperLogLog 就非 常节省空间。
+在统计 UV 时，你可以用 PFADD 命令(用于向 HyperLogLog 中添加新元素)把访问页 面的每个用户都添加到 HyperLogLog 中。</p>
+<p><code>PFADD page1:uv user1 user2 user3 user4 user5</code></p>
+<p>接下来，就可以用 PFCOUNT 命令直接获得 page1 的 UV 值了，这个命令的作用就是返 回 HyperLogLog 的统计结果。</p>
+<p><code>PFCOUNT page1:uv</code></p>
+<p>不过，有一点需要你注意一下，HyperLogLog 的统计规则是基于概率完成的，所以它给出 的统计结果是有一定误差的，标准误算率是 0.81%。这也就意味着，你使用HyperLogLog 统计的 UV 是 100 万，但实际的 UV 可能是 101 万。虽然误差率不算大， 但是，如果你需要精确统计结果的话，最好还是继续用 Set 或 Hash 类型。</p>
+<h2 id="小结">小结</h2>
+<p><a href="https://imgchr.com/i/DAjRXQ" target="_blank" rel="noopener noreffer"><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://s3.ax1x.com/2020/11/16/DAjRXQ.jpg,  1.5x,  2x"
+        data-src=""
+        alt="DAjRXQ.jpg"
+        title="DAjRXQ.jpg" /></a>
+</p>
+<p>可以看到，Set 和 Sorted Set 都支持多种聚合统计，不过，对于差集计算来说，只有 Set 支持。Bitmap 也能做多个 Bitmap 间的聚合计算，包括与、或和异或操作。
+当需要进行排序统计时，List 中的元素虽然有序，但是一旦有新元素插入，原来的元素在 List 中的位置就会移动，那么，按位置读取的排序结果可能就不准确了。而 Sorted Set 本 身是按照集合元素的权重排序，可以准确地按序获取结果，所以建议你优先使用它。</p>
+<p>如果我们记录的数据只有 0 和 1 两个值的状态，Bitmap 会是一个很好的选择，这主要归 功于 Bitmap 对于一个数据只用 1 个 bit 记录，可以节省内存。对于基数统计来说，如果集合元素量达到亿级别而且不需要精确统计时，我建议你使用 HyperLogLog。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-11-16 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/redis_note7/" data-title="Redis核心技术与实战笔记7—集合的应用场景" data-hashtags="Redis"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/redis_note7/" data-title="Redis核心技术与实战笔记7—集合的应用场景"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/redis">Redis</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/redis_note6/" class="prev" rel="prev" title="Redis核心技术与实战笔记6-String 为什么不好用了"><i class="fas fa-angle-left fa-fw"></i>Redis核心技术与实战笔记6-String 为什么不好用了</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2020-11-16 20:02:32 \x2b0800 CST',
+                    title: 'Redis核心技术与实战笔记7—集合的应用场景',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-cc',
+                    admin: ['peanut-cc'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp">京ICP备17004069号-2</span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
