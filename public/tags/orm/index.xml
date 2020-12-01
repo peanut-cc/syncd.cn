@@ -6,11 +6,7 @@
     <description>Recent content in orm on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 02 Sep 2020 23:09:43 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/orm/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 02 Sep 2020 23:09:43 +0800</lastBuildDate><atom:link href="http://example.org/tags/orm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ent orm笔记5---结束</title>
       <link>http://example.org/entorm05/</link>

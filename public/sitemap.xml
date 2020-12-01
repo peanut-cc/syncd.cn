@@ -2,12 +2,17 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://example.org/categories/</loc><lastmod>2020-11-16T20:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/posts/</loc><lastmod>2020-11-16T20:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/categories/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/tags/go/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/categories/go/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/go_advance_note2/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/posts/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/tags/</loc><lastmod>2020-12-02T00:07:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://example.org/go_advance_note1/</loc><lastmod>2020-12-02T00:07:36&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/tags/redis/</loc><lastmod>2020-11-16T20:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/categories/redis/</loc><lastmod>2020-11-16T20:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/redis_note7/</loc><lastmod>2020-11-16T20:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/tags/</loc><lastmod>2020-11-16T20:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/redis_note6/</loc><lastmod>2020-11-10T15:51:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/redis_note5/</loc><lastmod>2020-11-08T10:03:22&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/redis_note4/</loc><lastmod>2020-11-05T14:26:31&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -21,8 +26,6 @@
             <loc>http://example.org/categories/%E5%AE%89%E5%85%A8/</loc><lastmod>2020-09-14T23:20:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/protocol_analysis_01/</loc><lastmod>2020-09-14T23:20:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/entorm05/</loc><lastmod>2020-09-02T23:09:43&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/tags/go/</loc><lastmod>2020-09-02T23:09:43&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/categories/go/</loc><lastmod>2020-09-02T23:09:43&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/tags/orm/</loc><lastmod>2020-09-02T23:09:43&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/entorm04/</loc><lastmod>2020-08-31T15:08:42&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/entorm03/</loc><lastmod>2020-08-27T22:37:34&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -47,5 +50,4 @@
             <loc>http://example.org/postgresql_notes_1/</loc><lastmod>2020-05-07T23:17:12&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/microservices_summary/</loc><lastmod>2020-04-30T07:06:58&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://example.org/development_standard/</loc><lastmod>2020-04-29T14:10:24&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/about/</loc><lastmod>2020-04-28T23:25:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://example.org/</loc><lastmod>2020-04-28T23:25:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
+            <loc>http://example.org/about/</loc><lastmod>2020-04-28T23:25:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>

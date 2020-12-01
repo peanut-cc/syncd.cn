@@ -6,11 +6,7 @@
     <description>Recent content in 安全 on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 14 Sep 2020 23:20:11 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 14 Sep 2020 23:20:11 +0800</lastBuildDate><atom:link href="http://example.org/tags/%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>安全杂乱笔记整理1---常用服务端口总结</title>
       <link>http://example.org/protocol_analysis_01/</link>
