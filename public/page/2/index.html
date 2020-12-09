@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
-	<meta name="generator" content="Hugo 0.78.2" />
+	<meta name="generator" content="Hugo 0.69.2" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
@@ -11,7 +11,7 @@
 <meta property="og:description" content="syncd blog, 在成为高级开发者的路上....." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://example.org/" />
-<meta property="og:updated_time" content="2020-12-02T00:07:48+08:00" />
+<meta property="og:updated_time" content="2020-04-28T23:25:17+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAN&#39;S BLOG"/>
 <meta name="twitter:description" content="syncd blog, 在成为高级开发者的路上....."/>
@@ -31,7 +31,7 @@
         "url": "http:\/\/example.org\/","inLanguage": "zh-CN","author": {
                 "@type": "Person",
                 "name": "zhaofan"
-            },"description": "syncd blog, 在成为高级开发者的路上.....","image": "http:\/\/example.org\/cover.png","thumbnailUrl": "http:\/\/example.org\/logo.png","name": "FAN\u0027S BLOG"
+            },"description": "syncd blog, 在成为高级开发者的路上.....","image": "http:\/\/example.org\/cover.png","thumbnailUrl": "http:\/\/example.org\/logo.png","name": "FAN\x27S BLOG"
     }
     </script></head>
     <body><script>
@@ -79,8 +79,20 @@
         data-src=""
         alt="avatar"
         title="主页" /></a>
-        </div><h2 class="home-description"><div id="id-b781e7" class="typeit"></div></h2><div class="home-social-links"></div>
+        </div><h2 class="home-description"><div id="id-b470cc" class="typeit"></div></h2><div class="home-social-links"></div>
 </div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/redis_note4/">Redis核心技术与实战笔记4-数据同步以及哨兵机制</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;<span class="post-publish">
+            发布于&nbsp;<time datetime=2020-11-05>2020-11-05</time>
+        </span>&nbsp;
+            <span class="post-category">收录于<a href="/categories/redis">
+                        <i class="far fa-folder fa-fw"></i>Redis
+                    </a></span></div><div class="content">我们通常说Redis具有高可靠性，具有两层含义： 一是数据 尽量少丢失 二是服务尽量少中断 AOF 和 RDB 保证了数据尽量少丢失；对于尽量少中断则是增加副本冗</div><div class="post-footer">
+        <a href="/redis_note4/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/redis">Redis</a></div></div>
+</article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/redis_note3/">Redis核心技术与实战笔记3-Redis数据持久化</a>
     </h1><div class="post-meta"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
@@ -141,18 +153,6 @@
         <a href="/protocol_analysis_01/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8">安全</a></div></div>
 </article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/entorm05/">ent orm笔记5---结束</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
-</span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-09-02>2020-09-02</time>
-        </span>&nbsp;
-            <span class="post-category">收录于<a href="/categories/go">
-                        <i class="far fa-folder fa-fw"></i>Go
-                    </a></span></div><div class="content">Hooks Hooks允许你在对表做一些操作的时候添加一些自定义的处理逻辑。如当我对某个表的某条数据进行更新的前和后，做一些自定义的操作，其实这个就和</div><div class="post-footer">
-        <a href="/entorm05/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/orm">orm</a>,&nbsp;<a href="/tags/go">go</a></div></div>
-</article>
 <ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -197,8 +197,8 @@
             });
         });
     </script><script>
-        window.typeitArr = [["id-b781e7"]];
+        window.typeitArr = [["id-b470cc"]];
     </script><script>
-        window.contentMap = {"id-b781e7":"stay hungry stay foolish"};
+        window.contentMap = {"id-b470cc":"stay hungry stay foolish"};
     </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/typeit/typeit.min.js"></script><script src="/js/theme.min.js"></script></body>
 </html>
