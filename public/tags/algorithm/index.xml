@@ -6,11 +6,7 @@
     <description>Recent content in Algorithm on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 20 May 2020 17:49:47 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 20 May 2020 17:49:47 +0800</lastBuildDate><atom:link href="http://example.org/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>算法练习-Reverse-Linked-List</title>
       <link>http://example.org/reverse-linked-list/</link>

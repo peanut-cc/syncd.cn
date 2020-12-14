@@ -6,10 +6,15 @@
     <description>Recent content in Posts on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 09 Dec 2020 17:39:42 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 14 Dec 2020 22:31:35 +0800</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sql注入简单入门</title>
+      <link>http://example.org/sql_injection_note/</link>
+      <pubDate>Mon, 14 Dec 2020 22:31:35 +0800</pubDate>
+      
+      <guid>http://example.org/sql_injection_note/</guid>
+      <description>SQL注入分类 按照注入点类型进行分类 数字注入点： url形式大概为： http://xxx.com/sql.php?id=1 sql语句大概原型： select * from table_name where id={$id} 字符型注入点： url形式大概为：http</description>
+    </item>
     
     <item>
       <title>Go进阶笔记-并发编程</title>
