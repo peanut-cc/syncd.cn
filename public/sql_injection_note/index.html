@@ -37,7 +37,7 @@
                 "url": "http:\/\/example.org\/cover.png",
                 "width":  800 ,
                 "height":  600 
-            },"genre": "posts","keywords": "安全","wordcount":  4682 ,
+            },"genre": "posts","keywords": "安全","wordcount":  4664 ,
         "url": "http:\/\/example.org\/sql_injection_note\/","datePublished": "2020-12-14","dateModified": "2020-12-14","publisher": {
                 "@type": "Organization",
                 "name": "赵凡",
@@ -96,7 +96,7 @@
                                 <i class="far fa-folder fa-fw"></i>安全
                             </a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-12-14>2020-12-14</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>约 4682 字&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 4664 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>预计阅读 10 分钟&nbsp;</div>
         </div><div class="toc" id="toc-auto">
                 <h2 class="toc-title">目录</h2>
@@ -140,7 +140,7 @@
 <p>字符型注入点：</p>
 <ul>
 <li>url形式大概为：http://xxx.com/sql.php?name=admin</li>
-<li>sql语句大概原型为：select * from table_name where name='{$name}'</li>
+<li>sql语句大概原型为：select * from table_name where name=&rsquo;{$name}&rsquo;</li>
 </ul>
 <p>按照数据提交的方式来分类</p>
 <ul>
@@ -298,17 +298,17 @@ space：20%
 </tr>
 <tr>
 <td>1 or &lsquo;ab&rsquo; = &lsquo;a&rsquo; + &lsquo;b&rsquo;</td>
-<td>1) or (&lsquo;ab&rsquo;=a+&lsquo;b&rsquo;</td>
+<td>1) or (&lsquo;ab'=a+'b&rsquo;</td>
 <td>SQL Server 串联。如果成功，则返回与永真条件相同的信息</td>
 </tr>
 <tr>
-<td>1 or &lsquo;ab&rsquo;=&lsquo;a'&lsquo;b&rsquo;</td>
-<td>1) or (&lsquo;ab&rsquo;=&lsquo;a'&lsquo;b&rsquo;</td>
+<td>1 or &lsquo;ab'='a'&lsquo;b&rsquo;</td>
+<td>1) or (&lsquo;ab'='a'&lsquo;b&rsquo;</td>
 <td>Mysql 串联。如果成功，则返回与永真条件相同的信息</td>
 </tr>
 <tr>
-<td>1 or &lsquo;ab&rsquo;=&lsquo;a&rsquo; || &lsquo;b&rsquo;</td>
-<td>1) or (&lsquo;ab&rsquo;=&lsquo;a&rsquo;||&lsquo;b&rsquo;</td>
+<td>1 or &lsquo;ab'='a&rsquo; || &lsquo;b&rsquo;</td>
+<td>1) or (&lsquo;ab'='a&rsquo;||'b&rsquo;</td>
 <td>oracle串联。如果成功，则返回与永真条件相同的信息</td>
 </tr>
 </tbody>
@@ -323,7 +323,7 @@ space：20%
 <tbody>
 <tr>
 <td>and 1=1   /  and 1=2</td>
-<td>and &lsquo;1&rsquo; = &lsquo;1  /   and &lsquo;1&rsquo;=&lsquo;2</td>
+<td>and &lsquo;1&rsquo; = &lsquo;1  /   and &lsquo;1'='2</td>
 </tr>
 <tr>
 <td>OR 1=1    /   or 1=2</td>
@@ -331,7 +331,7 @@ space：20%
 </tr>
 <tr>
 <td>+   -  *  /  &gt;  &lt;   &lt;=  &gt;=</td>
-<td>+'/+&lsquo;1     -&lsquo;0/-&lsquo;1     &gt;      &lt;   &lt;=   &gt;=</td>
+<td>+&rsquo;/+'1     -&lsquo;0/-&lsquo;1     &gt;      &lt;   &lt;=   &gt;=</td>
 </tr>
 <tr>
 <td>1 like 1   1/1  like 2</td>
@@ -347,7 +347,7 @@ space：20%
 <ul>
 <li>数字比较和数学一样</li>
 <li>数字与字符串比较，取字符串的第一位开始的数字，拿该数字进行比较，如果是字符则拿0进行比较，如：&lsquo;41abcd&rsquo; &gt; 40 为真， &lsquo;a4bcd&rsquo; = 0 为真</li>
-<li>字符串与字符串比较，两个字符串的不相同处开始分别取一个字符的ASCII进行比较，如：’a‘ &lt; &lsquo;b&rsquo; 为真; &lsquo;abcd&rsquo;=&lsquo;abcd&rsquo;为真; &lsquo;abcd&rsquo; &gt; &lsquo;abca&rsquo; 为真</li>
+<li>字符串与字符串比较，两个字符串的不相同处开始分别取一个字符的ASCII进行比较，如：’a‘ &lt; &lsquo;b&rsquo; 为真; &lsquo;abcd'='abcd&rsquo;为真; &lsquo;abcd&rsquo; &gt; &lsquo;abca&rsquo; 为真</li>
 </ul>
 <p><strong>数据库的注释语法</strong></p>
 <p>SQL Server 和Orcal:</p>
@@ -429,7 +429,7 @@ space：20%
 <li>sleep()延迟注入核心原理</li>
 <li>and if(true,sleep(5),0);==IF(1=1,true,false);</li>
 <li>id=1 and sleep(5) 不断下是否存在延迟注入</li>
-<li>and if(substring(user(),1,4)=&lsquo;root&rsquo;,sleep(5),1)判断当前用户</li>
+<li>and if(substring(user(),1,4)='root&rsquo;,sleep(5),1)判断当前用户</li>
 <li>and if(MID(version(),1,1)like 5,sleep(),1)判断数据库版本信息是否为5</li>
 <li>可以去猜解他的数据库</li>
 <li>and if(ascii(substring(database(),1,4))&gt;100,sleep(5),1)</li>
@@ -594,7 +594,7 @@ space：20%
 <div class="comment"><div id="gitalk"></div><script>
             document.addEventListener("DOMContentLoaded", function(event) {
                 var gitalk = new Gitalk({
-                    id: '2020-12-14 22:31:35 \u002b0800 CST',
+                    id: '2020-12-14 22:31:35 \x2b0800 CST',
                     title: 'sql注入简单入门',
                     clientID: '12d62df89f42baf9a471',
                     clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
@@ -614,8 +614,8 @@ space：20%
     <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
         </div>
 
-        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
-                <span class="icp">京ICP备17004069号-2</span></div>
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="https://beian.miit.gov.cn/">京ICP备17004069号-2</a></span></div>
     </div>
 </footer>
 </div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">

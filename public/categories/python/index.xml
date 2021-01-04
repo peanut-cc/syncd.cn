@@ -6,7 +6,11 @@
     <description>Recent content in python on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 30 Jul 2020 00:37:20 +0800</lastBuildDate><atom:link href="http://example.org/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Jul 2020 00:37:20 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>一次django内存异常排查</title>
       <link>http://example.org/django_orm_skills/</link>

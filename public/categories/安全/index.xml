@@ -6,7 +6,11 @@
     <description>Recent content in 安全 on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 14 Dec 2020 22:31:35 +0800</lastBuildDate><atom:link href="http://example.org/categories/%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Dec 2020 22:31:35 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/categories/%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>sql注入简单入门</title>
       <link>http://example.org/sql_injection_note/</link>

@@ -6,7 +6,11 @@
     <description>Recent content in Go on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 09 Dec 2020 17:39:42 +0800</lastBuildDate><atom:link href="http://example.org/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Dec 2020 17:39:42 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Go进阶笔记-并发编程</title>
       <link>http://example.org/go_advance_note3/</link>
