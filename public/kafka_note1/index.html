@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Kafka学习笔记（一）---基础概念 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="Kafka学习笔记（一）---基础概念" />
+<meta property="og:description" content="Kafka最重要的作用&mdash;-削峰填谷 基本概念 发布订阅的对象是：主题（Topic） 向主题发布消息的客户端应用程序是：生产者（Prod" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/kafka_note1/" />
+<meta property="article:published_time" content="2021-03-08T13:43:32+08:00" />
+<meta property="article:modified_time" content="2021-03-08T13:43:32+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kafka学习笔记（一）---基础概念"/>
+<meta name="twitter:description" content="Kafka最重要的作用&mdash;-削峰填谷 基本概念 发布订阅的对象是：主题（Topic） 向主题发布消息的客户端应用程序是：生产者（Prod"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/kafka_note1/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/sql_injection_note/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kafka学习笔记（一）---基础概念",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/kafka_note1\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Kafka","wordcount":  2897 ,
+        "url": "http:\/\/example.org\/kafka_note1\/","datePublished": "2021-03-08","dateModified": "2021-03-08","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Kafka学习笔记（一）---基础概念</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/kafka">
+                                <i class="far fa-folder fa-fw"></i>Kafka
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2021-03-08>2021-03-08</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2897 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 6 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本概念">基本概念</a></li>
+    <li><a href="#kafka配置参数">Kafka配置参数</a>
+      <ul>
+        <li><a href="#怎么设置-topic-级别参数">怎么设置 Topic 级别参数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p>Kafka最重要的作用&mdash;-削峰填谷</p>
+<h2 id="基本概念">基本概念</h2>
+<p>发布订阅的对象是：主题（Topic）</p>
+<p>向主题发布消息的客户端应用程序是：生产者（Producer）</p>
+<p>订阅主题消息的客户端应用程序是：消费者（Consumer）</p>
+<p>kafka 的服务器端由被称为Broker的服务进程构成，即一个Kafka集群由多个Broker组成，Broker负责接收和处理客户端发送过来的请求，以及对消息进行持久化。</p>
+<p>实现高可用的手段之一就是备份机制（Replication）, 就是把相同的数据拷贝到多台机器上，而这些相同的数据拷贝在Kafka中被称为副本（Replica）</p>
+<p>Kafka定义了两类副本：领导者副本（Leader Replica）和追随者副本（Follower Replica）。前者对外提供服务，即与客户端程序进行交互；后者被动地追随领导者副本，不能与外界进行交互。</p>
+<p>副本的工作机制：生产者总是向领导者副本写消息；消费者总是从领导者副本读消息。
+追随者副本：向领导者副本发送请求，请求领导者把最新生产的消息发送给它，从而与领导者副本保持同步。</p>
+<p>Kafka 中的分区机制是将每个主题划分成多个分区（Partition）, 每个分区是一组有序的消息日志。生产者生产的每条消息只会被发送到一个分区中，即如果向一个双分区的主题发送一条日志，该日志要么在分区0，要么在分区1中。
+kafka的分区编号从0开始。</p>
+<p>副本是在分区这个层级定义的，每个分区下可以配置若干个副本，其中只能有1个领导者副本和N-1个追随者副本。生产者向分区写入消息，每条消息在分区中的位置信息由一个叫位移（Offset）的数据来表示，分区位移总是从0开始，假设一个生产者向一个空分区插入了10条消息，那么这10条消息的位移一次是0，1，2，3&hellip;..9</p>
+<p>每个消费者在消费消息的过程中需要有个字段记录它当前消费到了分区的哪个位置上，这个字段就是消费者位移（Consumer offset）</p>
+<p>Kafka设计之初就是想要提供三个方面特性：</p>
+<ul>
+<li>提供一套API实现生产者和消费者</li>
+<li>降低网络传输和磁盘存储开销</li>
+<li>实现高伸缩性架构</li>
+</ul>
+<p>Kafka客户端底层是使用了Java的selector, selector 在linux上实现机制epoll, 而在Windows平台上实现机制是select</p>
+<p>对于Kafka 磁盘容量规划考虑如下：</p>
+<ul>
+<li>新增消息数</li>
+<li>消息留存时间</li>
+<li>平均消息大小</li>
+<li>备份数</li>
+<li>是否启用压缩</li>
+</ul>
+<h2 id="kafka配置参数">Kafka配置参数</h2>
+<p>这里只是先列举相对重要的参数</p>
+<p><code>Brokeer</code>端参数：</p>
+<p><code>log.dirs</code>: 指定了 <code>Broker</code> 需要 使用的若干个文件目录路径。<code>log.dirs</code>配置 多个路径，具体格式是一个 <code>CSV</code> 格式，也就是用逗号分隔 的多个路径，比 如<code>/home/kafka1,/home/kafka2,/home/kafka3</code>
+<code>listeners</code>: 监听器，其实就是告诉外部连接者 要通过什么协议访问指定主机名和端口开放的 Kafka 服 务。
+<code>advertised.listeners</code>: 是说这组监听器是 Broker 用于对外发布的</p>
+<p>Topic管理的相关参数：</p>
+<p><code>auto.create.topics.enable</code>:是否允许自动创建 Topic。参数建议最好设置成 false，即不允许自动创建 Topic。</p>
+<p><code>unclean.leader.election.enable</code>:是否允许 Unclean Leader 选举。建议把它设置成 false</p>
+<p><code>auto.leader.rebalance.enable</code>:是否允许定期进 行 Leader 选举。设置它的值
+为 true 表示允许 Kafka 定期地对一些 Topic 分区进行 Leader 重选举。建议在生产环境中把这 个参数设置成 false。</p>
+<p>Zookeeper相关参数：</p>
+<p>Zookeeper 是一个分布式协调框架，负责协调管理并保 存 Kafka 集群的所有元数据信息,如：Broker 在运行、创建了哪些 Topic，每个 Topic 都有多少 分区以及这些分区的 Leader 副本都在哪些机器上等信息。</p>
+<p>Kafka 与 ZooKeeper 相关的最重要参数 <code>zookeeper.connect</code>,这也是一个 CSV 格式的参数，如：zk1:2181,zk2:2181,zk3:2181。2181 是 ZooKeeper 的默认端口。</p>
+<p>如果你有两套 Kafka 集群，假设分别叫它们 <code>kafka1</code> 和 <code>kafka2</code>，那么两套集群的<code>zookeeper.connect</code>参数可以 这样指定:<code>zk1:2181,zk2:2181,zk3:2181/kafka1</code>和 <code>zk1:2181,zk2:2181,zk3:2181/kafka2</code>。切记 <code>chroot</code> 只需要写一次，而且是加到最后的。</p>
+<p>关于数据留存方面参数：</p>
+<p><code>log.retention.{hour|minutes|ms}</code>:这是个“三 兄弟”，都是控制一条消息数据被保存多长时间。从优先 级上来说 ms 设置最高、minutes 次之、hour 最低。虽然 ms 设置有最高的优先级，但是 通常情况下我们还是设置 hour 级别的多一些，比如 log.retention.hour=168表示默认保存 7 天的数据。</p>
+<p><code>log.retention.bytes</code>:这是指定 Broker 为消息保存 的总磁盘容量大小。这个值默认是 -1， 表明你想在这台 Broker 上保存多少数据都可以，至少在容 量方面 Broker 绝对为你开绿灯，不会做任何阻拦。</p>
+<p><code>message.max.bytes</code>:控制 Broker 能够接收的最大消 息大小。默认的 1000012 太少了，还不到 1MB。实际场景中突 破 1MB 的消息都是屡见不鲜的，因此在线上环境中设置一 个比较大的值还是比较保险的做法。毕竟它只是一个标尺而 已，仅仅衡量 Broker 能够处理的最大消息大小，即使设置 大一点也不会耗费什么磁盘空间的。</p>
+<p>Topic级别的参数：
+如果为所有 Topic 的数据都保存相 当长的时间，这样做既不高效也无必要。如果只能设置全局 Broker 参数，那么势必要提取所有 业务留存时间的最大值作为全局参数值，此时设置 Topic 级 别参数把它覆盖，就是一个不错的选择。</p>
+<p><code>retention.ms</code>:规定了该 Topic 消息被保存的时长。 默认是 7 天，即该 Topic 只保存最近 7 天的消息。一旦 设置了这个值，它会覆盖掉 Broker 端的全局参数值。</p>
+<p><code>retention.bytes</code>:规定了要为该 Topic 预留多大的磁 盘空间。和全局参数作用相似，这个值通常在多租户的</p>
+<p>Kafka 集群中会有用武之地。当前默认值是 -1，表示可以 无限使用磁盘空间。
+<code>max.message.bytes</code>: 它决定了 Kafka Broker 能够正常 接收该 Topic 的最大消息大小。</p>
+<p>JVM参数：
+一个通用的建议：将你的 JVM 堆大小设置成 6GB 吧，这是目前业界比较公认的一个合理值。
+<code>KAFKA_HEAP_OPTS</code>：指定堆大小。
+<code>KAFKA_JVM_PERFORMANCE_OPTS</code>：指定 GC 参数。</p>
+<p>即在启动 Kafka Broker 之前，先设置上这两个环境变量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$&gt; export KAFKA_HEAP_OPTS=--Xms6g  --Xmx6g
+$&gt; export  KAFKA_JVM_PERFORMANCE_OPTS= -server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:+ExplicitGCInvokesConcurrent -Djava.awt.headless=true
+$&gt; bin/kafka-server-start.sh config/server.properties
+</code></pre></td></tr></table>
+</div>
+</div><p>提交时间或者说是 Flush 落盘时间,默认是 5 秒。一般情况下我们会认为这个时间太频繁了，可以适当地增加提交间隔来降低物理磁盘的写操作。</p>
+<p>**注意: Broker 端和 Client 端应用配置中最好全部使用主机名。 **</p>
+<h3 id="怎么设置-topic-级别参数">怎么设置 Topic 级别参数</h3>
+<p>有两种方式可以设置：</p>
+<ul>
+<li>创建 Topic 时进行设置</li>
+<li>修改 Topic 时设置</li>
+</ul>
+<p>max.message.bytes举例。设想你的部门需要将交易数据发送到 Kafka 进行处理，需要保存最近半年的交易数据，同时这些数据很大，通常都有几 MB，但一般不会超过 5MB。现在让我们用以下命令来创建 Topic：
+<code>bin/kafka-topics.sh--bootstrap-serverlocalhost:9092--create--topictransaction--partitions1--replication-factor1--configretention.ms=15552000000--configmax.message.bytes=5242880</code></p>
+<p>请注意结尾处的&ndash;config设置，我们就是在 config 后面指定了想要设置的 Topic 级别参数。</p>
+<p>kafka-configs来修改 Topic 级别参数:
+<code>bin/kafka-configs.sh--zookeeperlocalhost:2181--entity-typetopics--entity-nametransaction--alter--add-configmax.message.bytes=10485760</code></p>
+<p>建议是，你最好始终坚持使用第二种方式来设置，并且在未来，Kafka 社区很有可能统一使用kafka-configs脚本来调整 Topic 级别参数。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2021-03-08 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/kafka_note1/" data-title="Kafka学习笔记（一）---基础概念" data-hashtags="Kafka"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/kafka_note1/" data-title="Kafka学习笔记（一）---基础概念"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kafka">Kafka</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/sql_injection_note/" class="prev" rel="prev" title="sql注入简单入门"><i class="fas fa-angle-left fa-fw"></i>sql注入简单入门</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2021-03-08 13:43:32 \x2b0800 CST',
+                    title: 'Kafka学习笔记（一）---基础概念',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-cc',
+                    admin: ['peanut-cc'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="https://beian.miit.gov.cn/">京ICP备17004069号-2</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
