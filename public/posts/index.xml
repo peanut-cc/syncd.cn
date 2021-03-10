@@ -6,10 +6,15 @@
     <description>Recent content in Posts on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 08 Mar 2021 13:43:32 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 10 Mar 2021 22:16:15 +0800</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>web漏洞-反序列化基础</title>
+      <link>http://example.org/deserializ_note1/</link>
+      <pubDate>Wed, 10 Mar 2021 22:16:15 +0800</pubDate>
+      
+      <guid>http://example.org/deserializ_note1/</guid>
+      <description>PHP 反序列化 什么是反序列化 序列化就是把一个对象变成可以传输的字符串。反序列化就是把那串可以传输的字符串再变回对象。 为了方便理解，这里可以通过j</description>
+    </item>
     
     <item>
       <title>Kafka学习笔记（一）---基础概念</title>

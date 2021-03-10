@@ -6,11 +6,7 @@
     <description>Recent content in Kafka on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 08 Mar 2021 13:43:32 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/categories/kafka/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 08 Mar 2021 13:43:32 +0800</lastBuildDate><atom:link href="http://example.org/categories/kafka/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kafka学习笔记（一）---基础概念</title>
       <link>http://example.org/kafka_note1/</link>

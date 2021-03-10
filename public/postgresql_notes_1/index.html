@@ -9,9 +9,10 @@
         <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="PostgreSQL学习笔记1--PostgreSQL安装" />
 <meta property="og:description" content="环境准备 1 2 [fan@MiWiFi-R1CM-srv ~]$ cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) 下载安装包 https://www.postgresql.org/ftp/source/ 1 wget https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.gz 安装PostgreSQL 安装依赖包 1 yum -y install coreutils glib2 lrzsz mpstat dstat sysstat e4fsprogs xfsprogs ntp readline-devel zlib-devel openssl-devel pam-devel libxml2-devel libxslt-devel python-devel tcl-devel gcc make smartmontools flex bison perl-devel perl-ExtUtils* openldap-devel" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/postgresql_notes_1/" />
-<meta property="article:published_time" content="2020-05-07T23:17:12+08:00" />
-<meta property="article:modified_time" content="2020-05-07T23:17:12+08:00" />
+<meta property="og:url" content="http://example.org/postgresql_notes_1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-05-07T23:17:12&#43;08:00" />
+<meta property="article:modified_time" content="2020-05-07T23:17:12&#43;08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="PostgreSQL学习笔记1--PostgreSQL安装"/>
 <meta name="twitter:description" content="环境准备 1 2 [fan@MiWiFi-R1CM-srv ~]$ cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) 下载安装包 https://www.postgresql.org/ftp/source/ 1 wget https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.gz 安装PostgreSQL 安装依赖包 1 yum -y install coreutils glib2 lrzsz mpstat dstat sysstat e4fsprogs xfsprogs ntp readline-devel zlib-devel openssl-devel pam-devel libxml2-devel libxslt-devel python-devel tcl-devel gcc make smartmontools flex bison perl-devel perl-ExtUtils* openldap-devel"/>
@@ -93,7 +94,7 @@
             <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
 </span>&nbsp;
                     <span class="post-category">收录于<a href="/categories/postgresql">
-                                <i class="far fa-folder fa-fw"></i>Postgre s q l
+                                <i class="far fa-folder fa-fw"></i>Postgre SQL
                             </a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-05-07>2020-05-07</time>&nbsp;
                 <i class="fas fa-pencil-alt fa-fw"></i>约 1314 字&nbsp;
@@ -541,7 +542,7 @@ General
 psql <span class="o">(</span>9.6.2<span class="o">)</span>
 Type <span class="s2">&#34;help&#34;</span> <span class="k">for</span> help.
 
-<span class="nv">postgres</span><span class="o">=</span># 
+<span class="nv">postgres</span><span class="o">=</span><span class="c1"># </span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="新增用户">新增用户</h3>
@@ -616,7 +617,7 @@ ALTER ROLE
  fan_rep   <span class="p">|</span> Replication                                                <span class="p">|</span> <span class="o">{}</span>        <span class="p">|</span> 
  postgres  <span class="p">|</span> Superuser, Create role, Create DB, Replication, Bypass RLS <span class="p">|</span> <span class="o">{}</span>        <span class="p">|</span> 
 
-<span class="nv">postgres</span><span class="o">=</span># 
+<span class="nv">postgres</span><span class="o">=</span><span class="c1"># </span>
 
 </code></pre></td></tr></table>
 </div>
@@ -678,7 +679,7 @@ ALTER ROLE
 <div class="comment"><div id="gitalk"></div><script>
             document.addEventListener("DOMContentLoaded", function(event) {
                 var gitalk = new Gitalk({
-                    id: '2020-05-07 23:17:12 \x2b0800 CST',
+                    id: '2020-05-07 23:17:12 \u002b0800 CST',
                     title: 'PostgreSQL学习笔记1--PostgreSQL安装',
                     clientID: '12d62df89f42baf9a471',
                     clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',

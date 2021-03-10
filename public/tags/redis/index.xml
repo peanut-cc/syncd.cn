@@ -6,11 +6,7 @@
     <description>Recent content in Redis on FAN&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 16 Nov 2020 20:02:32 +0800</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/redis/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 16 Nov 2020 20:02:32 +0800</lastBuildDate><atom:link href="http://example.org/tags/redis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Redis核心技术与实战笔记7—集合的应用场景</title>
       <link>http://example.org/redis_note7/</link>
